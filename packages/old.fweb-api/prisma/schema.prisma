@@ -1,0 +1,61 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  account            String    @id @unique
+  ip                 String?
+  createdAt          DateTime? @default(now())
+  updatedAt          DateTime? @updatedAt
+  twitter            Twitter?
+  role               Role?     @default(PLAYER)
+  active             Boolean?  @default(true)
+  clientInfo         String?
+  hasReceivedCode    Boolean?  @default(false)
+  fweb3AttempedAt    DateTime?
+  fweb3FaucetSuccess Boolean?  @default(false)
+  maticAttemptedAt   DateTime?
+  maticFaucetSuccess Boolean?  @default(false)
+}
+
+model Twitter {
+  id               String    @id @default(uuid())
+  user             User      @relation(fields: [account], references: [account], onDelete: Cascade)
+  account          String    @unique
+  name             String?   @unique
+  twitterId        String?   @unique
+  username         String?   @unique
+  followersCount   Int?
+  followingCount   Int?
+  tweetCount       Int?
+  location         String?
+  twitterCreatedAt DateTime?
+}
+
+enum Role {
+  PLAYER
+  ADMIN
+  ROOT
+}
+
+model Blacklist {
+  id      String          @id @default(uuid())
+  ip      String          @unique
+  account String?
+  reason  BlacklistReason @default(BLACKLIST_UNKNOWN)
+
+  @@index([ip], type: Hash)
+}
+
+enum BlacklistReason {
+  BLACKLIST_UNKNOWN
+  BLACKLIST_SPAMMING
+  BLACKLIST_BAD_VERIFY_ATTEMPT
+  BLACKLIST_IP_BLOCK
+  BLACKLIST_ACCOUNT_BLOCK
+}

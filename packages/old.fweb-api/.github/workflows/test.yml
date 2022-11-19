@@ -1,0 +1,17 @@
+name: Tests and lint
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: npm i
+
+    - name: Lint
+      run: npm run lint
+
+    - name: Unit Tests
+      run: npm run test:ci

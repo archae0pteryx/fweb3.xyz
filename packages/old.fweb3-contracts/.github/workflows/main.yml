@@ -1,0 +1,21 @@
+name: Lint, Tests, Coverage
+
+on: push
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install
+        run: yarn install
+
+      - name: sol lint
+        run: yarn lint:quiet
+
+      - name: prettier
+        run: yarn pretty
+
+      - name: tests
+        run: yarn test:ci
