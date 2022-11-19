@@ -1,0 +1,29 @@
+{
+  "name": "fweb3.xyz",
+  "packageManager": "yarn@3.3.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "web:build": "yarn workspace web build",
+    "web:start": "yarn workspace web start",
+    "web:dev": "yarn workspace web dev",
+    "web:test": "yarn workspace web test"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8",
+    "@types/node": "^18.11.9",
+    "@types/prettier": "^2",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.9.3"
+  }
+}

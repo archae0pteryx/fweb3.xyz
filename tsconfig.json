@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "target": "ES2018",
+    "sourceMap": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "declaration": true,
+    "typeRoots": ["./node_modules/@types", "**/*/types"],
+    "paths": {
+      "@fweb3/contracts": ["packages/contracts/src/index.ts"],
+      "@fweb3/game": ["packages/game/src/index.ts"],
+      "@fweb3/external": ["packages/external/src/index.ts"],
+      "@fweb3/web": ["packages/web/dist/index.js"]
+    }
+  },
+  "references": [
+    {
+      "path": "packages/web"
+    },
+    {
+      "path": "packages/contracts"
+    },
+    {
+      "path": "packages/external"
+    },
+    {
+      "path": "packages/game"
+    }
+  ],
+  "include": ["packages/**/*"],
+  "exclude": ["node_modules", "dist", "*.d.ts", "**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx"]
+}

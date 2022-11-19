@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "composite": true,
+  },
+  "references": [
+    {
+      "path": "../web"
+    },
+    {
+      "path": "../contracts"
+    },
+    {
+      "path": "../external"
+    }
+  ]
+}
