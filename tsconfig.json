@@ -39,5 +39,5 @@
     }
   ],
   "include": ["packages/**/*"],
-  "exclude": ["node_modules", "dist", "*.d.ts", "**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": ["node_modules", "dist", "*.d.ts", "**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx", "package/old.*"]
 }

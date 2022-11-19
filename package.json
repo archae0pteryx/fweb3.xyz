@@ -3,7 +3,10 @@
   "packageManager": "yarn@3.3.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/contracts",
+    "packages/external",
+    "packages/web",
+    "packages/game"
   ],
   "scripts": {
     "web:build": "yarn workspace web build",
