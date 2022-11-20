@@ -1,15 +1,15 @@
 {
   "workbench.colorCustomizations": {
-    "activityBar.background": "#08276E",
-    "titleBar.activeBackground": "#0B379A",
-    "titleBar.activeForeground": "#FAFBFF"
+    "activityBar.background": "#281585",
+    "titleBar.activeBackground": "#391EBA",
+    "titleBar.activeForeground": "#FAF9FE"
   },
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
   },
   "eslint.nodePath": ".yarn/sdks",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true
 }
