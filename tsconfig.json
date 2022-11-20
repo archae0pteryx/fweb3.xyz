@@ -2,6 +2,7 @@
   "compilerOptions": {
     "incremental": true,
     "moduleResolution": "Node",
+    "baseUrl": ".",
     "module": "CommonJS",
     "target": "ES2018",
     "sourceMap": true,
@@ -39,5 +40,6 @@
     }
   ],
   "include": ["packages/**/*"],
-  "exclude": ["node_modules", "dist", "*.d.ts", "**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx", "package/old.*"]
+  "exclude": ["node_modules", "dist", "*.d.ts", "**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx", "old/*"],
+  "typeRoots": ["./node_modules/@types", "**/*/types"]
 }
