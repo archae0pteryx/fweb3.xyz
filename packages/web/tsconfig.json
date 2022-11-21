@@ -2,10 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": false,
     "esModuleInterop": true,
@@ -17,10 +21,21 @@
     "incremental": true,
     "composite": true,
     "paths": {
-      "@fweb3/contracts": ["../contracts/src/index.ts"],
-      "@fweb3/game": ["../game/src/index.ts"],
-      "@fweb3/external": ["../external/src/index.ts"]
-    }
+      "@fweb3/contracts": [
+        "../contracts/src/index.ts"
+      ],
+      "@fweb3/game": [
+        "../game/src/index.ts"
+      ],
+      "@fweb3/external": [
+        "../external/src/index.ts"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "references": [
     {
@@ -33,6 +48,13 @@
       "path": "../external"
     }
   ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
