@@ -20,41 +20,16 @@
     "jsx": "preserve",
     "incremental": true,
     "composite": true,
-    "paths": {
-      "@fweb3/contracts": [
-        "../contracts/scripts/index.ts"
-      ],
-      "@fweb3/game": [
-        "../game/src/index.ts"
-      ],
-      "@fweb3/external": [
-        "../external/src/index.ts"
-      ]
-    },
     "plugins": [
       {
         "name": "next"
       }
     ]
   },
-  "references": [
-    {
-      "path": "../contracts"
-    },
-    {
-      "path": "../game"
-    },
-    {
-      "path": "../external"
-    }
-  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }

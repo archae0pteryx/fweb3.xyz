@@ -1,19 +1,14 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./scripts", "./test", "./typechain"],
+  "include": ["./scripts/**/*", "./test/**/*", "./typechain/*"],
   "files": ["./hardhat.config.ts"],
+  "declarationMap": true,
   "compilerOptions": {
-    "composite": true,
+    "composite": true
   },
   "references": [
     {
       "path": "../web"
-    },
-    {
-      "path": "../contracts"
-    },
-    {
-      "path": "../game"
     }
   ]
 }

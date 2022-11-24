@@ -1,9 +1,0 @@
----
-env:
-  browser: false
-  es2021: true
-  mocha: true
-extends:
-  - "../../.eslintrc.yml"
-parserOptions:
-  project: "./tsconfig.json"
