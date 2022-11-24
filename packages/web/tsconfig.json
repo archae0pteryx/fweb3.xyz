@@ -22,7 +22,7 @@
     "composite": true,
     "paths": {
       "@fweb3/contracts": [
-        "../contracts/src/index.ts"
+        "../contracts/scripts/index.ts"
       ],
       "@fweb3/game": [
         "../game/src/index.ts"

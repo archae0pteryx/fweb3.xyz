@@ -12,7 +12,9 @@
     "web:build": "yarn workspace web build",
     "web:start": "yarn workspace web start",
     "web:dev": "yarn workspace web dev",
-    "web:test": "yarn workspace web test"
+    "web:test": "yarn workspace web test",
+    "contracts:dev": "yarn workspace contracts dev",
+    "contracts:test": "yarn workspace contracts test"
   },
   "devDependencies": {
     "@types/eslint": "^8",
