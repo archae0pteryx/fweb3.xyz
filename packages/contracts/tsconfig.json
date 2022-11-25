@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./scripts/**/*", "./test/**/*", "./typechain/*"],
+  "include": ["./scripts/**/*", "./test/**/*", "./typechain-types"],
   "files": ["./hardhat.config.ts"],
   "declarationMap": true,
   "compilerOptions": {
