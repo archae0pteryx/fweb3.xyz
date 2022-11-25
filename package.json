@@ -2,17 +2,21 @@
   "name": "fweb3.xyz",
   "packageManager": "yarn@3.3.0",
   "private": true,
+  "engines": {
+    "node": ">=16"
+  },
   "workspaces": [
-    "packages/contracts",
-    "packages/web"
+    "packages/*"
   ],
   "scripts": {
     "web:build": "yarn workspace web build",
     "web:start": "yarn workspace web start",
     "web:dev": "yarn workspace web dev",
     "web:test": "yarn workspace web test",
-    "contracts:dev": "yarn workspace contracts dev",
-    "contracts:test": "yarn workspace contracts test"
+    "hh": "yarn workspace contracts hh",
+    "hh:test": "yarn workspace contracts test",
+    "hh:lint": "yarn workspace contracts lint",
+    "hh:compile": "yarn workspace contracts compile"
   },
   "devDependencies": {
     "@types/eslint": "^8",

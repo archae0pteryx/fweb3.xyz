@@ -1,11 +1,9 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-let fweb3Game, fweb3Token
-
 describe("DevToken", function () {
-  it("Should test", async function () {
-    const [owner, user] = await ethers.getSigners();
+  it("Should deploy and send tokens", async function () {
+    const [_, user] = await ethers.getSigners();
     const TokenFactory = await ethers.getContractFactory("DevToken");
     const token = await TokenFactory.deploy();
     await token.deployed();
