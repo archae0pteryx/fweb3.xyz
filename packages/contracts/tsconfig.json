@@ -4,7 +4,8 @@
   "files": ["./hardhat.config.ts"],
   "declarationMap": true,
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "strictNullChecks": false
   },
   "references": [
     {

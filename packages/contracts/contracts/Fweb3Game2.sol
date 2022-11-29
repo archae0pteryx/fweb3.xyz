@@ -9,7 +9,8 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 /// @custom:security-contact security@fweb3.xyz
 contract Fweb3Game2 is ERC1155, AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
-
+    uint256 public constant GOLD = 0;
+    
     ERC20 private _fweb3Token;
 
     constructor(ERC20 fweb3Token) ERC1155("http://localhost:3000") {
