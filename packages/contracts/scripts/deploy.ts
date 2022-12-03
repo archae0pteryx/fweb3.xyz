@@ -1,18 +1,30 @@
 import { ethers } from 'hardhat'
 
+async function _deployToken() {
+  const [admin, user1] = await ethers.getSigners()
+  const adminAddress = await admin.getAddress()
+  const net = await ethers.getDefaultProvider().getNetwork()
+  console.log(`Deploying to network: ${net.name} (${net.chainId})`)
+  console.log('Deploying contracts with the account:', adminAddress)
+
+  const Fweb3TokenFactory = await ethers.getContractFactory('Fweb3Token')
+  const fweb3Token = await Fweb3TokenFactory.deploy()
+  await fweb3Token.deployed()
+
+  console.log('Token deployed to:', fweb3Token.address)
+  return fweb3Token.address
+}
+
 ;(async () => {
   try {
-    const [admin, user1] = await ethers.getSigners()
-    const adminAddress = await admin.getAddress()
-    const user1Address = await user1.getAddress()
-    console.log('Deploying contracts with the account:', adminAddress)
+    const addr = await _deployToken()
 
-    const FweebFactory = await ethers.getContractFactory('FweebNFT')
-    const fweebNft = await FweebFactory.deploy()
-    await fweebNft.deployed()
+    const WrappedTokenFactory = await ethers.getContractFactory('WrappedFweb3Token')
+    const wrappedToken = await WrappedTokenFactory.deploy(addr)
+    await wrappedToken.deployed()
 
-    console.log('FweebNFT deployed to:', fweebNft.address)
-    fweebNft.safeMint(user1Address, 'RIMRAF')
+    console.log('WrappedFweb3 deployed to:', wrappedToken.address)
+
   } catch (err) {
     console.error(err)
   }

@@ -1,5 +1,8 @@
 # Fweb3 Contracts
 
+Dev fweb3 mumbai token contract:
+`0x993d945DD6168dB0966A14849A13cDBadC625e23`
+
 ```shell
 npx hardhat accounts
 npx hardhat compile
