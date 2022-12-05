@@ -6,13 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "primsa:generate": "npx prisma generate",
+    "prisma:studio": "npx prisma studio",
+    "prisma:db:push": "npx prisma db push",
+    "prisma:db:seed": "npx prisma db seed"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.10.16",
+    "@mui/lab": "^5.0.0-alpha.110",
     "@mui/material": "^5.10.16",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
@@ -29,6 +34,8 @@
   "devDependencies": {
     "@types/eslint": "^8",
     "@types/prettier": "^2",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "prisma": "^4.7.1",
+    "ts-node": "^10.9.1"
   }
 }
