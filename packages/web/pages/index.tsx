@@ -1,20 +1,15 @@
 import { Button, Typography } from '@mui/material'
 import { useAccount } from 'wagmi'
 import { Container } from '@mui/system'
-import { useEffect, useState } from 'react';
-import { usePrisma } from '../providers/prisma';
+import { useEffect, useState } from 'react'
 
 export default function Page() {
   const [mounted, setMounted] = useState(false)
   const { address } = useAccount()
-  const { usersDb } = usePrisma()
 
   useEffect(() => {
     setMounted(true)
-    if (usersDb) {
-      const user = usersDb.find(address).then(console.log)
-    }
-  }, [usersDb])
+  }, [])
 
   if (!mounted) {
     return <></>
@@ -26,4 +21,3 @@ export default function Page() {
     </Container>
   )
 }
-
