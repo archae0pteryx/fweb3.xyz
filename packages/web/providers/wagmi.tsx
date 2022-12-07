@@ -8,7 +8,7 @@ import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
-const { chains, webSocketProvider, providers } = configureChains(
+const { chains, webSocketProvider, provider } = configureChains(
   [chain.polygonMumbai, chain.polygon],
   [
     infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY }),
@@ -42,7 +42,7 @@ const client = createClient({
       },
     }),
   ],
-  providers,
+  provider,
   webSocketProvider,
 })
 
