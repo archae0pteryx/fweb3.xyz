@@ -3,21 +3,12 @@
   "packageManager": "yarn@3.3.0",
   "private": true,
   "engines": {
-    "node": ">=16"
+    "node": ">=16",
+    "yarn": ">=3"
   },
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {
-    "web:build": "yarn workspace web build",
-    "web:start": "yarn workspace web start",
-    "web:dev": "yarn workspace web dev",
-    "web:test": "yarn workspace web test",
-    "hh": "yarn workspace contracts hh",
-    "hh:test": "yarn workspace contracts test",
-    "hh:lint": "yarn workspace contracts lint",
-    "hh:compile": "yarn workspace contracts compile"
-  },
   "devDependencies": {
     "@types/eslint": "^8",
     "@types/node": "^18.11.9",
@@ -32,10 +23,5 @@
     "eslint-plugin-promise": "^6.1.1",
     "prettier": "^2.7.1",
     "typescript": "^4.9.3"
-  },
-  "dependencies": {
-    "@prisma/client": "^4.7.1",
-    "install": "^0.13.0",
-    "npm": "^9.1.3"
   }
 }

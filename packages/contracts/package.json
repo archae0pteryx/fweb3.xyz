@@ -2,6 +2,10 @@
   "name": "contracts",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=16",
+    "yarn": ">=3"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
