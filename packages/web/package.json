@@ -14,10 +14,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "primsa:generate": "npx prisma generate",
-    "prisma:studio": "npx prisma studio",
-    "prisma:db:push": "npx prisma db push",
-    "prisma:db:seed": "npx prisma db seed"
+    "generate": "npx prisma generate",
+    "studio": "npx prisma studio",
+    "push": "npx prisma db push",
+    "seed": "npx prisma db seed"
   },
   "dependencies": {
     "@apollo/client": "^3.7.2",

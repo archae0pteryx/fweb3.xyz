@@ -2,8 +2,14 @@
 ### Do not make changes to this file directly
 
 
+type Mutation {
+  createUser(address: String!): User!
+  updateUser(address: String!, gameAddress: String): User!
+}
+
 type Query {
-  user: [User]!
+  allUsers: [User]!
+  findUser(address: String!): User!
 }
 
 type User {
