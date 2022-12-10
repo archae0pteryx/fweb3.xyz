@@ -11,9 +11,9 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 const { chains, webSocketProvider, provider } = configureChains(
   [chain.polygonMumbai, chain.polygon],
   [
-    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY }),
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MUMBAI }),
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_POLYGON }),
+    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY || ''}),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MUMBAI || ''}),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_POLYGON || ''}),
     publicProvider(),
   ]
 )

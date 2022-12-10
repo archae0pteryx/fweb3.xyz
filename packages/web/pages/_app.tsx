@@ -1,16 +1,17 @@
 import type { AppProps } from 'next/app'
-import { WagmiProvider } from '../providers/wagmi'
-import { MaterialThemeProvider } from '../providers/material'
+import { WagmiProvider, MaterialProvider, ApolloProvider } from '../providers'
 import Layout from '../components/Layout'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <MaterialThemeProvider>
+    <MaterialProvider>
       <WagmiProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ApolloProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloProvider>
       </WagmiProvider>
-    </MaterialThemeProvider>
+    </MaterialProvider>
   )
 }
