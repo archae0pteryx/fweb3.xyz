@@ -6,6 +6,9 @@
     "node": ">=16",
     "yarn": ">=3"
   },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,12 +1,9 @@
+import { Context } from "./context"
+
 export const resolvers = {
   Query: {
-    users: () => {
-      return [
-        {
-          id: '1',
-          address: '0x123',
-        },
-      ]
+    users: (_parent: any, _args: any, ctx: Context ) => {
+      return ctx.prisma.user.findMany()
     },
   },
 }

@@ -5,19 +5,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator pothos {
-  provider     = "prisma-pothos-types"
-}
-
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  address     String   @unique
-  gameAddress String   @unique
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  address     String  @unique
+  gameAddress String? @unique
   // verified    Boolean  @default(false)
   // disabled    Boolean  @default(false)
   // discord     String?  @unique
