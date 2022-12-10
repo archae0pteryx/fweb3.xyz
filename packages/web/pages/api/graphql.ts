@@ -1,11 +1,14 @@
 import { ApolloServer } from 'apollo-server-micro'
-import { builder } from '../../prisma/builder'
-
 import Cors from 'micro-cors'
+import { typeDefs } from '../../graphql/typeDefs';
+import { resolvers } from '../../graphql/resolvers';
 
 const cors = Cors()
 
-const apolloServer = new ApolloServer({ schema: builder.toSchema() })
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+})
 
 const startServer = apolloServer.start()
 
