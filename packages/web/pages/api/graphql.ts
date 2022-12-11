@@ -1,9 +1,15 @@
 import Cors from 'micro-cors'
-import { apolloServer } from '../../graphql'
+import { ApolloServer } from 'apollo-server-micro'
+import { createContext, BasicLogger, schema } from '../../graphql'
 
-const cors = Cors({
-  allowMethods: ['POST', 'OPTIONS'],
+const cors = Cors()
+
+const apolloServer = new ApolloServer({
+  schema,
+  plugins: [BasicLogger],
+  context: createContext,
 })
+
 
 const startServer = apolloServer.start()
 

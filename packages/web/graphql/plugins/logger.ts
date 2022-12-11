@@ -2,7 +2,7 @@ import { GraphQLRequestContext } from "apollo-server-types"
 
 export const BasicLogger = {
   async requestDidStart(_requestContext: GraphQLRequestContext) {
-    console.log('Apollo Server received request')
+    // console.log('Apollo Server received request')
     // return {
     //   async didEncounterErrors(_requestContext: GraphQLRequestContext) {
     //     console.log('Apollo Server didEncounterErrors!')

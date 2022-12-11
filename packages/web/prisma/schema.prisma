@@ -12,17 +12,15 @@ datasource db {
 
 model User {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  address     String
-  gameAddress String?
-  email       String?
+  address     String   @unique
+  gameAddress String?  @unique
+  email       String?  @unique
   verified    Boolean  @default(false)
   disabled    Boolean  @default(false)
-  discord     String?
+  discord     String?  @unique
   role        Role     @default(PLAYER)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  @@unique([address, gameAddress, discord, email])
 }
 
 enum Role {

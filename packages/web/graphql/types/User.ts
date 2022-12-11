@@ -1,43 +1,38 @@
 import { objectType, extendType, stringArg, nonNull } from 'nexus'
+import { UsersService } from '../../lib/users.service'
 
 export const User = objectType({
   name: 'User',
   definition(t) {
     t.string('id')
-    t.string('address')
+    t.nonNull.string('address')
     t.string('gameAddress')
+    t.string('email')
+    t.string('verified')
+    t.string('disabled')
+    t.string('discord')
+    t.string('role')
     t.string('createdAt')
     t.string('updatedAt')
-    t.string('verified')
-    t.string('enabled')
-    t.string('role')
   },
 })
 
-
-export const UserQuery = extendType({
+export const UsersQuery = extendType({
   type: 'Query',
   definition(t) {
     t.nonNull.list.field('allUsers', {
       type: 'User',
-      resolve(_parent, _args, ctx) {
-        return ctx.prisma.user.findMany()
-      },
+      resolve: UsersService.all,
     }),
-    t.nonNull.field('findUser', {
-      type: 'User',
-      args: {
-        address: nonNull(stringArg()),
-      },
-      resolve(_parent, args, ctx) {
-        return ctx.prisma.user.findUnique({
-          where: { address: args.address },
-        })
-      }
-    })
+      t.field('findUser', {
+        type: 'User',
+        args: {
+          address: nonNull(stringArg()),
+        },
+        resolve: UsersService.find,
+      })
   },
 })
-
 
 export const UserMutation = extendType({
   type: 'Mutation',
@@ -46,31 +41,9 @@ export const UserMutation = extendType({
       type: 'User',
       args: {
         address: nonNull(stringArg()),
+        email: nonNull(stringArg()),
       },
-
-      resolve(_root, args, ctx) {
-        return ctx.prisma.user.create({
-          data: {
-            address: args.address,
-          },
-        })
-      },
-    }),
-    t.nonNull.field('updateUser', {
-      type: 'User',
-      args: {
-        address: nonNull(stringArg()),
-        gameAddress: stringArg(),
-      },
-
-      resolve(_root, args, ctx) {
-        return ctx.prisma.user.update({
-          where: { address: args.address },
-          data: {
-            gameAddress: args.gameAddress,
-          },
-        })
-      }
+      resolve: UsersService.create,
     })
   },
 })

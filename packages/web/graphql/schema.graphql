@@ -3,17 +3,23 @@
 
 
 type Mutation {
-  createUser(address: String!): User!
-  updateUser(address: String!, gameAddress: String): User!
+  createUser(address: String!, email: String!): User!
 }
 
 type Query {
   allUsers: [User]!
-  findUser(address: String!): User!
+  findUser(address: String!): User
 }
 
 type User {
-  address: String
+  address: String!
+  createdAt: String
+  disabled: String
+  discord: String
+  email: String
   gameAddress: String
   id: String
+  role: String
+  updatedAt: String
+  verified: String
 }
