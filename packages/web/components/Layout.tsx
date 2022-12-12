@@ -1,16 +1,27 @@
 import Head from 'next/head'
-import { AppBar } from './AppBar'
 import { Container } from '@mui/system'
+import { VerifyEmailAlert } from './Alerts'
+import { AppBar } from './AppBar'
+import { useEffect, useState } from 'react'
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   return (
     <>
       <Head>
         <title>Fweb 3</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <AppBar />
-      <Container>{children}</Container>
+      {mounted && (
+        <>
+          <AppBar />
+          <VerifyEmailAlert />
+          <Container>{children}</Container>
+        </>
+      )}
     </>
   )
 }
