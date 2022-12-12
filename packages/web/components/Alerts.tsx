@@ -1,31 +1,30 @@
-import { AlertTitle, Button } from '@mui/material'
-import { useAccount } from 'wagmi'
-import { useUser } from '../providers/user'
+import { useUser } from '../providers'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import WarningIcon from '@mui/icons-material/Warning'
 
 export function ErrorAlert({ error }: { error: string | undefined }) {
   if (!error) return null
   return (
     <Box sx={{ flex: 1 }} margin={2}>
-      <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        {error}
-      </Alert>
+      <Alert severity="error">{error}</Alert>
     </Box>
   )
 }
 
 export function VerifyEmailAlert() {
-  const { verified, loading, userAddress } = useUser()
-  const { isConnected } = useAccount()
+  const { verified, foundUser } = useUser()
 
   const handleResend = () => {
     console.log('resending')
   }
 
-  if (!userAddress || loading || !isConnected || verified) {
+  if (foundUser && verified) {
+    return null
+  }
+
+  if (!foundUser) {
     return null
   }
 
@@ -36,7 +35,7 @@ export function VerifyEmailAlert() {
         variant="outlined"
         severity="error"
         action={
-          <Button color="error" size="small" onClick={handleResend}>
+          <Button disabled color="error" size="small" onClick={handleResend}>
             resend
           </Button>
         }

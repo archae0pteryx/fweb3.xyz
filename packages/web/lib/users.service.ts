@@ -1,7 +1,16 @@
-import jwt from 'jsonwebtoken'
 import { Context } from '../graphql/context'
-import { UsersEntity } from './users.entity'
+import { handlePrismaError, UsersEntity } from './users.entity'
 import { sendVerificationEmail } from './mailer'
+import jwt from 'jsonwebtoken'
+
+export class UsersQueries {
+  static all = `
+    allUsers: [User!]!
+  `
+  static find = `
+    findUser(address: String!): User
+  `
+}
 
 export class UsersService {
   static async all(_parent: any, _args: any, _ctx: Context) {
@@ -13,10 +22,14 @@ export class UsersService {
   }
 
   static async create(_parent: any, args: any, _ctx: Context) {
-    const createRes = await UsersEntity.create(args.address, args.email)
-    const emailRes = await sendVerificationEmail(args.address, args.email)
-    console.log({ emailRes })
-    return createRes
+    try {
+      const createRes = await UsersEntity.create(args.address, args.email)
+      const sesMailResponse = await sendVerificationEmail(args.address, args.email)
+      console.log({ sesMailResponse })
+      return createRes
+    } catch (err: any) {
+      handlePrismaError(err)
+    }
   }
 
   static async update(_parent: any, args: any, _ctx: Context) {

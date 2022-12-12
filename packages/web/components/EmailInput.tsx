@@ -1,27 +1,17 @@
-import { Email } from '@mui/icons-material'
 import Box from '@mui/material/Box'
+import Email from '@mui/icons-material/Email'
 import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
+import TextField, { TextFieldProps } from '@mui/material/TextField'
 
-export function EmailInput({
-  value,
-  setValue,
-  validValue,
-}: {
-  validValue: boolean
-  value: string
-  setValue: (value: string) => void
-}) {
+export function EmailInput(props: TextFieldProps) {
+  const { error } = props
   return (
     <Box>
       <TextField
         fullWidth
         color="secondary"
-        error={!validValue}
-        helperText={!validValue ? 'Invalid email' : ' '}
+        helperText={error || ' '}
         label="Email Address"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -29,6 +19,7 @@ export function EmailInput({
             </InputAdornment>
           ),
         }}
+        {...props}
       />
     </Box>
   )

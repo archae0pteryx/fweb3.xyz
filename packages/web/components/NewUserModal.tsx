@@ -1,28 +1,16 @@
-import { Clear } from '@mui/icons-material'
 import { EmailInput } from './EmailInput'
-import { ErrorAlert } from './Alerts'
-import { IconButton } from '@mui/material'
 import { LoadingButton } from './Buttons/LoadingButton'
-import { useAccount } from 'wagmi'
-import { useMutation, gql } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { useState } from 'react'
-import { useToast } from '../providers/toast'
-import { useUser } from '../providers/user'
+import { useUser, useToast, CREATE_USER, FIND_USER, useAccount } from '../providers'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+import Clear from '@mui/icons-material/Clear'
 import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 
-const CreateUserMutation = gql`
-  mutation CreateUser($address: String!, $email: String!) {
-    createUser(address: $address, email: $email) {
-      email
-      address
-    }
-  }
-`
-const style = {
+const modalBoxStyle = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
@@ -34,64 +22,66 @@ const style = {
 }
 
 export function NewUserModal() {
-  const [createUser, { loading, error }] = useMutation(CreateUserMutation)
-  const [open, setOpen] = useState(true)
-  const [email, setEmail] = useState('aarchaeopteryxx@gmail.com')
-  const [validEmail, setValidEmail] = useState(true)
   const { address } = useAccount()
-  const { userAddress, refresh } = useUser()
+  const { onboarding, showOnboardModal, setShowOnboardModal } = useUser()
+  const [email, setEmail] = useState<string>('')
+  const [formError, setFormError] = useState<string>('')
+
   const { triggerToast } = useToast()
 
-  const handleCloseNewUser = () => {
-    setValidEmail(true)
-    setEmail('')
-    setOpen(false)
-  }
+  const [createUser, { loading, error: mutationError }] = useMutation(CREATE_USER, {
+    refetchQueries: [{ query: FIND_USER, variables: { address } }, 'FIND_USER'],
+  })
 
   const handleCreateAccount = async () => {
-    if (!email.includes('@')) {
-      setValidEmail(false)
-      triggerToast('Invalid Email', { severity: 'error', hideIn: 1000 })
-      return
+    try {
+      setFormError('')
+      if (!email?.includes('@')) {
+        setFormError('Invalid Email')
+        triggerToast('Invalid Email', { severity: 'error', hideIn: 2000 })
+        return
+      }
+
+      await createUser({ variables: { address, email } })
+      setEmail('')
+      triggerToast('Account Created!')
+    } catch (err: any) {
+      triggerToast(err.message, { severity: 'error', hideIn: 2000 })
     }
-    await createUser({ variables: { address, email } })
-    refresh()
-    setValidEmail(true)
-    setEmail('')
-    setOpen(false)
-    triggerToast('Account Created. Please verify your email')
   }
 
-  if (userAddress) return null
+  if (!onboarding) return null
 
+  const errorForInput = formError || mutationError?.message
   return (
     <div>
-      <ErrorAlert error={error?.message} />
-      <Modal open={open} onClose={() => setOpen(false)} closeAfterTransition>
-        <Fade in={open}>
-          <Box sx={style}>
+      <Modal disablePortal open={showOnboardModal} onClose={() => setShowOnboardModal(false)} closeAfterTransition>
+        <Fade in={showOnboardModal}>
+          <Box sx={modalBoxStyle}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <IconButton color="error" sx={{ padding: 2 }} onClick={handleCloseNewUser}>
+              <IconButton
+                color="error"
+                sx={{ position: 'absolute', right: 0, top: 0 }}
+                onClick={() => setShowOnboardModal(false)}
+              >
                 <Clear />
               </IconButton>
             </Box>
-            <Typography variant="h4" align="center">
+            <Typography variant="h5" align="center" marginBottom={3}>
               Looks like you're new here!
             </Typography>
-            <Typography variant="body1" marginTop={3} marginBottom={3}>
+            <Typography variant="body2" marginBottom={3} color="yellow" align="center">
               Please create and verify your account or reconnect with your game wallet.
             </Typography>
-            <EmailInput value={email} setValue={setEmail} validValue={validEmail} />
+            <EmailInput value={email} error={!!errorForInput} onChange={(e) => setEmail(e.target.value)} />
             <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'space-around',
+                marginBottom: 1,
               }}
             >
-              <Button color="warning" variant="outlined" onClick={() => setOpen(false)}>
-                Disconnect
-              </Button>
-              <LoadingButton text="create" loading={loading} onClick={handleCreateAccount} />
+              <LoadingButton fullWidth text="create" loading={loading} onClick={handleCreateAccount} />
             </Box>
           </Box>
         </Fade>

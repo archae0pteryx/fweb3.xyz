@@ -1,19 +1,18 @@
-import { WagmiConfig, createClient, configureChains, chain } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { infuraProvider } from 'wagmi/providers/infura'
-import { publicProvider } from 'wagmi/providers/public'
-
-import { InjectedConnector } from 'wagmi/connectors/injected'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+import { infuraProvider } from 'wagmi/providers/infura'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { publicProvider } from 'wagmi/providers/public'
+import { WagmiConfig, createClient, configureChains, chain } from 'wagmi'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
 const { chains, webSocketProvider, provider } = configureChains(
   [chain.polygonMumbai, chain.polygon],
   [
-    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY || ''}),
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MUMBAI || ''}),
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_POLYGON || ''}),
+    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY || '' }),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_MUMBAI || '' }),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_POLYGON || '' }),
     publicProvider(),
   ]
 )
@@ -49,3 +48,5 @@ const client = createClient({
 export function WagmiProvider({ children }: { children: React.ReactNode }) {
   return <WagmiConfig client={client}>{children}</WagmiConfig>
 }
+
+export { useAccount, useDisconnect, useConnect, useNetwork } from 'wagmi'

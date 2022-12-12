@@ -1,8 +1,13 @@
-import MuiLoadingButton from '@mui/lab/LoadingButton'
+import MuiLoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton'
 
-export function LoadingButton({ text, loading, onClick }: { text: string; loading: boolean; onClick: () => void }) {
+interface IBProps extends LoadingButtonProps {
+  text: string
+}
+
+export function LoadingButton(props: IBProps) {
+  const { text } = props
   return (
-    <MuiLoadingButton loading={loading} size="small" color="secondary" variant="contained" onClick={onClick}>
+    <MuiLoadingButton size="small" color="secondary" variant="contained" {...props}>
       {text}
     </MuiLoadingButton>
   )

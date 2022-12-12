@@ -1,5 +1,5 @@
 export { ApolloProvider } from './apollo'
 export { MaterialProvider } from './material'
 export { ToastProvider, useToast } from './toast'
-export { UserDataProvider, useUser } from './user'
-export { WagmiProvider } from './wagmi'
+export { UserProvider, useUser, FIND_USER, CREATE_USER } from './user'
+export { WagmiProvider, useAccount, useDisconnect, useConnect, useNetwork } from './wagmi'

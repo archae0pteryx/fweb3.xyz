@@ -1,7 +1,7 @@
 import { useState, createContext, useContext, ReactNode, ComponentType } from 'react'
+import Alert, { type AlertColor } from '@mui/material/Alert'
+import Slide, { type SlideProps } from '@mui/material/Slide'
 import Snackbar from '@mui/material/Snackbar'
-import Slide, { SlideProps } from '@mui/material/Slide'
-import { Alert, AlertColor } from '@mui/material'
 
 type TransitionProps = Omit<SlideProps, 'direction'>
 
@@ -30,16 +30,23 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [transition, setTransition] = useState<ComponentType<TransitionProps> | undefined>(undefined)
 
   const triggerToast = (message: string, overrides = DEFAULT_OPTS) => {
-    setMessage(message)
     setOpts({ ...DEFAULT_OPTS, ...overrides })
+    setMessage(message)
     setTransition(() => TransitionRight)
     setOpen(true)
+    setTimeout(() => {
+      _reset()
+    }, overrides.hideIn)
   }
 
   const handleClose = () => {
+    _reset()
+  }
+
+  const _reset = () => {
+    setOpts(DEFAULT_OPTS)
     setOpen(false)
     setMessage('')
-    setOpts(DEFAULT_OPTS)
   }
 
   return (

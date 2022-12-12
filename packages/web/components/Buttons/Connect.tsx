@@ -1,7 +1,6 @@
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { LoadingButton } from './LoadingButton'
-import { useAccount, useConnect } from 'wagmi'
-import { useToast } from '../../providers/toast'
+import { useToast, useConnect, useAccount } from '../../providers'
 
 export function ConnectButton() {
   const { isConnected } = useAccount()
@@ -13,7 +12,6 @@ export function ConnectButton() {
   const handleConnect = async () => {
     try {
       await connect()
-      triggerToast('Connected')
     } catch (error: any) {
       triggerToast(error.message)
     }

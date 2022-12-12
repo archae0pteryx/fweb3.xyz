@@ -1,10 +1,15 @@
-import { Button } from '@mui/material'
-import { useAccount } from 'wagmi'
+import { useAccount } from '../../providers'
+import Button from '@mui/material/Button'
+import Link from 'next/link'
 
 export function ProfileButton() {
   const { isConnected } = useAccount()
   if (!isConnected) {
     return null
   }
-  return <Button color="secondary">Profile</Button>
+  return (
+    <Link href="/profile">
+      <Button color="secondary">Profile</Button>
+    </Link>
+  )
 }

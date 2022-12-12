@@ -1,18 +1,24 @@
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext, useState, useEffect } from 'react'
 import { ErrorAlert } from '../components/Alerts'
 import { gql, useLazyQuery } from '@apollo/client'
-import { useAccount } from 'wagmi'
+import { useAccount } from './wagmi'
 
 const UserContext = createContext({
-  verified: false,
+  verified: true,
+  role: '',
+  discord: '',
   email: '',
   disabled: false,
-  loading: false,
   userAddress: '',
-  refresh: () => {},
+  onboarding: true,
+  showOnboardModal: false,
+  setShowOnboardModal: (_: boolean) => {},
+  loading: false,
+  error: '',
+  foundUser: false,
 })
 
-const FindUserQuery = gql`
+export const FIND_USER = gql`
   query Query($address: String!) {
     findUser(address: $address) {
       verified
@@ -23,25 +29,55 @@ const FindUserQuery = gql`
   }
 `
 
-export function UserDataProvider({ children }: { children: ReactNode }) {
-  const { address } = useAccount()
-  const [fetchUser, { data, loading, error, called }] = useLazyQuery(FindUserQuery)
+export const CREATE_USER = gql`
+  mutation CreateUser($address: String!, $email: String!) {
+    createUser(address: $address, email: $email) {
+      email
+      address
+    }
+  }
+`
 
-  if (address && !loading && !called) {
+export function UserProvider({ children }: { children: ReactNode }) {
+  const [onboarding, setOnboarding] = useState<boolean>(true)
+  const { address, isConnected } = useAccount()
+  const [showOnboardModal, setShowOnboardModal] = useState<boolean>(false)
+  const [fetchUser, { data, loading, error, called }] = useLazyQuery(FIND_USER)
+
+  const connectionReady = isConnected && address && !loading
+  const foundUser = data?.findUser?.address
+
+  if (connectionReady && !called) {
     fetchUser({ variables: { address } })
   }
 
-  const refresh = () => {
-    fetchUser({ variables: { address } })
-  }
+  useEffect(() => {
+    if (connectionReady && !foundUser) {
+      setOnboarding(true)
+      setShowOnboardModal(true)
+    } else {
+      setOnboarding(false)
+      setShowOnboardModal(false)
+    }
+  }, [connectionReady, foundUser])
+
+  const { address: userAddress, verified, role, discord, email, disabled } = data?.findUser || {}
 
   return (
     <UserContext.Provider
       value={{
-        ...data?.findUser,
-        refresh,
+        userAddress,
+        foundUser: userAddress === address,
+        verified: verified === 'true',
+        role,
+        discord,
+        email,
+        disabled,
+        setShowOnboardModal,
+        showOnboardModal,
+        onboarding,
         loading,
-        error,
+        error: error?.message || '',
       }}
     >
       <ErrorAlert error={error?.message} />

@@ -1,8 +1,9 @@
-import Head from 'next/head'
-import { Container } from '@mui/system'
-import { VerifyEmailAlert } from './Alerts'
 import { AppBar } from './AppBar'
 import { useEffect, useState } from 'react'
+import { VerifyEmailAlert } from './Alerts'
+import Container from '@mui/system/Container'
+import Head from 'next/head'
+// import { DebugAppState } from './DebugAppState'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <AppBar />
           <VerifyEmailAlert />
           <Container>{children}</Container>
+          {/* <DebugAppState /> */}
         </>
       )}
     </>

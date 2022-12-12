@@ -1,6 +1,5 @@
-import { Button } from '@mui/material'
-import { useAccount, useDisconnect } from 'wagmi'
-import { useToast } from '../../providers'
+import Button from '@mui/material/Button'
+import { useToast, useAccount, useDisconnect } from '../../providers'
 
 export function DisconnectButton() {
   const { disconnect } = useDisconnect()
@@ -17,7 +16,7 @@ export function DisconnectButton() {
   }
 
   return (
-    <Button color='warning' size="small" onClick={() => handleDisconnect()}>
+    <Button color="warning" size="small" onClick={() => handleDisconnect()}>
       Disconnect
     </Button>
   )

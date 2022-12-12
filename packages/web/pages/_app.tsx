@@ -1,4 +1,4 @@
-import { WagmiProvider, MaterialProvider, ApolloProvider, UserDataProvider, ToastProvider } from '../providers'
+import { WagmiProvider, MaterialProvider, ApolloProvider, UserProvider, ToastProvider } from '../providers'
 import Layout from '../components/Layout'
 import type { AppProps } from 'next/app'
 
@@ -7,13 +7,13 @@ export default function App({ Component, pageProps }: AppProps) {
     <MaterialProvider>
       <WagmiProvider>
         <ApolloProvider>
-          <UserDataProvider>
+          <UserProvider>
             <ToastProvider>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
             </ToastProvider>
-          </UserDataProvider>
+          </UserProvider>
         </ApolloProvider>
       </WagmiProvider>
     </MaterialProvider>
