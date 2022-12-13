@@ -19,35 +19,29 @@ export function DebugInfo() {
   const net = useNetwork()
   const { address } = useAccount()
   const { setError } = useError()
-  const { displayName, role, email, verified, disabled, foundUser } = useUser()
+  const { displayName, role, email, verified, disabled, foundUser, error, handleUpdateUser, loading } = useUser()
   const [updateRole, setRole] = useState(role)
   const [updateEmail, setEmail] = useState(email)
   const [updateVerified, setVerified] = useState<boolean>(verified)
   const [updateDisabled, setDisabled] = useState<boolean>(disabled)
   const { triggerToast } = useToast()
-  const [updateUser, { loading, error }] = useMutation(UPDATE_USER)
 
   const handleUpdate = async () => {
-    await updateUser({
-      variables: {
-        data: {
-          address: address,
-          role: updateRole,
-          email: updateEmail,
-          verified: updateVerified,
-          disabled: updateDisabled,
-        },
-      },
+    await handleUpdateUser({
+      address: address,
+      role: updateRole,
+      email: updateEmail,
+      verified: updateVerified,
+      disabled: updateDisabled,
     })
     triggerToast('Updated')
   }
 
   useEffect(() => {
     if (error) {
-      setError(error?.message)
+      setError(error)
     }
   }, [error])
-
   return (
     <Box
       sx={{

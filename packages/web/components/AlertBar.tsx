@@ -42,6 +42,7 @@ function VerifyEmailAlert() {
   const handleResend = () => {
     console.log('resending')
   }
+
   const shouldAlert = isConnected && !verified && !onboarding
 
   if (!shouldAlert) {
