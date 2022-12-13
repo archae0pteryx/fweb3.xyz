@@ -1,28 +1,25 @@
-import { Box } from '@mui/system'
-import { DebugAppState } from './DebugAppState'
+import Box from '@mui/material/Box'
+import { DebugButton } from './DebugButton'
 import { NetworkInfo } from './NetworkInfo'
 
-const style = {
+const mainContainerStyle = {
   position: 'fixed',
   width: '100%',
-  height: '3em',
+  height: '4em',
   bottom: 0,
   left: 0,
   color: 'white',
+  background: 'rgba(0,0,0,0.5)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
 }
 
 export function FooterBar() {
   return (
-    <Box sx={style}>
-      <DebugAppState />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
-        <NetworkInfo />
-      </Box>
+    <Box sx={mainContainerStyle}>
+      <DebugButton />
+      <NetworkInfo />
     </Box>
   )
 }
