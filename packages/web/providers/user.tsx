@@ -25,6 +25,8 @@ export const FIND_USER = gql`
       email
       disabled
       address
+      role
+      discord
     }
   }
 `
@@ -48,6 +50,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const foundUser = data?.findUser?.address
 
   if (connectionReady && !called) {
+    console.log('Called fetchUser')
     fetchUser({ variables: { address } })
   }
 
@@ -62,12 +65,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [connectionReady, foundUser])
 
   const { address: userAddress, verified, role, discord, email, disabled } = data?.findUser || {}
-
   return (
     <UserContext.Provider
       value={{
         userAddress,
-        foundUser: userAddress === address,
+        foundUser: userAddress && userAddress === address,
         verified: verified === 'true',
         role,
         discord,

@@ -1,6 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { UsersService } from '../../lib/users.service';
-
+import { NextApiRequest, NextApiResponse } from 'next'
+import { UsersService } from '../../lib/users.service'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -10,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
     await UsersService.verifyEmail(address?.toString(), token.toString())
-    res.redirect('/')
+    res.redirect('/?verified=true')
   } catch (err: any) {
     console.error(err)
     res.status(401).json({ status: 'fail', message: err.message })

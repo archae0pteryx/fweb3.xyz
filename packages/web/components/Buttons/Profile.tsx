@@ -1,10 +1,10 @@
-import { useAccount } from '../../providers'
 import Button from '@mui/material/Button'
 import Link from 'next/link'
+import { useUser } from '../../providers/user'
 
 export function ProfileButton() {
-  const { isConnected } = useAccount()
-  if (!isConnected) {
+  const { verified, role } = useUser()
+  if (!verified || role !== 'PLAYER') {
     return null
   }
   return (

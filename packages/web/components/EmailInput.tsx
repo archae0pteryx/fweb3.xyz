@@ -4,13 +4,11 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField, { TextFieldProps } from '@mui/material/TextField'
 
 export function EmailInput(props: TextFieldProps) {
-  const { error } = props
   return (
     <Box>
       <TextField
         fullWidth
         color="secondary"
-        helperText={error || ' '}
         label="Email Address"
         InputProps={{
           startAdornment: (

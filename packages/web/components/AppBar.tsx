@@ -8,6 +8,7 @@ import MuiAppBar from '@mui/material/AppBar'
 import Skeleton from '@mui/material/Skeleton'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 
 function AddressDisplay({ short = true }: { short?: boolean }) {
   const { address } = useAccount()
@@ -27,14 +28,22 @@ function renderAppButtons() {
   return loading ? (
     <Skeleton width={200} height={50} animation="wave" />
   ) : (
-    <>
+    <Box
+      sx={{
+        display: {
+          xs: 'none',
+          sm: 'flex',
+        },
+        alignItems: 'center',
+      }}
+    >
       <AddressDisplay />
       <ButtonGroup>
         <ProfileButton />
         <ConnectButton />
         <DisconnectButton />
       </ButtonGroup>
-    </>
+    </Box>
   )
 }
 
@@ -43,7 +52,20 @@ export function AppBar() {
     <MuiAppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            component="div"
+            sx={{
+              typography: {
+                xs: 'h4',
+                sm: 'h6',
+              },
+              flexGrow: 1,
+              textAlign: {
+                xs: 'center',
+                sm: 'left',
+              },
+            }}
+          >
             Fweb3
           </Typography>
           {renderAppButtons()}

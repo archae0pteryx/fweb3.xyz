@@ -1,4 +1,4 @@
-import { useUser } from '../providers'
+import { useAccount, useUser } from '../providers'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -15,16 +15,15 @@ export function ErrorAlert({ error }: { error: string | undefined }) {
 
 export function VerifyEmailAlert() {
   const { verified, foundUser } = useUser()
+  const { isConnected } = useAccount()
 
   const handleResend = () => {
     console.log('resending')
   }
 
-  if (foundUser && verified) {
-    return null
-  }
+  const hideVerifyAlertConditions = verified || !isConnected || (isConnected && !foundUser)
 
-  if (!foundUser) {
+  if (hideVerifyAlertConditions) {
     return null
   }
 

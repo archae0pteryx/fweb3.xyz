@@ -9,6 +9,8 @@ import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import { useDisconnect } from 'wagmi'
 
 const modalBoxStyle = {
   position: 'absolute' as 'absolute',
@@ -23,6 +25,7 @@ const modalBoxStyle = {
 
 export function NewUserModal() {
   const { address } = useAccount()
+  const { disconnect } = useDisconnect()
   const { onboarding, showOnboardModal, setShowOnboardModal } = useUser()
   const [email, setEmail] = useState<string>('')
   const [formError, setFormError] = useState<string>('')
@@ -32,6 +35,11 @@ export function NewUserModal() {
   const [createUser, { loading, error: mutationError }] = useMutation(CREATE_USER, {
     refetchQueries: [{ query: FIND_USER, variables: { address } }, 'FIND_USER'],
   })
+
+  const handleClose = () => {
+    setShowOnboardModal(false)
+    disconnect()
+  }
 
   const handleCreateAccount = async () => {
     try {
@@ -47,6 +55,12 @@ export function NewUserModal() {
       triggerToast('Account Created!')
     } catch (err: any) {
       triggerToast(err.message, { severity: 'error', hideIn: 2000 })
+    }
+  }
+
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleCreateAccount()
     }
   }
 
@@ -73,7 +87,13 @@ export function NewUserModal() {
             <Typography variant="body2" marginBottom={3} color="yellow" align="center">
               Please create and verify your account or reconnect with your game wallet.
             </Typography>
-            <EmailInput value={email} error={!!errorForInput} onChange={(e) => setEmail(e.target.value)} />
+            <EmailInput
+              value={email}
+              error={!!errorForInput}
+              onChange={(e) => setEmail(e.target.value)}
+              helperText={mutationError?.message || ' '}
+              onKeyDown={handleKey}
+            />
             <Box
               sx={{
                 display: 'flex',
@@ -81,7 +101,10 @@ export function NewUserModal() {
                 marginBottom: 1,
               }}
             >
-              <LoadingButton fullWidth text="create" loading={loading} onClick={handleCreateAccount} />
+              <Button color="secondary" variant="outlined" onClick={handleClose}>
+                Maybe Later
+              </Button>
+              <LoadingButton text="create" loading={loading} onClick={handleCreateAccount} />
             </Box>
           </Box>
         </Fade>

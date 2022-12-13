@@ -18,7 +18,7 @@ model User {
   verified    Boolean  @default(false)
   disabled    Boolean  @default(false)
   discord     String?  @unique
-  role        Role     @default(PLAYER)
+  role        Role     @default(NONE)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -27,4 +27,5 @@ enum Role {
   ADMIN
   MODERATOR
   PLAYER
+  NONE
 }

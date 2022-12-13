@@ -51,6 +51,6 @@ export class UsersService {
     if (decodedAddress !== address) {
       throw new Error('Token mismatch')
     }
-    return await UsersEntity.update(decodedAddress, { verified: true })
+    return await UsersEntity.update(decodedAddress, { verified: true, role: 'PLAYER' })
   }
 }
