@@ -12,13 +12,12 @@ import Box from '@mui/material/Box'
 
 function AddressDisplay({ short = true }: { short?: boolean }) {
   const { address } = useAccount()
-  const { userAddress } = useUser()
-  const display = short ? address?.slice(0, 6) + '...' + address?.slice(-4) : address
+  const { userAddress, displayName } = useUser()
   const color = address === userAddress ? 'lightgreen' : 'grey'
   if (!address) return null
   return (
     <Typography color={color} variant="body2" marginRight={3}>
-      {display}
+      {displayName}
     </Typography>
   )
 }

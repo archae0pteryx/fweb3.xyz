@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { useDisconnect } from 'wagmi'
 
+import { PLAYER_USER, ADMIN_USER } from '../prisma/mockUsers'
+
 const modalBoxStyle = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -27,7 +29,7 @@ export function NewUserModal() {
   const { address } = useAccount()
   const { disconnect } = useDisconnect()
   const { onboarding, showOnboardModal, setShowOnboardModal } = useUser()
-  const [email, setEmail] = useState<string>('')
+  const [email, setEmail] = useState<string>(ADMIN_USER.email)
   const [formError, setFormError] = useState<string>('')
 
   const { triggerToast } = useToast()

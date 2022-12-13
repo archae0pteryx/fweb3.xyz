@@ -48,12 +48,15 @@ export class UsersEntity {
     })
   }
 
-  static async update(address: string, data: any) {
+  static async update(data: any) {
+    const { address, ...rest } = data
     return await prisma.user.update({
       where: {
         address,
       },
-      data,
+      data: {
+        ...rest,
+      },
     })
   }
 }

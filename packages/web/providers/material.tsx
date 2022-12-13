@@ -10,3 +10,5 @@ export function MaterialProvider({ children }: { children: React.ReactNode }) {
     </ThemeProvider>
   )
 }
+
+export { useTheme } from '@mui/material/styles'

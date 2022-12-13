@@ -33,10 +33,16 @@ export class UsersService {
   }
 
   static async update(_parent: any, args: any, _ctx: Context) {
-    return await UsersEntity.update(args.address, args.data)
+    const { data } = args
+    return await UsersEntity.update(data)
   }
 
   static async verifyEmail(address: string, token: string) {
+    if (!process.env.EMAIL_ENABLED) {
+      console.debug('Emailing disabled! Skipping email verification...')
+      return await UsersEntity.update({ address, verified: true, role: 'PLAYER' })
+    }
+    console.debug('Emailing enabled! Verifying email...')
     const user = await UsersEntity.find(address)
     if (!user) {
       throw new Error('User mismatch')
@@ -51,6 +57,6 @@ export class UsersService {
     if (decodedAddress !== address) {
       throw new Error('Token mismatch')
     }
-    return await UsersEntity.update(decodedAddress, { verified: true, role: 'PLAYER' })
+    return await UsersEntity.update({ address, verified: true, role: 'PLAYER' })
   }
 }

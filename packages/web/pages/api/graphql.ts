@@ -10,7 +10,6 @@ const apolloServer = new ApolloServer({
   context: createContext,
 })
 
-
 const startServer = apolloServer.start()
 
 export default cors(async function handler(req, res) {

@@ -1,9 +1,9 @@
+import { AlertBar } from './AlertBar'
 import { AppBar } from './AppBar'
+import { FooterBar } from './Footer/FooterBar'
 import { useEffect, useState } from 'react'
-import { VerifyEmailAlert } from './Alerts'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
-import { FooterBar } from './Footer/FooterBar'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {mounted && (
         <>
           <AppBar />
-          <VerifyEmailAlert />
+          <AlertBar />
           <Container>{children}</Container>
           <FooterBar />
         </>

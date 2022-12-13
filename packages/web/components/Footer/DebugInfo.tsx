@@ -1,10 +1,53 @@
-import { useAccount, useUser, useNetwork } from '../../providers'
+import { useUser, useNetwork, useMutation, useError, FIND_USER, useToast } from '../../providers'
 import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import { FormGroup, ToggleButton } from '@mui/material'
+import { useState, useEffect } from 'react'
+import { LoadingButton } from '../Buttons/LoadingButton'
+import { UPDATE_USER, useAccount } from '../../providers'
+import { FlexBox } from '../common/Boxes'
+
+function DebugInput(props: any) {
+  return <TextField size="small" margin="dense" {...props} />
+}
+
+function Toggle(props: any) {
+  return <ToggleButton {...props}>{props.text}</ToggleButton>
+}
 
 export function DebugInfo() {
-  const { address } = useAccount()
   const net = useNetwork()
-  const { userAddress, role, email, verified, discord, disabled, foundUser } = useUser()
+  const { address } = useAccount()
+  const { setError } = useError()
+  const { displayName, role, email, verified, disabled, foundUser } = useUser()
+  const [updateRole, setRole] = useState(role)
+  const [updateEmail, setEmail] = useState(email)
+  const [updateVerified, setVerified] = useState<boolean>(verified)
+  const [updateDisabled, setDisabled] = useState<boolean>(disabled)
+  const { triggerToast } = useToast()
+  const [updateUser, { loading, error }] = useMutation(UPDATE_USER)
+
+  const handleUpdate = async () => {
+    await updateUser({
+      variables: {
+        data: {
+          address: address,
+          role: updateRole,
+          email: updateEmail,
+          verified: updateVerified,
+          disabled: updateDisabled,
+        },
+      },
+    })
+    triggerToast('Updated')
+  }
+
+  useEffect(() => {
+    if (error) {
+      setError(error?.message)
+    }
+  }, [error])
+
   return (
     <Box
       sx={{
@@ -16,28 +59,31 @@ export function DebugInfo() {
         borderRadius: '1em',
       }}
     >
-      <pre>
-        {JSON.stringify(
-          {
-            wagmi: {
-              address: address?.substring(0, 5),
-              chain: net?.chain?.id,
-              net: net.chain?.name,
-            },
-            graphql: {
-              foundUser,
-              userAddress: userAddress?.substring(0, 5),
-              role,
-              email,
-              discord,
-              verified,
-              disabled,
-            },
-          },
-          null,
-          2
-        )}
-      </pre>
+      <FormGroup>
+        <DebugInput label="displayName" value={displayName} disabled />
+        <DebugInput label="email" value={updateEmail} onChange={(e: any) => setEmail(e.target.value)} />
+        <DebugInput label="foundUser" value={foundUser} disabled />
+        <DebugInput label="role" value={updateRole} onChange={(e: any) => setRole(e.target.value)} />
+        <DebugInput label="net" value={net.chain?.name} disabled />
+        <FlexBox sx={{ justifyContent: 'space-between', margin: '0.5rem 0', padding: 0 }}>
+          <Toggle
+            color="info"
+            value="verified"
+            text="verified"
+            selected={updateVerified}
+            onChange={() => setVerified(!updateVerified)}
+          />
+          <Toggle
+            color="info"
+            variant="contained"
+            value="disabled"
+            text="disabled"
+            selected={updateDisabled}
+            onChange={() => setDisabled(!updateDisabled)}
+          />
+        </FlexBox>
+        <LoadingButton loading={loading} text="Update" color="warning" variant="outlined" onClick={handleUpdate} />
+      </FormGroup>
     </Box>
   )
 }

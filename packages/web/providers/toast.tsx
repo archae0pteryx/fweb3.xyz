@@ -1,17 +1,10 @@
-import { useState, createContext, useContext, ReactNode, ComponentType } from 'react'
+import { useState, createContext, useContext, ReactNode } from 'react'
 import Alert, { type AlertColor } from '@mui/material/Alert'
-import Slide, { type SlideProps } from '@mui/material/Slide'
 import Snackbar from '@mui/material/Snackbar'
-
-type TransitionProps = Omit<SlideProps, 'direction'>
 
 interface IToastOpts {
   hideIn?: number
   severity?: AlertColor
-}
-
-function TransitionRight(props: TransitionProps) {
-  return <Slide {...props} direction="right" />
 }
 
 const ToastContext = createContext({
@@ -27,26 +20,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState<string>('')
   const [opts, setOpts] = useState(DEFAULT_OPTS)
-  const [transition, setTransition] = useState<ComponentType<TransitionProps> | undefined>(undefined)
 
   const triggerToast = (message: string, overrides = DEFAULT_OPTS) => {
+    setMessage('')
     setOpts({ ...DEFAULT_OPTS, ...overrides })
     setMessage(message)
-    setTransition(() => TransitionRight)
     setOpen(true)
-    setTimeout(() => {
-      _reset()
-    }, overrides.hideIn)
   }
 
   const handleClose = () => {
-    _reset()
-  }
-
-  const _reset = () => {
-    setOpts(DEFAULT_OPTS)
     setOpen(false)
-    setMessage('')
   }
 
   return (
@@ -54,13 +37,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <Snackbar
         autoHideDuration={opts.hideIn}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
         onClose={handleClose}
-        TransitionComponent={transition}
         message={message}
-        key={transition ? transition.name : ''}
       >
-        <Alert variant="filled" onClose={handleClose} severity={opts.severity}>
+        <Alert variant="outlined" onClose={handleClose} severity={opts.severity}>
           {message}
         </Alert>
       </Snackbar>

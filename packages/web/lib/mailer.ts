@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk'
 import jwt from 'jsonwebtoken'
-import { createVerifyHtml } from './template';
+import { createVerifyHtml } from './template'
 
 export async function sendVerificationEmail(address: string, email: string) {
   const token = createJwtVerify(address)
@@ -58,8 +58,8 @@ export async function sendEmail(address: string, email: string, token: string) {
         Data: subject,
       },
     },
-    Source: process.env.SES_FROM_EMAIL || '',
-    ReplyToAddresses: [process.env.SES_FROM_EMAIL || ''],
+    Source: 'noreply@fweb3.xyz',
+    ReplyToAddresses: ['noreply@fweb3.xyz'],
   }
   const sendPromise = _createSES().sendEmail(params).promise()
   await sendPromise

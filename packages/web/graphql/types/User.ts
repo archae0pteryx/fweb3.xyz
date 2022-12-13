@@ -1,4 +1,4 @@
-import { objectType, extendType, stringArg, nonNull } from 'nexus'
+import { objectType, extendType, stringArg, nonNull, inputObjectType } from 'nexus'
 import { UsersService } from '../../lib/users.service'
 
 export const User = objectType({
@@ -8,9 +8,8 @@ export const User = objectType({
     t.nonNull.string('address')
     t.string('gameAddress')
     t.string('email')
-    t.string('verified')
-    t.string('disabled')
-    t.string('discord')
+    t.boolean('verified')
+    t.boolean('disabled')
     t.string('role')
     t.string('createdAt')
     t.string('updatedAt')
@@ -34,6 +33,18 @@ export const UsersQuery = extendType({
   },
 })
 
+export const UserInputType = inputObjectType({
+  name: 'UserInputType',
+  definition(t) {
+    t.nonNull.string('address')
+    t.string('email')
+    t.string('discord')
+    t.string('role')
+    t.boolean('verified')
+    t.boolean('disabled')
+  },
+})
+
 export const UserMutation = extendType({
   type: 'Mutation',
   definition(t) {
@@ -44,6 +55,13 @@ export const UserMutation = extendType({
         email: nonNull(stringArg()),
       },
       resolve: UsersService.create,
-    })
+    }),
+      t.field('updateUser', {
+        type: 'User',
+        args: {
+          data: UserInputType,
+        },
+        resolve: UsersService.update,
+      })
   },
 })

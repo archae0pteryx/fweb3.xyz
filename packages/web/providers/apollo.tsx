@@ -10,3 +10,5 @@ export default apolloClient
 export function ApolloProvider({ children }: { children: React.ReactNode }) {
   return <Apollo client={apolloClient}>{children}</Apollo>
 }
+
+export { useLazyQuery, useQuery, useMutation } from '@apollo/client'

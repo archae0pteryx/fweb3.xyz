@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext, useState, useEffect } from 'react'
-import { ErrorAlert } from '../components/Alerts'
 import { gql, useLazyQuery } from '@apollo/client'
 import { useAccount } from './wagmi'
 
@@ -16,6 +15,7 @@ const UserContext = createContext({
   loading: false,
   error: '',
   foundUser: false,
+  displayName: '',
 })
 
 export const FIND_USER = gql`
@@ -26,7 +26,6 @@ export const FIND_USER = gql`
       disabled
       address
       role
-      discord
     }
   }
 `
@@ -40,12 +39,19 @@ export const CREATE_USER = gql`
   }
 `
 
+export const UPDATE_USER = gql`
+  mutation UpdateUser($data: UserInputType) {
+    updateUser(data: $data) {
+      address
+    }
+  }
+`
+
 export function UserProvider({ children }: { children: ReactNode }) {
   const [onboarding, setOnboarding] = useState<boolean>(true)
   const { address, isConnected } = useAccount()
   const [showOnboardModal, setShowOnboardModal] = useState<boolean>(false)
   const [fetchUser, { data, loading, error, called }] = useLazyQuery(FIND_USER)
-
   const connectionReady = isConnected && address && !loading
   const foundUser = data?.findUser?.address
 
@@ -65,6 +71,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [connectionReady, foundUser])
 
   const { address: userAddress, verified, role, discord, email, disabled } = data?.findUser || {}
+  const displayName = address ? address?.slice(0, 6) + '...' + address?.slice(-4) : ''
   return (
     <UserContext.Provider
       value={{
@@ -80,9 +87,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         onboarding,
         loading,
         error: error?.message || '',
+        displayName,
       }}
     >
-      <ErrorAlert error={error?.message} />
       {children}
     </UserContext.Provider>
   )
