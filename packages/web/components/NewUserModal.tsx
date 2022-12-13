@@ -27,7 +27,6 @@ const modalBoxStyle = {
 
 export function NewUserModal() {
   const { address } = useAccount()
-  const { disconnect } = useDisconnect()
   const { onboarding, showOnboardModal, setShowOnboardModal } = useUser()
   const [email, setEmail] = useState<string>(ADMIN_USER.email)
   const [formError, setFormError] = useState<string>('')
@@ -40,11 +39,14 @@ export function NewUserModal() {
 
   const handleClose = () => {
     setShowOnboardModal(false)
-    disconnect()
   }
 
   const handleCreateAccount = async () => {
     try {
+      if (process.env.DEBUG_ENABLED === 'true') {
+        await createUser({ variables: { address, email } })
+        return
+      }
       setFormError('')
       if (!email?.includes('@')) {
         setFormError('Invalid Email')

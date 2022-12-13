@@ -1553,6 +1553,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/font@npm:^13.0.6":
+  version: 13.0.6
+  resolution: "@next/font@npm:13.0.6"
+  checksum: 8c6ee82763d8b4de30ba45f902f66c5e74159e26dc0262349961bc48d2360ba11df1a080cfc99f07001b1f66e7d01342dbde93bda2f16f05e19044fcf7c2db45
+  languageName: node
+  linkType: hard
+
 "@next/swc-android-arm-eabi@npm:13.0.4":
   version: 13.0.4
   resolution: "@next/swc-android-arm-eabi@npm:13.0.4"
@@ -17519,6 +17526,7 @@ __metadata:
     "@mui/icons-material": ^5.10.16
     "@mui/lab": ^5.0.0-alpha.110
     "@mui/material": ^5.10.16
+    "@next/font": ^13.0.6
     "@prisma/client": ^4.7.1
     "@types/eslint": ^8
     "@types/jsonwebtoken": ^8.5.9

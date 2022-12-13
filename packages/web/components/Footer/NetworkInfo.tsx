@@ -3,7 +3,7 @@ import { useAccount, useError, useNetwork } from '../../providers'
 import LinkIcon from '@mui/icons-material/Link'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
 import Typography from '@mui/material/Typography'
-import { useEffect, useState } from 'react'
+import { useState, useMemo } from 'react';
 
 const ALLOWED_CHAINS: { [key: number]: string } = {
   80001: 'Mumbai [testnet]',
@@ -25,7 +25,7 @@ export function NetworkInfo() {
   const allowedInfo = ALLOWED_CHAINS[chain?.id || 0]
   const connectedText = isConnected ? netName : 'Disconnected'
 
-  useEffect(() => {
+  useMemo(() => {
     if (!allowedInfo && isConnected) {
       setDisplayText(`Unsupported network: ${netName}`)
       setError(`${netName} Is not a supported network`)

@@ -36,16 +36,15 @@ function ErrorAlert() {
 }
 
 function VerifyEmailAlert() {
-  const { verified, foundUser } = useUser()
+  const { verified, onboarding } = useUser()
   const { isConnected } = useAccount()
 
   const handleResend = () => {
     console.log('resending')
   }
+  const shouldAlert = isConnected && !verified && !onboarding
 
-  const hideVerifyAlertConditions = verified || !isConnected || (isConnected && !foundUser)
-
-  if (hideVerifyAlertConditions) {
+  if (!shouldAlert) {
     return null
   }
 

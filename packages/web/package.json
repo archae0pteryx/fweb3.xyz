@@ -28,6 +28,7 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/lab": "^5.0.0-alpha.110",
     "@mui/material": "^5.10.16",
+    "@next/font": "^13.0.6",
     "@prisma/client": "^4.7.1",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",

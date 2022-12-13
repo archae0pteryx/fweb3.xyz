@@ -1,4 +1,4 @@
-import HomeView from '../components/HomeView'
+import HomeView from '../components/Home/HomeView'
 import { useRouter } from 'next/router'
 import { useToast } from '../providers'
 

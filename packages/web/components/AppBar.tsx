@@ -10,7 +10,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
-function AddressDisplay({ short = true }: { short?: boolean }) {
+function AddressDisplay() {
   const { address } = useAccount()
   const { userAddress, displayName } = useUser()
   const color = address === userAddress ? 'lightgreen' : 'grey'
@@ -54,6 +54,10 @@ export function AppBar() {
           <Typography
             component="div"
             sx={{
+              margin: {
+                xs: '0 auto',
+                sm: '1em',
+              },
               typography: {
                 xs: 'h4',
                 sm: 'h6',

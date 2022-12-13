@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box'
+import { useAccount } from '../../providers'
 import { DebugButton } from './DebugButton'
 import { NetworkInfo } from './NetworkInfo'
 
@@ -16,6 +17,8 @@ const mainContainerStyle = {
 }
 
 export function FooterBar() {
+  const { isConnected } = useAccount()
+  if (!isConnected) return null
   return (
     <Box sx={mainContainerStyle}>
       <DebugButton />
