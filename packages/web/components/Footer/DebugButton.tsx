@@ -9,7 +9,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 
 export function DebugButton() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const { userAddress } = useUser()
 
   const handleClick = () => {
