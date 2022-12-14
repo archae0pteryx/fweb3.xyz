@@ -1,4 +1,5 @@
 import { GraphQLError } from 'graphql'
+import { Prisma, PrismaClient } from '@prisma/client'
 
 const PRISMA_ERROR_CODES: { [key: string]: string } = {
   P2002: 'UNIQUE_CONSTRAINT',
@@ -28,31 +29,29 @@ export function handlePrismaError(err: any) {
 }
 
 export class UsersEntity {
-  static async findMany() {
+  static async findMany(prisma: PrismaClient) {
     return await prisma.user.findMany()
   }
-  static async find(address: string) {
+
+  static async find(prisma: PrismaClient, data: Prisma.UserWhereUniqueInput) {
     return await prisma.user.findUnique({
       where: {
-        address,
+        address: data.address,
       },
     })
   }
 
-  static async create(address: string, email: string) {
+  static async create(prisma: PrismaClient, data: Prisma.UserCreateInput) {
     return await prisma.user.create({
-      data: {
-        address,
-        email,
-      },
+      data,
     })
   }
 
-  static async update(data: any) {
+  static async update(prisma: PrismaClient, data: Prisma.UserUpdateInput) {
     const { address, ...rest } = data
     return await prisma.user.update({
       where: {
-        address,
+        address: address?.toString(),
       },
       data: {
         ...rest,

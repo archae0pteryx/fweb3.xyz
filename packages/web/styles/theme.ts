@@ -1,11 +1,13 @@
-import { createTheme, responsiveFontSizes, Typography } from '@mui/material';
+import { createTheme, responsiveFontSizes } from '@mui/material'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
-import { Just_Another_Hand } from '@next/font/google'
+import { Just_Another_Hand, Inter } from '@next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 const justAnotherHand = Just_Another_Hand({
   weight: '400',
@@ -32,6 +34,9 @@ export const theme = responsiveFontSizes(
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           },
+          body1: {
+            fontFamily: inter.style.fontFamily,
+          },
         },
       },
       MuiAppBar: {
@@ -39,8 +44,8 @@ export const theme = responsiveFontSizes(
           root: {
             background: 'transparent',
           },
-        }
-      }
+        },
+      },
     },
   })
 )

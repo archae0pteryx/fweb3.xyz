@@ -4,20 +4,30 @@
 
 type Content {
   createdAt: String
+  html: String
   id: String
+  isDefault: Boolean
   propmt: String
   text: String
   type: String
   updatedAt: String
 }
 
+input ContentInputType {
+  html: String
+  id: String!
+  isDefault: Boolean
+  text: String
+  type: String
+}
+
 type Mutation {
   createUser(address: String!, email: String!): User!
+  updateContent(data: ContentInputType): User!
   updateUser(data: UserInputType): User
 }
 
 type Query {
-  allContent: [Content]!
   allUsers: [User]!
   findUser(address: String!): User
   requestContent(type: String!): Content

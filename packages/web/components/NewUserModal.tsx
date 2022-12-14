@@ -10,9 +10,8 @@ import IconButton from '@mui/material/IconButton'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import { useDisconnect } from 'wagmi'
 
-import { PLAYER_USER, ADMIN_USER } from '../prisma/mockUsers'
+import { ADMIN_USER } from '../prisma/mockUsers'
 
 const modalBoxStyle = {
   position: 'absolute' as 'absolute',

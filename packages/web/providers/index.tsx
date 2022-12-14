@@ -1,4 +1,5 @@
 import { ApolloProvider } from './apollo'
+import { ContentProvider } from './content'
 import { ErrorAlertProvider } from './error'
 import { MaterialProvider } from './material'
 import { ToastProvider } from './toast'
@@ -6,6 +7,7 @@ import { UserProvider } from './user'
 import { WagmiProvider } from './wagmi'
 
 export { useAccount, useDisconnect, useConnect, useNetwork } from './wagmi'
+export { useContent } from './content'
 export { useError } from './error'
 export { useLazyQuery, useQuery, useMutation } from './apollo'
 export { useTheme } from './material'
@@ -17,11 +19,13 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
     <MaterialProvider>
       <WagmiProvider>
         <ApolloProvider>
-          <UserProvider>
-            <ErrorAlertProvider>
-              <ToastProvider>{children}</ToastProvider>
-            </ErrorAlertProvider>
-          </UserProvider>
+          <ContentProvider>
+            <UserProvider>
+              <ErrorAlertProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </ErrorAlertProvider>
+            </UserProvider>
+          </ContentProvider>
         </ApolloProvider>
       </WagmiProvider>
     </MaterialProvider>

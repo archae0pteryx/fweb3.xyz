@@ -3,7 +3,7 @@ import { useAccount, useError, useNetwork } from '../../providers'
 import LinkIcon from '@mui/icons-material/Link'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
 import Typography from '@mui/material/Typography'
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react'
 
 const ALLOWED_CHAINS: { [key: number]: string } = {
   80001: 'Mumbai [testnet]',

@@ -1,11 +1,16 @@
 import prisma from './client'
 import { ADMIN_USER, PLAYER_USER } from './mockUsers'
+
+const ABOUT_CONTENT = {
+  text: ``
+}
+
 ;(async () => {
   try {
     console.log('deleting all')
     await prisma.user.deleteMany()
-
-    console.log('creating player and admin')
+    await prisma.content.deleteMany()
+    console.log('seeding')
     await prisma.user.createMany({
       data: [ADMIN_USER, PLAYER_USER],
     })
