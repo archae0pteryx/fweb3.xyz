@@ -1,10 +1,10 @@
-import { extendType, objectType } from 'nexus'
+import { extendType, objectType, nonNull, stringArg } from 'nexus'
+import { OpenaiService } from '../../lib/openai.service'
 
 export const Content = objectType({
   name: 'Content',
   definition(t) {
     t.string('id')
-    t.string('name')
     t.string('text')
     t.string('propmt')
     t.string('type')
@@ -16,17 +16,16 @@ export const Content = objectType({
 export const ContentQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.nonNull.list.field('allContent', {
+    t.field('requestContent', {
       type: 'Content',
-      resolve: (_root, _args, ctx) => {
-        return ctx.prisma.user.findMany()
+      args: {
+        type: nonNull(stringArg()),
       },
+      resolve: OpenaiService.requestConent,
     }),
-      t.field('mostRecentContent', {
+      t.nonNull.list.field('allContent', {
         type: 'Content',
-        resolve: (_root, _args, ctx) => {
-          return ctx.prisma.user.findLast()
-        },
+        resolve: OpenaiService.all,
       })
   },
 })

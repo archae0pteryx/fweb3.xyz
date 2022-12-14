@@ -2,14 +2,25 @@
 ### Do not make changes to this file directly
 
 
+type Content {
+  createdAt: String
+  id: String
+  propmt: String
+  text: String
+  type: String
+  updatedAt: String
+}
+
 type Mutation {
   createUser(address: String!, email: String!): User!
   updateUser(data: UserInputType): User
 }
 
 type Query {
+  allContent: [Content]!
   allUsers: [User]!
   findUser(address: String!): User
+  requestContent(type: String!): Content
 }
 
 type User {
