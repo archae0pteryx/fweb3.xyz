@@ -18276,6 +18276,7 @@ __metadata:
     aws-sdk: ^2.1272.0
     eslint: 8.28.0
     eslint-config-next: latest
+    eslint-config-standard: ^17.0.0
     ethers: ^5.7.2
     graphql: ^16.6.0
     jsonwebtoken: ^8.5.1
