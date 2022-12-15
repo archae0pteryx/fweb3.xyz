@@ -41,36 +41,41 @@ async function _fetchOpenaiContent(prompt: string) {
 }
 
 export class ContentService {
-  static async all(_root: any, _args: any, ctx: Context) {
+  static all(_root: any, _args: any, ctx: Context) {
     return ContentEntity.all(ctx.prisma)
   }
 
   static async requestConent(_root: any, args: any, ctx: Context) {
-    const { type } = args
-    const now = new Date()
-    const time = new Date(now.getTime() - 10 * 60 * 1000)
-    // const time = new Date(now.getDate() - 1)
-    const hasDefault = await ContentEntity.findDefault(ctx.prisma, type)
-    if (hasDefault) {
-      console.log('using default content:', hasDefault.id)
-      return hasDefault
+    try {
+      const { type } = args
+      const now = new Date()
+      // const time = new Date(now.getTime() - 10 * 60 * 1000)
+      const time = new Date(now.getDate() - 1)
+      const hasDefault = await ContentEntity.findDefault(ctx.prisma, type)
+      if (hasDefault) {
+        console.log('using default content:', hasDefault.id)
+        return hasDefault
+      }
+      const found = await ContentEntity.findLatestByDate(ctx.prisma, type, time)
+      if (found) {
+        console.log('using cached content:', found.id)
+        return found
+      }
+      const prompt = PROMPTS[type]
+      if (!prompt) {
+        throw new Error(`No prompt for type: ${type}`)
+      }
+      console.log('generating new openai content:', type)
+      const text = await _fetchOpenaiContent(prompt)
+      const html = await _processMarkdown(text)
+      return await ContentEntity.create(ctx.prisma, { type, text, html })
+    } catch (error) {
+      console.error('Error fetching content:', error)
+      throw error
     }
-    const found = await ContentEntity.findLatestByDate(ctx.prisma, type, time)
-    if (found) {
-      console.log('using cached content:', found.id)
-      return found
-    }
-    const prompt = PROMPTS[type]
-    if (!prompt) {
-      throw new Error(`No prompt for type: ${type}`)
-    }
-    console.log('generating new openai content:', type)
-    const text = await _fetchOpenaiContent(prompt)
-    const html = await _processMarkdown(text)
-    return ContentEntity.create(ctx.prisma, { type, text, html })
   }
 
-  static async update(_root: any, args: any, ctx: Context) {
+  static update(_root: any, args: any, ctx: Context) {
     const { data } = args
     return ContentEntity.update(ctx.prisma, data)
   }

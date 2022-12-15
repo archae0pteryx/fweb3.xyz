@@ -3,11 +3,11 @@ import { useContent } from '../providers'
 
 export default function InfoPage() {
   const { content, contentLoading } = useContent()
-
   return (
     <Box
       sx={{
         paddingTop: '5.8em',
+        minHeight: 'calc(100vh + 10em)',
       }}
     >
       <Typography variant="h4">Fweb3? What is this about?</Typography>
