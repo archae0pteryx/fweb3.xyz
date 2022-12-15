@@ -1,0 +1,13 @@
+{
+  "extends": "../../.eslintrc",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true,
+    "node": true
+  },
+  "ignorePatterns": ["old/**/*"]
+}

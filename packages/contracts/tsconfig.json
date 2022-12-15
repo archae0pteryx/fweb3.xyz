@@ -1,16 +1,15 @@
 {
+  "extends": "../../tsconfig.json",
+  "include": ["./scripts/**/*", "./test/**/*", "./typechain-types"],
+  "files": ["./hardhat.config.ts"],
+  "declarationMap": true,
   "compilerOptions": {
     "composite": true,
+    "strictNullChecks": false
   },
   "references": [
     {
       "path": "../web"
-    },
-    {
-      "path": "../external"
-    },
-    {
-      "path": "../game"
     }
   ]
 }
