@@ -37,7 +37,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <Snackbar
         autoHideDuration={opts.hideIn}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={open}
         onClose={handleClose}
         message={message}

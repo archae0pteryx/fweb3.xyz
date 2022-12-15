@@ -4,6 +4,7 @@ import { FooterBar } from './Footer/FooterBar'
 import { useEffect, useState } from 'react'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
+import { NewUserModal } from './NewUserModal'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <>
           <AppBar />
           <AlertBar />
+          <NewUserModal />
           <Container>{children}</Container>
           <FooterBar />
         </>

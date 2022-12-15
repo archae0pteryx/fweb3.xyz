@@ -19,7 +19,7 @@ export class UsersService {
       const { address, email } = args
       const createRes = await UsersEntity.create(ctx.prisma, args)
       const sesMailResponse = await sendVerificationEmail(address, email || '')
-      console.debug('email sent: ', { sesMailResponse })
+      console.log('email sent: ', { sesMailResponse })
       return createRes
     } catch (err: any) {
       handlePrismaError(err)
@@ -31,12 +31,13 @@ export class UsersService {
   }
 
   static async verifyEmail({ prisma }: Context, { address, token }: { address: string; token: string }) {
-    if (!process.env.EMAIL_ENABLED) {
-      console.debug('Emailing disabled! Skipping email verification...')
+    console.log('herer', process.env.EMAIL_ENABLED)
+    if (process.env.EMAIL_ENABLED !== 'true') {
+      console.log('Emailing disabled! Skipping email verification...')
       return await UsersEntity.update(prisma, { address, verified: true, role: 'PLAYER' })
     }
 
-    console.debug('Emailing enabled! Verifying email...')
+    console.log('Emailing enabled! Verifying email...')
     const user = await UsersEntity.find(prisma, { address })
     if (!user) {
       throw new Error('User mismatch')

@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 import WarningIcon from '@mui/icons-material/Warning'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { Collapse, IconButton } from '@mui/material'
+import { useState } from 'react';
 
 export function AlertBar() {
   return (
@@ -36,7 +37,7 @@ function ErrorAlert() {
 }
 
 function VerifyEmailAlert() {
-  const { verified, onboarding } = useUser()
+  const { verified, onboarding, userAddress } = useUser()
   const { isConnected } = useAccount()
 
   const handleResend = () => {
@@ -45,7 +46,7 @@ function VerifyEmailAlert() {
 
   const shouldAlert = isConnected && !verified && !onboarding
 
-  if (!shouldAlert) {
+  if (!shouldAlert || !userAddress) {
     return null
   }
 

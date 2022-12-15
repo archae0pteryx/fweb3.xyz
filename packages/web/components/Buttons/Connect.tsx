@@ -21,5 +21,19 @@ export function ConnectButton() {
     return null
   }
 
-  return <LoadingButton text="Connect" loading={isLoading} onClick={() => handleConnect()} />
+  return (
+    <LoadingButton
+      sx={{
+        fontSize: '1.5em',
+        width: '35%',
+        padding: '1rem',
+        marginTop: '1em',
+      }}
+      text="Play"
+      variant="outlined"
+      color="warning"
+      loading={isLoading}
+      onClick={() => handleConnect()}
+    />
+  )
 }

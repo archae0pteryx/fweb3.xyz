@@ -1,14 +1,12 @@
-import { ConnectButton } from './Buttons/Connect'
 import { DisconnectButton } from './Buttons/Disconnect'
 import { ProfileButton } from './Buttons/Profile'
 import { useUser, useAccount } from '../providers'
 import ButtonGroup from '@mui/material/ButtonGroup'
-import Container from '@mui/system/Container'
 import MuiAppBar from '@mui/material/AppBar'
 import Skeleton from '@mui/material/Skeleton'
-import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { InfoButton } from './Buttons/InfoButton'
 
 function AddressDisplay() {
   const { address } = useAccount()
@@ -22,58 +20,33 @@ function AddressDisplay() {
   )
 }
 
-function renderAppButtons() {
+export function AppBar() {
   const { loading } = useUser()
-  return loading ? (
-    <Skeleton width={200} height={50} animation="wave" />
-  ) : (
+  return (
     <Box
       sx={{
-        display: {
-          xs: 'none',
-          sm: 'flex',
-        },
+        position: 'fixed',
+        width: '100%',
+        zIndex: 100,
+        display: 'flex',
+        justifyContent: 'flex-end',
         alignItems: 'center',
+        padding: '1em',
+        background: 'rgba(0,0,0,0.5)',
       }}
     >
-      <AddressDisplay />
-      <ButtonGroup>
-        <ProfileButton />
-        <ConnectButton />
-        <DisconnectButton />
-      </ButtonGroup>
+      {loading ? (
+        <Skeleton width={200} height={50} animation="wave" />
+      ) : (
+        <>
+          <AddressDisplay />
+          <ButtonGroup>
+            <ProfileButton />
+            <DisconnectButton />
+            <InfoButton />
+          </ButtonGroup>
+        </>
+      )}
     </Box>
-  )
-}
-
-export function AppBar() {
-  return (
-    <MuiAppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            component="div"
-            sx={{
-              margin: {
-                xs: '0 auto',
-                sm: '1em',
-              },
-              typography: {
-                xs: 'h4',
-                sm: 'h6',
-              },
-              flexGrow: 1,
-              textAlign: {
-                xs: 'center',
-                sm: 'left',
-              },
-            }}
-          >
-            Fweb3
-          </Typography>
-          {renderAppButtons()}
-        </Toolbar>
-      </Container>
-    </MuiAppBar>
   )
 }

@@ -1,10 +1,6 @@
 import prisma from './client'
 import { ADMIN_USER, PLAYER_USER } from './mockUsers'
 
-const ABOUT_CONTENT = {
-  text: ``
-}
-
 ;(async () => {
   try {
     console.log('deleting all')

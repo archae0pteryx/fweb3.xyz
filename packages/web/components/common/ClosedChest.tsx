@@ -18,12 +18,5 @@ export function ClosedChest() {
     height = 360
   }
 
-  return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-    }}>
-      <Image src={ClosedChestImage} alt="closed chest" width={width} height={height} />
-    </Box>
-  )
+  return <Image src={ClosedChestImage} alt="closed chest" width={width} height={height} />
 }

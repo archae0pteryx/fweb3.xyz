@@ -6,9 +6,10 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
 import { Just_Another_Hand, Inter } from '@next/font/google'
+import { Big_Shoulders_Display } from '@next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
-
+const bigShouldersDisplay = Big_Shoulders_Display({ subsets: ['latin'] })
 const justAnotherHand = Just_Another_Hand({
   weight: '400',
   subsets: ['latin'],
@@ -16,6 +17,9 @@ const justAnotherHand = Just_Another_Hand({
 
 export const theme = responsiveFontSizes(
   createTheme({
+    typography: {
+      fontFamily: inter.style.fontFamily,
+    },
     palette: {
       mode: 'dark',
       background: {
@@ -26,16 +30,13 @@ export const theme = responsiveFontSizes(
       MuiTypography: {
         styleOverrides: {
           h1: {
-            fontFamily: justAnotherHand.style.fontFamily,
-            fontSize: '3rem',
-            fontStyle: 'normal',
-            background: 'linear-gradient(180deg, #E59500 -89.05%, rgba(68, 64, 72, 0) 239.05%)',
-            // textShadow: '0px 8px 8px #000000',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            fontFamily: bigShouldersDisplay.style.fontFamily,
           },
-          body1: {
-            fontFamily: inter.style.fontFamily,
+          h2: {
+            fontFamily: bigShouldersDisplay.style.fontFamily,
+          },
+          h6: {
+            color: 'aliceblue',
           },
         },
       },
