@@ -2,14 +2,14 @@ import Button from '@mui/material/Button'
 import Link from 'next/link'
 import { useUser } from '../../providers/user'
 
-export function ProfileButton() {
+export function PlayButton() {
   const { verified, role } = useUser()
   if (!verified || role !== 'PLAYER') {
     return null
   }
   return (
-    <Link href="/profile">
-      <Button color="secondary">Profile</Button>
+    <Link href="/play">
+      <Button>Play</Button>
     </Link>
   )
 }

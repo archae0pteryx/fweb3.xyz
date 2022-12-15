@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { ConnectButton } from '../Buttons/Connect'
+import { ConnectButton } from '../AppBar/Connect'
 import { ClosedChest } from '../common/ClosedChest'
 
 export default function HomeView() {

@@ -1,16 +1,15 @@
-import { Fade, IconButton, Link, Tooltip } from '@mui/material'
+import { Fade, IconButton, Tooltip } from '@mui/material'
 import { useRouter } from 'next/router'
 import { ImHome3 } from 'react-icons/im'
 import { TfiHelpAlt } from 'react-icons/tfi'
 
 const renderHomeIcon = () => {
+  const router = useRouter()
   return (
-    <Tooltip title="" placement="bottom" TransitionComponent={Fade}>
-      <Link href="/">
-        <IconButton size="large" aria-label="info">
-          <ImHome3 />
-        </IconButton>
-      </Link>
+    <Tooltip title="Home" placement="bottom" TransitionComponent={Fade}>
+      <IconButton aria-label="info" onClick={() => router.push('/')}>
+        <ImHome3 />
+      </IconButton>
     </Tooltip>
   )
 }
@@ -26,11 +25,9 @@ export function InfoButton() {
 
   return (
     <Tooltip title="What the heck is this all about?" placement="left" TransitionComponent={Fade}>
-      <Link href="/info">
-        <IconButton size="large" aria-label="info">
-          <TfiHelpAlt />
-        </IconButton>
-      </Link>
+      <IconButton aria-label="info" onClick={() => router.push('/info')}>
+        <TfiHelpAlt />
+      </IconButton>
     </Tooltip>
   )
 }

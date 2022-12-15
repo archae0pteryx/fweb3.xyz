@@ -9,7 +9,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 
 export function DebugButton() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const { userAddress } = useUser()
 
   const handleClick = () => {
@@ -33,8 +33,12 @@ export function DebugButton() {
         size="small"
         onClick={handleClick}
         sx={{
+          position: 'fixed',
+          bottom: '75px',
+          left: '5px',
           margin: '0.5em',
           padding: '0.5em',
+          color: 'rgba(255,100,0,0.6)',
         }}
       >
         <BugReportIcon />

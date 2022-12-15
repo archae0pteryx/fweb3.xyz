@@ -1,9 +1,11 @@
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { LoadingButton } from './LoadingButton'
+import { LoadingButton } from '../common/LoadingButton'
 import { useToast, useConnect, useAccount } from '../../providers'
+import { useRouter } from 'next/router'
 
 export function ConnectButton() {
   const { isConnected } = useAccount()
+  const router = useRouter()
   const { triggerToast } = useToast()
   const { connect, isLoading } = useConnect({
     connector: new InjectedConnector(),
@@ -12,6 +14,7 @@ export function ConnectButton() {
   const handleConnect = async () => {
     try {
       await connect()
+      router.push('/play')
     } catch (error: any) {
       triggerToast(error.message)
     }
@@ -29,7 +32,7 @@ export function ConnectButton() {
         padding: '1rem',
         marginTop: '1em',
       }}
-      text="Play"
+      text="Connect"
       variant="outlined"
       color="warning"
       loading={isLoading}

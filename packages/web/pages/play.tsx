@@ -1,10 +1,10 @@
-import { ProfileView } from '../components/ProfileView'
 import { RoleGuard } from '../components/RoleGuard'
+import { PlayView } from '../components/Play/PlayView'
 
-export default function ProfilePage() {
+export default function PlayPage() {
   return (
     <RoleGuard roles={['PLAYER']}>
-      <ProfileView />
+      <PlayView />
     </RoleGuard>
   )
 }

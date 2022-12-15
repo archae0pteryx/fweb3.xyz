@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { FormGroup, ToggleButton } from '@mui/material'
 import { useState, useEffect } from 'react'
-import { LoadingButton } from '../Buttons/LoadingButton'
+import { LoadingButton } from '../common/LoadingButton'
 import { UPDATE_USER, useAccount } from '../../providers'
 import { FlexBox } from '../common/Boxes'
 
@@ -46,8 +46,8 @@ export function DebugInfo() {
     <Box
       sx={{
         position: 'fixed',
-        bottom: '4em',
-        left: '1em',
+        bottom: '135px',
+        left: '5px',
         padding: '1em',
         background: 'rgba(0,0,0,0.5)',
         borderRadius: '1em',

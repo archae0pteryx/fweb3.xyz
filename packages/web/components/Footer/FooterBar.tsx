@@ -1,15 +1,16 @@
-import { IconButton, Typography } from '@mui/material'
-import Box from '@mui/material/Box'
-import { useAccount } from '../../providers'
+import { AddressDisplay } from './AddressDisplay'
 import { DebugButton } from './DebugButton'
-import { NetworkInfo } from './NetworkInfo'
 import { FaDiscord } from 'react-icons/fa'
 import { FaGithubAlt } from 'react-icons/fa'
+import { IconButton } from '@mui/material'
+import { NetworkInfo } from './NetworkInfo'
 import { useRouter } from 'next/router'
+import Box from '@mui/material/Box'
+
 const mainContainerStyle = {
   position: 'fixed',
   width: '100%',
-  height: '4em',
+  height: '80px',
   bottom: 0,
   left: 0,
   color: 'white',
@@ -21,32 +22,33 @@ const mainContainerStyle = {
 
 export function FooterBar() {
   const router = useRouter()
-  const { isConnected } = useAccount()
-  console.log('isConnected', isConnected)
   return (
-    <Box sx={mainContainerStyle}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '4em',
-          marginLeft: '1em',
-        }}
-      >
-        <IconButton onClick={() => router.push('https://discord.gg/4TRUmNrw')}>
-          <FaDiscord size={30} />
-        </IconButton>
-        <IconButton onClick={() => router.push('https://github.com/archae0pteryx/fweb3.xyz')}>
-          <FaGithubAlt size={30} />
-        </IconButton>
-      </Box>
-      {isConnected && (
-        <>
-          <DebugButton />
+    <>
+      <DebugButton />
+      <Box sx={mainContainerStyle}>
+        <Box
+          sx={{
+            padding: '0 1em',
+          }}
+        >
+          <IconButton onClick={() => router.push('https://discord.gg/4TRUmNrw')}>
+            <FaDiscord size={30} />
+          </IconButton>
+          <IconButton onClick={() => router.push('https://github.com/archae0pteryx/fweb3.xyz')}>
+            <FaGithubAlt size={30} />
+          </IconButton>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 1em',
+          }}
+        >
+          <AddressDisplay />
           <NetworkInfo />
-        </>
-      )}
-    </Box>
+        </Box>
+      </Box>
+    </>
   )
 }

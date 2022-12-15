@@ -1,6 +1,8 @@
 import { createContext, ReactNode, useContext, useState, useEffect } from 'react'
 import { gql, useLazyQuery, useMutation } from '@apollo/client'
-import { useAccount } from './wagmi'
+import { useAccount, useDisconnect } from './wagmi'
+import { useToast } from './toast'
+import { useRouter } from 'next/router';
 
 const UserContext = createContext({
   verified: true,
@@ -18,6 +20,7 @@ const UserContext = createContext({
   displayName: '',
   handleFetchUser: () => {},
   handleUpdateUser: (_data: any) => {},
+  handleDisconnectUser: () => {},
 })
 
 export const FIND_USER = gql`
@@ -57,9 +60,12 @@ export const UPDATE_USER = gql`
 `
 
 export function UserProvider({ children }: { children: ReactNode }) {
+  const router = useRouter()
   const [onboarding, setOnboarding] = useState<boolean>(true)
   const [user, setUser] = useState<any>()
+  const { triggerToast } = useToast()
   const { address, isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
   const [showOnboardModal, setShowOnboardModal] = useState<boolean>(false)
   const [findUser, { loading: queryLoading, error: queryError, called: queryCalled }] = useLazyQuery(FIND_USER, {
     fetchPolicy: 'no-cache',
@@ -80,6 +86,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
     if (updateData?.updateUser) {
       setUser(updateData?.updateUser)
     }
+  }
+
+  const handleDisconnectUser = () => {
+    setUser(null)
+    disconnect()
+    triggerToast('Disconnected')
+    router.push('/')
   }
 
   if (connectionReady && !queryCalled) {
@@ -117,6 +130,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         displayName,
         handleFetchUser,
         handleUpdateUser,
+        handleDisconnectUser,
       }}
     >
       {children}

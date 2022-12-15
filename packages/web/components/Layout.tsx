@@ -1,5 +1,5 @@
 import { AlertBar } from './AlertBar'
-import { AppBar } from './AppBar'
+import { FixedAppBar } from './AppBar/FixedBar'
 import { FooterBar } from './Footer/FooterBar'
 import { useEffect, useState } from 'react'
 import Container from '@mui/system/Container'
@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </Head>
       {mounted && (
         <>
-          <AppBar />
+          <FixedAppBar />
           <AlertBar />
           <NewUserModal />
           <Container>{children}</Container>

@@ -19,13 +19,13 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
     <MaterialProvider>
       <WagmiProvider>
         <ApolloProvider>
-          <ContentProvider>
-            <UserProvider>
-              <ErrorAlertProvider>
-                <ToastProvider>{children}</ToastProvider>
-              </ErrorAlertProvider>
-            </UserProvider>
-          </ContentProvider>
+          <ToastProvider>
+            <ContentProvider>
+              <UserProvider>
+                <ErrorAlertProvider>{children}</ErrorAlertProvider>
+              </UserProvider>
+            </ContentProvider>
+          </ToastProvider>
         </ApolloProvider>
       </WagmiProvider>
     </MaterialProvider>

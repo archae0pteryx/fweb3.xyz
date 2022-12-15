@@ -1,9 +1,9 @@
-import { FlexBox } from '../common/Boxes'
 import { useAccount, useError, useNetwork } from '../../providers'
 import LinkIcon from '@mui/icons-material/Link'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
 import Typography from '@mui/material/Typography'
 import { useState, useMemo } from 'react'
+import Box from '@mui/material/Box';
 
 const ALLOWED_CHAINS: { [key: number]: string } = {
   80001: 'Mumbai [testnet]',
@@ -12,9 +12,6 @@ const ALLOWED_CHAINS: { [key: number]: string } = {
   1: 'Ethereum',
 }
 
-const iconStyle = {
-  marginRight: '0.4em',
-}
 
 export function NetworkInfo() {
   const { isConnected } = useAccount()
@@ -36,13 +33,28 @@ export function NetworkInfo() {
   }, [netName])
 
   return (
-    <FlexBox
+    <Box
       sx={{
-        justifyContent: 'space-between',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
-      {isConnected ? <LinkIcon color="success" sx={iconStyle} /> : <LinkOffIcon color="error" sx={iconStyle} />}
+      {isConnected ? (
+        <LinkIcon
+          color="success"
+          sx={{
+            padding: '0 0.2em',
+          }}
+        />
+      ) : (
+        <LinkOffIcon
+          color="error"
+          sx={{
+            marginRight: '0.2em',
+          }}
+        />
+      )}
       <Typography variant="caption">{displayText}</Typography>
-    </FlexBox>
+    </Box>
   )
 }

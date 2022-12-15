@@ -1,5 +1,5 @@
 import { EmailInput } from './EmailInput'
-import { LoadingButton } from './Buttons/LoadingButton'
+import { LoadingButton } from './common/LoadingButton'
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { useUser, useToast, CREATE_USER, FIND_USER, useAccount } from '../providers'
