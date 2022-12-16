@@ -47,6 +47,14 @@ export const theme = responsiveFontSizes(
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            fontFamily: inter.style.fontFamily,
+            // fontSize: '1rem',
+          }
+        },
+      }
     },
   })
 )

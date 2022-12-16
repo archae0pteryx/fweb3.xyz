@@ -7,7 +7,7 @@ interface IBProps extends LoadingButtonProps {
 export function LoadingButton(props: IBProps) {
   const { text } = props
   return (
-    <MuiLoadingButton size="small" color="secondary" variant="contained" {...props}>
+    <MuiLoadingButton size="small" color="secondary" variant="outlined" {...props}>
       {text}
     </MuiLoadingButton>
   )

@@ -54,6 +54,7 @@
     "wagmi": "^0.8.10"
   },
   "devDependencies": {
+    "@playwright/test": "^1.28.1",
     "@types/eslint": "^8",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/micro-cors": "^0",
