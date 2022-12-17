@@ -5,7 +5,7 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@apollo/client@npm:^3.7.3":
+"@apollo/client@npm:^3.7.2":
   version: 3.7.3
   resolution: "@apollo/client@npm:3.7.3"
   dependencies:
@@ -581,20 +581,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.3.3":
-  version: 1.3.3
-  resolution: "@eslint/eslintrc@npm:1.3.3"
+"@eslint/eslintrc@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@eslint/eslintrc@npm:1.4.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
     espree: ^9.4.0
-    globals: ^13.15.0
+    globals: ^13.19.0
     ignore: ^5.2.0
     import-fresh: ^3.2.1
     js-yaml: ^4.1.0
     minimatch: ^3.1.2
     strip-json-comments: ^3.1.1
-  checksum: f03e9d6727efd3e0719da2051ea80c0c73d20e28c171121527dbb868cd34232ca9c1d0525a66e517a404afea26624b1e47895b6a92474678418c2f50c9566694
+  checksum: 73e39c833deafde8d8706e6fa9b52b6d99927c094ead8e405ea4174e8197ec24aac9ba88ae38cc8ad32eaccf07b9c7fc5dc70761d1fba6da41a928691447305f
   languageName: node
   linkType: hard
 
@@ -1217,14 +1217,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/config-array@npm:^0.11.6":
-  version: 0.11.7
-  resolution: "@humanwhocodes/config-array@npm:0.11.7"
+"@humanwhocodes/config-array@npm:^0.11.8":
+  version: 0.11.8
+  resolution: "@humanwhocodes/config-array@npm:0.11.8"
   dependencies:
     "@humanwhocodes/object-schema": ^1.2.1
     debug: ^4.1.1
     minimatch: ^3.0.5
-  checksum: cf506dc45d9488af7fbf108ea6ac2151ba1a25e6d2b94b9b4fc36d2c1e4099b89ff560296dbfa13947e44604d4ca4a90d97a4fb167370bf8dd01a6ca2b6d83ac
+  checksum: 0fd6b3c54f1674ce0a224df09b9c2f9846d20b9e54fabae1281ecfc04f2e6ad69bf19e1d6af6a28f88e8aa3990168b6cb9e1ef755868c3256a630605ec2cb1d3
   languageName: node
   linkType: hard
 
@@ -1537,10 +1537,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/env@npm:13.0.6"
-  checksum: 89ca41c63d720128164ec19eb0a8cf95ad7dbfdc4bc153e027eb0e95a774c5e19563c5649ae2d06304ddfee70c0aec94e2a8e7c72e9172a41560c492db1e13bd
+"@next/env@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/env@npm:13.0.7"
+  checksum: d2c5914eefa8a5cbda14239c0899aa30f7413901d03758b9ee857ef9f1c6399d79664b9f8a824bbcb2bba9ef6c60c5d2eeac5d795fd2cb8587bc2e8a8a0405e3
   languageName: node
   linkType: hard
 
@@ -1560,93 +1560,93 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-android-arm-eabi@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-android-arm-eabi@npm:13.0.6"
+"@next/swc-android-arm-eabi@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-android-arm-eabi@npm:13.0.7"
   conditions: os=android & cpu=arm
   languageName: node
   linkType: hard
 
-"@next/swc-android-arm64@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-android-arm64@npm:13.0.6"
+"@next/swc-android-arm64@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-android-arm64@npm:13.0.7"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-darwin-arm64@npm:13.0.6"
+"@next/swc-darwin-arm64@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-darwin-arm64@npm:13.0.7"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-darwin-x64@npm:13.0.6"
+"@next/swc-darwin-x64@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-darwin-x64@npm:13.0.7"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-freebsd-x64@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-freebsd-x64@npm:13.0.6"
+"@next/swc-freebsd-x64@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-freebsd-x64@npm:13.0.7"
   conditions: os=freebsd & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm-gnueabihf@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-linux-arm-gnueabihf@npm:13.0.6"
+"@next/swc-linux-arm-gnueabihf@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-linux-arm-gnueabihf@npm:13.0.7"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-linux-arm64-gnu@npm:13.0.6"
+"@next/swc-linux-arm64-gnu@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-linux-arm64-gnu@npm:13.0.7"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-linux-arm64-musl@npm:13.0.6"
+"@next/swc-linux-arm64-musl@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-linux-arm64-musl@npm:13.0.7"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-linux-x64-gnu@npm:13.0.6"
+"@next/swc-linux-x64-gnu@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-linux-x64-gnu@npm:13.0.7"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-linux-x64-musl@npm:13.0.6"
+"@next/swc-linux-x64-musl@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-linux-x64-musl@npm:13.0.7"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-win32-arm64-msvc@npm:13.0.6"
+"@next/swc-win32-arm64-msvc@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-win32-arm64-msvc@npm:13.0.7"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-win32-ia32-msvc@npm:13.0.6"
+"@next/swc-win32-ia32-msvc@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-win32-ia32-msvc@npm:13.0.7"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:13.0.6":
-  version: 13.0.6
-  resolution: "@next/swc-win32-x64-msvc@npm:13.0.6"
+"@next/swc-win32-x64-msvc@npm:13.0.7":
+  version: 13.0.7
+  resolution: "@next/swc-win32-x64-msvc@npm:13.0.7"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -2095,15 +2095,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.28.1":
-  version: 1.28.1
-  resolution: "@playwright/test@npm:1.28.1"
+"@playwright/test@npm:^1.29.0":
+  version: 1.29.0
+  resolution: "@playwright/test@npm:1.29.0"
   dependencies:
     "@types/node": "*"
-    playwright-core: 1.28.1
+    playwright-core: 1.29.0
   bin:
     playwright: cli.js
-  checksum: dc39dfdf848171a6c65fc32a9dbc95162684a4a1e3401dd157d7d6822a065d8dcb96b2484fc3b223baea4da774450fddaeaa6d4d21546d17d45f01884fa8d7c5
+  checksum: ff7bd88c805348b80d28cd4d39ed31a3f2d645c5b87e791e49bf8ca60ec6d3e1db646ed351536d0f8c05902cca940c86f23dc5d37c1acaab994369a2ce2707f6
   languageName: node
   linkType: hard
 
@@ -2580,19 +2580,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typechain/hardhat@npm:^6.1.4":
-  version: 6.1.4
-  resolution: "@typechain/hardhat@npm:6.1.4"
+"@typechain/hardhat@npm:^6.1.5":
+  version: 6.1.5
+  resolution: "@typechain/hardhat@npm:6.1.5"
   dependencies:
     fs-extra: ^9.1.0
   peerDependencies:
     "@ethersproject/abi": ^5.4.7
     "@ethersproject/providers": ^5.4.7
-    "@typechain/ethers-v5": ^10.1.1
+    "@typechain/ethers-v5": ^10.2.0
     ethers: ^5.4.7
     hardhat: ^2.9.9
     typechain: ^8.1.1
-  checksum: 9477d59638da5e92983a188938bbb74b4c8f476887e6e91da99552ff260d996e7b78836b2a7fb3aede599061994119e2125d4fea2b1919a02c27c0a582525e92
+  checksum: ccb4df6eae69d6560125d6eb014989d0097213818d0fdf91a077bacee746f39356de6d11b3f582d55df7d6924bcfffc31e412502bbbe3a5be8e3310197ce4f61
   languageName: node
   linkType: hard
 
@@ -2832,17 +2832,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.11.9":
+"@types/node@npm:*":
   version: 18.11.12
   resolution: "@types/node@npm:18.11.12"
   checksum: 6c67f0998a9ad8ef0f357fcc0d72841c579576c746cfbac67c9d0229e1cd219d3b96297c2caaeaa4084ba7e9ad112b412e64af4066e522faa0be4ef9ad0a613a
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.11.15":
-  version: 18.11.15
-  resolution: "@types/node@npm:18.11.15"
-  checksum: cae8692a5cee0316f93ee0342237eb921f70c51afb37c661c711a925a4642654ae7e404c5a80899d481c0cfaff3a6891ef04bacd330a2e72734192bfc91dc2d8
+"@types/node@npm:18.11.16, @types/node@npm:^18.11.16":
+  version: 18.11.16
+  resolution: "@types/node@npm:18.11.16"
+  checksum: 23603ecc1cc5afdd2311671565e1bd1a8905e18ed7f05857089eebe524824a3347dd0c3de9c1c291839f7cf21bcf5633903cdf7905efa0fdc7464cc7606fc9fa
   languageName: node
   linkType: hard
 
@@ -4355,9 +4355,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1276.0":
-  version: 2.1276.0
-  resolution: "aws-sdk@npm:2.1276.0"
+"aws-sdk@npm:^2.1277.0":
+  version: 2.1277.0
+  resolution: "aws-sdk@npm:2.1277.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -4369,7 +4369,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.4.19
-  checksum: edbae484c531ea15f26ee41cc1ca42c36c0416be127742ae166ba4d7bf96574310834f1515f19bac8c92cc170cc2db0e70e2b8d71effcdf0a5c4824f161ac2f5
+  checksum: a6fd08d71d030de39ca181187f3e20c8534ccd1c79b52604e95fb09f50994384b5de31435aa29677ebafbd41d9cee0cae885408a056b970e6ac29ca27812ddd0
   languageName: node
   linkType: hard
 
@@ -6357,7 +6357,7 @@ __metadata:
     "@nomiclabs/hardhat-waffle": ^2.0.3
     "@openzeppelin/contracts": ^4.8.0
     "@typechain/ethers-v5": ^7.2.0
-    "@typechain/hardhat": ^6.1.4
+    "@typechain/hardhat": ^6.1.5
     "@types/chai": ^4.3.4
     "@types/mocha": ^9.1.1
     "@types/node": ^12.20.55
@@ -6374,10 +6374,10 @@ __metadata:
     eslint-plugin-promise: ^5.2.0
     ethereum-waffle: ^3.4.4
     ethers: ^5.7.2
-    hardhat: ^2.12.2
+    hardhat: ^2.12.4
     hardhat-gas-reporter: ^1.0.9
     prettier: ^2.8.1
-    prettier-plugin-solidity: ^1.0.0
+    prettier-plugin-solidity: ^1.1.0
     solc: ^0.8.17
     solhint: ^3.3.7
     solidity-coverage: ^0.8.2
@@ -7743,12 +7743,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.29.0, eslint@npm:^8.29.0":
-  version: 8.29.0
-  resolution: "eslint@npm:8.29.0"
+"eslint@npm:8.30.0, eslint@npm:^8.30.0":
+  version: 8.30.0
+  resolution: "eslint@npm:8.30.0"
   dependencies:
-    "@eslint/eslintrc": ^1.3.3
-    "@humanwhocodes/config-array": ^0.11.6
+    "@eslint/eslintrc": ^1.4.0
+    "@humanwhocodes/config-array": ^0.11.8
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
     ajv: ^6.10.0
@@ -7767,7 +7767,7 @@ __metadata:
     file-entry-cache: ^6.0.1
     find-up: ^5.0.0
     glob-parent: ^6.0.2
-    globals: ^13.15.0
+    globals: ^13.19.0
     grapheme-splitter: ^1.0.4
     ignore: ^5.2.0
     import-fresh: ^3.0.0
@@ -7788,7 +7788,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: e05204b05907b82d910983995cb946e0ba62ca514eb2b6791c43f623333b143564a2eee0139909d31c10935c21877d815b1f76dd674a59cb91c471064325c4ab
+  checksum: b7525bb465b342665c3b8bab7e114d514ef1bc4e79f211c919863f9c71767e7412ec82383a22614a92d159783f91101018817000f7c61ce69a5e7015280cafaf
   languageName: node
   linkType: hard
 
@@ -9387,11 +9387,11 @@ __metadata:
   resolution: "fweb3.xyz@workspace:."
   dependencies:
     "@types/eslint": ^8.4.10
-    "@types/node": ^18.11.9
+    "@types/node": ^18.11.16
     "@types/prettier": ^2.7.1
     "@typescript-eslint/eslint-plugin": ^5.46.1
     "@typescript-eslint/parser": ^5.46.1
-    eslint: ^8.29.0
+    eslint: ^8.30.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard: ^17.0.0
     eslint-plugin-import: ^2.26.0
@@ -9700,7 +9700,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^13.15.0, globals@npm:^13.6.0, globals@npm:^13.9.0":
+"globals@npm:^13.19.0":
+  version: 13.19.0
+  resolution: "globals@npm:13.19.0"
+  dependencies:
+    type-fest: ^0.20.2
+  checksum: a000dbd00bcf28f0941d8a29c3522b1c3b8e4bfe4e60e262c477a550c3cbbe8dbe2925a6905f037acd40f9a93c039242e1f7079c76b0fd184bc41dcc3b5c8e2e
+  languageName: node
+  linkType: hard
+
+"globals@npm:^13.6.0, globals@npm:^13.9.0":
   version: 13.18.0
   resolution: "globals@npm:13.18.0"
   dependencies:
@@ -9907,7 +9916,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hardhat@npm:^2.12.2":
+"hardhat@npm:^2.12.4":
   version: 2.12.4
   resolution: "hardhat@npm:2.12.4"
   dependencies:
@@ -13217,24 +13226,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:latest":
-  version: 13.0.6
-  resolution: "next@npm:13.0.6"
+"next@npm:^13.0.7":
+  version: 13.0.7
+  resolution: "next@npm:13.0.7"
   dependencies:
-    "@next/env": 13.0.6
-    "@next/swc-android-arm-eabi": 13.0.6
-    "@next/swc-android-arm64": 13.0.6
-    "@next/swc-darwin-arm64": 13.0.6
-    "@next/swc-darwin-x64": 13.0.6
-    "@next/swc-freebsd-x64": 13.0.6
-    "@next/swc-linux-arm-gnueabihf": 13.0.6
-    "@next/swc-linux-arm64-gnu": 13.0.6
-    "@next/swc-linux-arm64-musl": 13.0.6
-    "@next/swc-linux-x64-gnu": 13.0.6
-    "@next/swc-linux-x64-musl": 13.0.6
-    "@next/swc-win32-arm64-msvc": 13.0.6
-    "@next/swc-win32-ia32-msvc": 13.0.6
-    "@next/swc-win32-x64-msvc": 13.0.6
+    "@next/env": 13.0.7
+    "@next/swc-android-arm-eabi": 13.0.7
+    "@next/swc-android-arm64": 13.0.7
+    "@next/swc-darwin-arm64": 13.0.7
+    "@next/swc-darwin-x64": 13.0.7
+    "@next/swc-freebsd-x64": 13.0.7
+    "@next/swc-linux-arm-gnueabihf": 13.0.7
+    "@next/swc-linux-arm64-gnu": 13.0.7
+    "@next/swc-linux-arm64-musl": 13.0.7
+    "@next/swc-linux-x64-gnu": 13.0.7
+    "@next/swc-linux-x64-musl": 13.0.7
+    "@next/swc-win32-arm64-msvc": 13.0.7
+    "@next/swc-win32-ia32-msvc": 13.0.7
+    "@next/swc-win32-x64-msvc": 13.0.7
     "@swc/helpers": 0.4.14
     caniuse-lite: ^1.0.30001406
     postcss: 8.4.14
@@ -13281,7 +13290,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 2de1d9975f90ba67b4fb0ca6ec16d91eff3f7e05cea218cf2abb214c28cf8969b4fa7e81df23fe2025bceda676dda2db90e873f0909b17df1d395f6a275a2715
+  checksum: de001a674ccf1d1c9812e9b775128581582cfec08efe9eabe00ce467fb063f2d04645b03f094e485f458481e65161a3d184874e8994052322b458b99b683c6ad
   languageName: node
   linkType: hard
 
@@ -14173,12 +14182,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.28.1":
-  version: 1.28.1
-  resolution: "playwright-core@npm:1.28.1"
+"playwright-core@npm:1.29.0":
+  version: 1.29.0
+  resolution: "playwright-core@npm:1.29.0"
   bin:
     playwright: cli.js
-  checksum: 8899e0d65de43ee10fadc171e0d48cd514bb574f3505478700094afa8a6e0dcd888a5c87af22acf31ebad455ada1327028909c42e20b8e25908b6255dc143bf0
+  checksum: 5e4b690b0b449ed27ab7f7d7c9bf778db53e6c6b37a8e7258fb070fe6e96f147ad5d66221a3953c9e4d0b2044b701c493d7a0708d7bdb6486e38a3518f62fdce
   languageName: node
   linkType: hard
 
@@ -14265,9 +14274,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-solidity@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "prettier-plugin-solidity@npm:1.0.0"
+"prettier-plugin-solidity@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "prettier-plugin-solidity@npm:1.1.0"
   dependencies:
     "@solidity-parser/parser": ^0.14.5
     emoji-regex: ^10.2.1
@@ -14277,7 +14286,7 @@ __metadata:
     string-width: ^4.2.3
   peerDependencies:
     prettier: ^2.3.0
-  checksum: 2ca347d66f12dcb397ce3fcf441563c0413f17c8835bea6422625fb190458a6edbdb7c5775ccc8347f049f55f15443361b8fd3ea546a426b4f521c59a16aaf84
+  checksum: 85ac145e7deffe9749e05270e0271d7028fd36dd04c255d7709182845e2a7dfe54ac5bc90beea18c1879c2c30c1a01a1df0e63040a3a548cef1549a8339c841e
   languageName: node
   linkType: hard
 
@@ -14657,7 +14666,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:latest":
+"react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
   dependencies:
@@ -14718,7 +14727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:latest":
+"react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
@@ -18159,7 +18168,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:packages/web"
   dependencies:
-    "@apollo/client": ^3.7.3
+    "@apollo/client": ^3.7.2
     "@emotion/react": ^11.10.5
     "@emotion/styled": ^11.10.5
     "@fontsource/roboto": ^4.5.8
@@ -18167,18 +18176,18 @@ __metadata:
     "@mui/lab": ^5.0.0-alpha.112
     "@mui/material": ^5.11.0
     "@next/font": ^13.0.7
-    "@playwright/test": ^1.28.1
+    "@playwright/test": ^1.29.0
     "@prisma/client": ^4.7.1
     "@types/eslint": ^8.4.10
     "@types/jsonwebtoken": ^8.5.9
     "@types/micro-cors": ^0.1.2
-    "@types/node": 18.11.15
+    "@types/node": 18.11.16
     "@types/prettier": ^2.7.1
     "@types/react": 18.0.26
     "@types/react-dom": 18.0.9
     apollo-server-micro: ^3.11.1
-    aws-sdk: ^2.1276.0
-    eslint: 8.29.0
+    aws-sdk: ^2.1277.0
+    eslint: 8.30.0
     eslint-config-next: ^13.0.7
     eslint-config-standard: ^17.0.0
     ethers: ^5.7.2
@@ -18186,13 +18195,13 @@ __metadata:
     jsonwebtoken: ^8.5.1
     micro: ^10.0.1
     micro-cors: ^0.1.1
-    next: latest
+    next: ^13.0.7
     nexus: ^1.3.0
     openai: ^3.1.0
     prettier: ^2.8.1
     prisma: ^4.7.1
-    react: latest
-    react-dom: latest
+    react: ^18.2.0
+    react-dom: ^18.2.0
     react-icons: ^4.7.1
     remark: ^14.0.2
     remark-html: ^15.0.1
