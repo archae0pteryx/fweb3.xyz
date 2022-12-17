@@ -11,6 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ImCheckmark } from 'react-icons/im'
 import Link from 'next/link'
 import { TfiClose } from 'react-icons/tfi'
+import { useState } from 'react';
 
 const GAME_TASKS = [
   {
@@ -80,11 +81,11 @@ const TaskContainer = (
   },
   key: number
 ) => {
-  const router = useRouter()
+  const [expanded, setExpanded] = useState(false)
   return (
     <Paper elevation={12} key={key}>
-      <Accordion disabled={completed}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="task-panel">
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content">
           <Box display="flex" alignItems="center" gap={3}>
             {completed ? <ImCheckmark color="lightgreen" /> : <TfiClose color="red" />}
             <Link href={link}>

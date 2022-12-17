@@ -1,6 +1,4 @@
-import { AlertBar } from './AlertBar'
 import { ButtonGrid } from './AppBar/ButtonGrid'
-import { FooterBar } from './Footer/FooterBar'
 import { useEffect, useState } from 'react'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
