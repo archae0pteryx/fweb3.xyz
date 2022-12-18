@@ -42,18 +42,19 @@ const UserContext = createContext({
   verified: false,
   disabled: false,
   role: '',
-  connectUser: () => {},
-  disconnectUser: () => {},
-  refetchUser: () => {},
-  updateUser: () => {},
+  connectUser: async () => {},
+  disconnectUser: async () => {},
+  refetchUser: async () => {},
+  updateUser: async () => {},
   isConnected: false,
   loading: false,
   error: '',
+  setError: (_msg: string) => {},
   address: '',
   displayName: '',
-  isOnboarding: false,
+  onboarding: false,
+  setOnboarding: async () => {},
   isValidUser: false,
-  userError: '',
   userLoading: '',
   initialized: false,
   isConnecting: false
@@ -61,34 +62,34 @@ const UserContext = createContext({
 
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [initialized, setInitialized] = useState(false)
   const { address, isConnected, isConnecting } = useAccount()
+  const [initialized, setInitialized] = useState(false)
+  const [onboarding, setOnboarding] = useState(false)
+  const [error, setError] = useState('')
   const { disconnect } = useDisconnect()
   const router = useRouter()
+
   const { connect, isLoading: wagmiLoading } = useConnect({
     connector: new InjectedConnector(),
   })
-  const [fetchUser, { data, loading: userLoading, error: useError, refetch, called, client }] = useLazyQuery(FIND_USER)
+
+  const [fetchUser, { data, loading: userLoading, error: userError, refetch, called, client }] = useLazyQuery(FIND_USER)
+
   const [fetchUpdateUser, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_USER, {
     refetchQueries: ['FindUser'],
   })
 
-  useMemo(() => {
-    if (address) {
-      console.log('fetching user')
-      fetchUser({ variables: { address } })
-    }
-  }, [address])
-
-  useEffect(() => {
-    setInitialized(true)
-    console.log('initialized')
-  }, [])
 
   const connectUser = async () => {
-    console.log('connecting')
-    connect()
-    await fetchUser({ variables: { address } })
+    try {
+      if (onboarding) {
+        router.push('/onboard')
+      }
+      // connect()
+      // await fetchUser({ variables: { address } })
+    } catch (err) {
+      console.log({ err })
+    }
   }
 
   const disconnectUser = async () => {
@@ -102,11 +103,30 @@ export function UserProvider({ children }: { children: ReactNode }) {
     await fetchUpdateUser({ variables: { data } })
   }
 
+  useMemo(() => {
+    if (address) {
+      console.log('fetching user')
+      fetchUser({ variables: { address } })
+    }
+  }, [address])
+
+  useMemo(() => {
+    const error = userError?.message || mutationError?.message || ''
+    setError(error)
+  }, [userError, mutationError])
+
+  useEffect(() => {
+    if (window && !window.ethereum) {
+      setOnboarding(true)
+    }
+    setInitialized(true)
+    console.log('initialized')
+  }, [])
+
+
   const displayName = address ? address?.slice(0, 6) + '...' + address?.slice(-4) : ''
-  const error = useError?.message || mutationError?.message || ''
-  const loading = userLoading || mutationLoading || wagmiLoading
+  const loading = userLoading || mutationLoading || wagmiLoading || isConnecting
   const isValidUser = initialized && isConnected && data?.findUser?.address === address
-  const isOnboarding = initialized && isConnected && !isValidUser
 
   return (
     <UserContext.Provider
@@ -119,14 +139,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
         isConnected,
         loading,
         error,
+        setError,
         address,
         displayName,
-        isOnboarding,
+        onboarding,
+        setOnboarding,
         isValidUser,
-        userError: error,
         userLoading: loading,
         initialized,
-        isConnecting
       }}
     >
       {children}

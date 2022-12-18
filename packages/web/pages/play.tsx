@@ -1,11 +1,9 @@
-import { RoleGuard } from '../components/RoleGuard'
-import { PlayView } from '../components/Play/PlayView'
+import { Box, Typography } from '@mui/material'
 
 export default function PlayPage() {
-  return <>PlayPage</>
-  // return (
-  //   <RoleGuard roles={['PLAYER']}>
-  //     <PlayView />
-  //   </RoleGuard>
-  // )
+  return (
+    <Box display="flex" alignItems="center" justifyContent="center" height="100vh">
+      <Typography>Play</Typography>
+    </Box>
+  )
 }

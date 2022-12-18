@@ -5,56 +5,96 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
-import { Just_Another_Hand, Inter } from '@next/font/google'
-import { Big_Shoulders_Display } from '@next/font/google'
+import { Press_Start_2P } from '@next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
-const bigShouldersDisplay = Big_Shoulders_Display({ subsets: ['latin'] })
-const justAnotherHand = Just_Another_Hand({
+const player2 = Press_Start_2P({
   weight: '400',
-  subsets: ['latin'],
 })
+
+const PINK = '#FC0BD4'
 
 export const theme = responsiveFontSizes(
   createTheme({
     typography: {
-      fontFamily: inter.style.fontFamily,
+      fontFamily: player2.style.fontFamily,
+      body2: {
+        color: '#E59500',
+        margin: '0.5rem',
+      },
     },
     palette: {
       mode: 'dark',
       background: {
-        default: '#1F0E25',
+        default: '#030203',
+      },
+      primary: {
+        main: '#FFE0FE',
+      },
+      secondary: {
+        main: PINK,
+        dark: PINK,
+        contrastText: '#FFE0FE',
+      },
+      warning: {
+        main: '#FFA709',
+      },
+      error: {
+        main: '#DA2C38',
+      },
+      info: {
+        main: '#1AF1A6',
+      },
+      success: {
+        main: '#8D8CE5',
+        dark: '#8D8CE5',
+        contrastText: '#FFE0FE',
       },
     },
     components: {
-      MuiTypography: {
-        styleOverrides: {
-          h1: {
-            fontFamily: bigShouldersDisplay.style.fontFamily,
-          },
-          h2: {
-            fontFamily: bigShouldersDisplay.style.fontFamily,
-          },
-          h6: {
-            color: 'aliceblue',
-          },
-        },
-      },
-      MuiAppBar: {
+      MuiCard: {
         styleOverrides: {
           root: {
+            border: `2px solid ${PINK}`,
             background: 'transparent',
+            padding: '1rem',
+            maring: '1rem',
+            display: 'flex',
+            flexDirection: 'column',
           },
         },
       },
       MuiButton: {
         styleOverrides: {
-          root: {
-            fontFamily: inter.style.fontFamily,
-            // fontSize: '1rem',
-          }
+          textPrimary: {
+            color: '#FFE0FE',
+            '&:hover': {
+              backgroundColor: 'rgba(224, 120, 254, 0.5)',
+            },
+            padding: '0.5em',
+          },
+          textInfo: {
+            transition: 'all 0.4s ease-in-out',
+            background: 'transparent',
+            outline: 'none',
+            '&:hover': {
+              outline: 'solid 2px #FC0BD4',
+              background: 'transparent',
+            },
+          },
+          outlinedPrimary: {
+            border: `2px solid ${PINK}`,
+            color: '#FFE0FE',
+            padding: '0.5em',
+            '&:hover': {
+              backgroundColor: '#E078FE',
+            },
+          },
+          containedSizeSmall: {
+          },
+          textSizeSmall: {
+          },
         },
-      }
+      },
     },
   })
 )

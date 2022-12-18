@@ -1,7 +1,7 @@
-import { ButtonGrid } from './AppBar/ButtonGrid'
 import { useEffect, useState } from 'react'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
+import { AlertBar } from './AlertBar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
@@ -13,12 +13,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Head>
         <title>Fweb3</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link key="favicon" rel="icon" type="image/svg+xml" sizes="any" href="favicon-pink.svg" />
       </Head>
       {mounted && (
         <>
-          <ButtonGrid />
+          <AlertBar />
           <Container>{children}</Container>
-          {/* <FooterBar /> */}
         </>
       )}
     </>

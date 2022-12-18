@@ -2,21 +2,21 @@ import { useState, createContext, useContext, ReactNode } from 'react'
 import Alert, { type AlertColor } from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
 
-interface IToastOpts {
+interface IAlertOpts {
   hideIn?: number
   severity?: AlertColor
 }
 
-const ToastContext = createContext({
-  triggerToast: (_message: string, _opts?: IToastOpts) => {},
+const AlertContext = createContext({
+  triggerToast: (_message: string, _opts?: IAlertOpts) => {},
 })
 
-const DEFAULT_OPTS: IToastOpts = {
+const DEFAULT_OPTS: IAlertOpts = {
   hideIn: 3000,
   severity: 'success' as AlertColor,
 }
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+export function AlertProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState<string>('')
   const [opts, setOpts] = useState(DEFAULT_OPTS)
@@ -33,7 +33,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <ToastContext.Provider value={{ triggerToast }}>
+    <AlertContext.Provider value={{ triggerToast }}>
       {children}
       <Snackbar
         autoHideDuration={opts.hideIn}
@@ -46,8 +46,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           {message}
         </Alert>
       </Snackbar>
-    </ToastContext.Provider>
+    </AlertContext.Provider>
   )
 }
 
-export const useToast = () => useContext(ToastContext)
+export const useToast = () => useContext(AlertContext)

@@ -1,11 +1,9 @@
-import { useAccount, useError, useUser } from '../providers'
+import { useAccount, useUser } from '../providers'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import WarningIcon from '@mui/icons-material/Warning'
-import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import { Collapse, IconButton } from '@mui/material'
-import { useState } from 'react';
+import { Collapse } from '@mui/material'
 
 export function AlertBar() {
   return (
@@ -17,18 +15,12 @@ export function AlertBar() {
 }
 
 function ErrorAlert() {
-  const { error, setError } = useError()
+  const { error } = useUser()
   return (
     <Box sx={{ width: '100%' }}>
       <Collapse in={!!error}>
         <Alert
-          severity="error"
-          action={
-            <IconButton color="error" size="small" onClick={() => setError('')}>
-              <HighlightOffIcon />
-            </IconButton>
-          }
-        >
+          severity="error">
           {error}
         </Alert>
       </Collapse>
@@ -37,7 +29,7 @@ function ErrorAlert() {
 }
 
 function VerifyEmailAlert() {
-  const { verified, onboarding, userAddress } = useUser()
+  const { verified, onboarding, address } = useUser()
   const { isConnected } = useAccount()
 
   const handleResend = () => {
@@ -46,7 +38,7 @@ function VerifyEmailAlert() {
 
   const shouldAlert = isConnected && !verified && !onboarding
 
-  if (!shouldAlert || !userAddress) {
+  if (!shouldAlert || !address) {
     return null
   }
 
