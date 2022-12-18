@@ -3,9 +3,8 @@ import { useAccount } from '../../providers'
 import { useUser } from '../../providers/user'
 
 export function AddressDisplay() {
-  const { address } = useAccount()
-  const { userAddress, displayName } = useUser()
-  const color = address === userAddress ? 'yellow' : 'grey'
+  const { address, displayName } = useUser()
+  const color = address === address ? 'yellow' : 'grey'
   if (!address) return null
   return (
     <Typography color={color} variant="caption">

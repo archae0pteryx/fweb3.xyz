@@ -18185,6 +18185,7 @@ __metadata:
     "@types/prettier": ^2.7.1
     "@types/react": 18.0.26
     "@types/react-dom": 18.0.9
+    "@typescript-eslint/eslint-plugin": ^5.46.1
     apollo-server-micro: ^3.11.1
     aws-sdk: ^2.1277.0
     eslint: 8.30.0

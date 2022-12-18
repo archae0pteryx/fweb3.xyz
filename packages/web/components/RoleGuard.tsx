@@ -46,9 +46,9 @@ const MessageContainer = ({ children }: { children: ReactNode }) => {
 
 
 export function RoleGuard({ children, roles }: { children: ReactNode; roles: string[] }) {
-  const { role, verified, userAddress } = useUser()
+  const { role, verified, address } = useUser()
 
-  if (!userAddress) {
+  if (!address) {
     return <MessageContainer><NotConnectedText /></MessageContainer>
   }
 
