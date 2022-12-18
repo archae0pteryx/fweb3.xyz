@@ -1,11 +1,11 @@
 {
   "root": true,
-  "extends": [
-    "eslint:recommended",
-    "standard",
-    "prettier",
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "extends": ["next"],
+  "settings": {
+    "next": {
+      "rootDir": "packages/web"
+    }
+  },
   "plugins": [
     "@typescript-eslint"
   ],

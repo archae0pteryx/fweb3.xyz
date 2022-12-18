@@ -22,7 +22,7 @@ export class UsersService {
         throw new Error('MISSING_INFO')
       }
       const createRes = await UsersEntity.create(ctx.prisma, args)
-      const sesMailResponse = await sendVerificationEmail(address, email || '')
+      const sesMailResponse = await sendVerificationEmail(address || '', email || '')
       console.log('email sent: ', { sesMailResponse })
       return createRes
     } catch (err: any) {
