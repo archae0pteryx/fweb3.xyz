@@ -22,7 +22,7 @@ input ContentInputType {
 }
 
 type Mutation {
-  createUser(address: String!, email: String!): User!
+  createUser(address: String, email: String!): User!
   updateContent(data: ContentInputType): User!
   updateUser(data: UserInputType): User
 }
@@ -34,11 +34,10 @@ type Query {
 }
 
 type User {
-  address: String!
+  address: String
   createdAt: String
   disabled: Boolean
   email: String
-  gameAddress: String
   id: String
   role: String
   updatedAt: String
@@ -46,7 +45,7 @@ type User {
 }
 
 input UserInputType {
-  address: String!
+  address: String
   disabled: Boolean
   discord: String
   email: String

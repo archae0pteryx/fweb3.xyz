@@ -1,4 +1,4 @@
-import { useAccount, useError, useNetwork } from '../../providers'
+import { useAccount, useNetwork } from '../../providers'
 import LinkIcon from '@mui/icons-material/Link'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
 import Typography from '@mui/material/Typography'
@@ -16,7 +16,6 @@ const ALLOWED_CHAINS: { [key: number]: string } = {
 export function NetworkInfo() {
   const { isConnected } = useAccount()
   const [displayText, setDisplayText] = useState<string>('')
-  const { setError } = useError()
   const { chain } = useNetwork()
   const netName = chain?.name || 'Unknown'
   const allowedInfo = ALLOWED_CHAINS[chain?.id || 0]
@@ -25,9 +24,7 @@ export function NetworkInfo() {
   useMemo(() => {
     if (!allowedInfo && isConnected) {
       setDisplayText(`Unsupported network: ${netName}`)
-      setError(`${netName} Is not a supported network`)
     } else {
-      setError('')
       setDisplayText(connectedText)
     }
   }, [netName])

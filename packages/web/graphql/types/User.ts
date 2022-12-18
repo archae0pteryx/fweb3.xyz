@@ -5,8 +5,7 @@ export const User = objectType({
   name: 'User',
   definition(t) {
     t.string('id')
-    t.nonNull.string('address')
-    t.string('gameAddress')
+    t.string('address')
     t.string('email')
     t.boolean('verified')
     t.boolean('disabled')
@@ -36,7 +35,7 @@ export const UsersQuery = extendType({
 export const UserInputType = inputObjectType({
   name: 'UserInputType',
   definition(t) {
-    t.nonNull.string('address')
+    t.string('address')
     t.string('email')
     t.string('discord')
     t.string('role')
@@ -51,7 +50,7 @@ export const UserMutation = extendType({
     t.nonNull.field('createUser', {
       type: 'User',
       args: {
-        address: nonNull(stringArg()),
+        address: stringArg(),
         email: nonNull(stringArg()),
       },
       resolve: UsersService.create,

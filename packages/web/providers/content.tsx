@@ -30,11 +30,11 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   useMemo(() => {
     if (!called) {
-      requestContent({
-        variables: {
-          type: 'about',
-        },
-      })
+      // requestContent({
+      //   variables: {
+      //     type: 'about',
+      //   },
+      // })
     }
   }, [])
 

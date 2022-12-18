@@ -45,7 +45,7 @@ const UserContext = createContext({
   connectUser: async () => {},
   disconnectUser: async () => {},
   refetchUser: async () => {},
-  updateUser: async () => {},
+  updateUser: async (_data: any) => {},
   isConnected: false,
   loading: false,
   error: '',
@@ -79,14 +79,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
     refetchQueries: ['FindUser'],
   })
 
+  const [createuser, { loading: createUserLoading, error: createUserError }] = useMutation(CREATE_USER, {})
+
+
+  const handleNewUser = async () => {
+
+  }
 
   const connectUser = async () => {
     try {
       if (onboarding) {
         router.push('/onboard')
       }
-      // connect()
-      // await fetchUser({ variables: { address } })
+      connect()
+      await fetchUser({ variables: { address } })
     } catch (err) {
       console.log({ err })
     }

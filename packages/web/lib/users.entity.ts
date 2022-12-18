@@ -24,8 +24,16 @@ export class UsersEntity {
 
   static async create(prisma: PrismaClient, data: Prisma.UserCreateInput) {
     try {
-      return await prisma.user.create({
-        data,
+      return await prisma.user.upsert({
+        where: {
+          email: data.email || '',
+        },
+        update: {
+          ...data,
+        },
+        create: {
+          ...data,
+        },
       })
     } catch (err) {
       handlePrismaError(err)

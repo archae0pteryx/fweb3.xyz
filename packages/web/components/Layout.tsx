@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
 import { AlertBar } from './AlertBar';
+import { DebugButton } from './Footer/DebugButton';
+import { FooterBar } from './Footer/FooterBar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
@@ -19,6 +21,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <>
           <AlertBar />
           <Container>{children}</Container>
+          <DebugButton />
+          <FooterBar />
         </>
       )}
     </>

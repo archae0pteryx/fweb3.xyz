@@ -1,8 +1,9 @@
 import { Context } from '../graphql/context'
-import { handlePrismaError, UsersEntity } from './users.entity'
+import { UsersEntity } from './users.entity'
 import { Prisma } from '@prisma/client'
 import { sendVerificationEmail } from './mailer'
 import jwt from 'jsonwebtoken'
+import { handlePrismaError } from './errors'
 
 export class UsersService {
   static async all(_parent: any, _args: any, ctx: Context) {
@@ -17,6 +18,9 @@ export class UsersService {
   static async create(_parent: any, args: Prisma.UserCreateInput, ctx: Context) {
     try {
       const { address, email } = args
+      if (!email) {
+        throw new Error('MISSING_INFO')
+      }
       const createRes = await UsersEntity.create(ctx.prisma, args)
       const sesMailResponse = await sendVerificationEmail(address, email || '')
       console.log('email sent: ', { sesMailResponse })

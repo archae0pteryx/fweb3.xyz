@@ -17,9 +17,13 @@ export const theme = responsiveFontSizes(
   createTheme({
     typography: {
       fontFamily: player2.style.fontFamily,
-      body2: {
+      fontSize: 13,
+      body1: {
         color: '#E59500',
-        margin: '0.5rem',
+      },
+      body2: {
+        color: '#FFE0FE',
+        fontSize: 12
       },
     },
     palette: {
