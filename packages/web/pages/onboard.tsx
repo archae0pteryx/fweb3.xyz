@@ -1,37 +1,31 @@
-import { Box, Typography, SvgIcon, Button, FormGroup } from '@mui/material'
+import { Box, Typography, SvgIcon, Button } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import { useState } from 'react'
-
-
+import { useUser } from '../providers'
 
 export default function OnboardingPage() {
-  const [emailError, setEmailError] = useState(false)
+  const { handleNewUser } = useUser()
+  const [emailError, setEmailError] = useState('')
   const [email, setEmail] = useState('aarchaeopteryxx@gmail.com')
 
   const handleSubmit = async () => {
     try {
-      if (process.env.DEBUG_ENABLED === 'true') {
-        // await createUser({ variables: { address, email } })
-        return
-      }
-      // setFormError('')
+      setEmailError('')
       if (!email?.includes('@')) {
-        // setFormError('Invalid Email')
-        // triggerToast('Invalid Email', { severity: 'error', hideIn: 2000 })
+        setEmailError('Invalid Email')
         return
       }
 
-      // await createUser({ variables: { address, email } })
+      await handleNewUser(email)
       setEmail('')
-      // triggerToast('Account Created!')
     } catch (err: any) {
-      // triggerToast(err.message, { severity: 'error', hideIn: 2000 })
+      setEmailError(err.message)
     }
   }
 
-  const handleKey = (e: React.KeyboardEvent) => {
+  const handleKey = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      // handleCreateAccount()
+      await handleSubmit()
     }
   }
   return (
@@ -39,28 +33,31 @@ export default function OnboardingPage() {
       <Typography color="warning.main" variant="h5" marginBottom={3}>
         Welcome!
       </Typography>
-      <Typography variant="body2">Looks like your brand new.</Typography>
-      <Typography variant="body2">We're gonna need to verify you. Cause... well..</Typography>
-      <Typography variant="h6" color="error.main" marginTop={2}>Bots.</Typography>
+      <Typography variant="body2">Looks like you&apos;re brand new.</Typography>
+      <Typography variant="body2">We&apos;re gonna need to verify you. Cause... well..</Typography>
+      <Typography variant="h6" color="error.main" marginTop={2}>
+        Bots.
+      </Typography>
       <Box display="flex" alignItems="center" flexDirection="column">
         <TextField
           fullWidth
           variant="outlined"
           color="secondary"
           label="Email Address"
-          error={emailError}
+          error={!!emailError}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          helperText={emailError}
           InputProps={{
             startAdornment: <MailIcon />,
             sx: {
               color: 'info.main',
-            }
+            },
           }}
-
           sx={{
             marginTop: 4,
           }}
+          onKeyPress={handleKey}
         />
         <Button
           size="small"
@@ -76,7 +73,7 @@ export default function OnboardingPage() {
       </Box>
       <Box display="flex" justifyContent="center" marginTop={5}>
         <Typography variant="caption" color="warning.main">
-          We'll send you a verification email. You click. We good.
+          We&apos;ll send you a verification email. You click. We good.
         </Typography>
       </Box>
     </Box>
@@ -91,7 +88,7 @@ function MailIcon() {
       }}
     >
       <svg width="32" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#pixel_mail)">
+        <g clipPath="url(#pixel_mail)">
           <path
             fillRule="evenodd"
             clipRule="evenodd"

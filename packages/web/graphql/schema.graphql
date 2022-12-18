@@ -22,7 +22,7 @@ input ContentInputType {
 }
 
 type Mutation {
-  createUser(address: String, email: String!): User!
+  createUser(email: String!): User!
   updateContent(data: ContentInputType): User!
   updateUser(data: UserInputType): User
 }

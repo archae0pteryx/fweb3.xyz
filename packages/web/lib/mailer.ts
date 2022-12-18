@@ -2,18 +2,18 @@ import AWS from 'aws-sdk'
 import jwt from 'jsonwebtoken'
 import { createVerifyHtml } from './template'
 
-export async function sendVerificationEmail(address: string, email: string) {
-  const token = createJwtVerify(address)
-  const res = await sendEmail(address, email, token)
+export async function sendVerificationEmail(email: string) {
+  const token = createJwtVerify(email)
+  const res = await sendEmail(email, token)
   return res
 }
 
-export function createJwtVerify(address: string) {
+export function createJwtVerify(email: string) {
   const secret = process.env.JWT_SECRET || ''
   if (!secret) {
     throw new Error('Error finding root jwt secret')
   }
-  const token = jwt.sign({ address }, secret, { expiresIn: '10m' })
+  const token = jwt.sign({ email }, secret, { expiresIn: '10m' })
   return token
 }
 
@@ -26,8 +26,8 @@ function _createSES() {
   return new AWS.SES({ apiVersion: '2010-12-01' })
 }
 
-function buildVerifyEmailTemplate(address: string, token: string) {
-  const verifyUrl = `${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}&address=${address}`
+function buildVerifyEmailTemplate(token: string) {
+  const verifyUrl = `${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}`
   const html = createVerifyHtml(verifyUrl)
   return {
     subject: `Fweb3.xyz: Verify your email`,
@@ -36,8 +36,8 @@ function buildVerifyEmailTemplate(address: string, token: string) {
   }
 }
 
-export async function sendEmail(address: string, email: string, token: string) {
-  const { subject, text, html } = buildVerifyEmailTemplate(address, token)
+export async function sendEmail(email: string, token: string) {
+  const { subject, text, html } = buildVerifyEmailTemplate(token)
   const params = {
     Destination: {
       ToAddresses: [email],
