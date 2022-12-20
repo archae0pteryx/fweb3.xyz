@@ -1,96 +1,59 @@
-import { Configuration, OpenAIApi } from 'openai'
+import { OpenAI } from './openai.service'
 import { ContentEntity } from './content.entity'
-import { Context } from '../graphql/context';
-import { remark } from 'remark'
-import html from 'remark-html'
-import { PrismaClient } from '@prisma/client'
+import { Context } from '../graphql/context'
 
-interface IPromptParams {
-  prompt: string
+export interface IPromptParams {
   type: string
+  title: string
+  prompt: string
   cached: boolean
 }
 
-const config = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
-
-const openai = new OpenAIApi(config)
-
-async function _fetchOpenaiContent(prompt: string) {
-  const { status, data } = await openai.createCompletion({
-    model: 'text-davinci-003',
-    prompt,
-    temperature: 0.7,
-    max_tokens: 1024,
-  })
-
-  if (status !== 200) {
-    throw new Error(`Open AI status: ${status}`)
-  }
-
-  const text = data.choices.pop()?.text
-  if (!text) {
-    console.log('no_text:', JSON.stringify(data, null, 2))
-    throw new Error('Open AI did not return any text')
-  }
-
-  return text
-}
-
 export class ContentService {
-  static all(_root: any, _args: any, ctx: Context) {
-    return ContentEntity.all(ctx.prisma)
-  }
-
-  static async requestConent(_root: any, args: any, ctx: Context) {
+  static async findContent(_root: any, args: any, ctx: Context) {
     try {
-      const { prompts } = args
-      const content = await Promise.all(
-        prompts.map((promptParams: IPromptParams) => ContentService.getContent(ctx, promptParams))
-      )
-
-      // const prompt = PROMPTS[type]
-      // if (!prompt) {
-      //   throw new Error(`No prompt for type: ${type}`)
-      // }
-      // console.log('generating new openai content:', type)
-      // const text = await _fetchOpenaiContent(prompt)
-      // const html = await _processMarkdown(text)
-      // return await ContentEntity.create(ctx.prisma, { type, text, html })
+      const { types } = args
+      const promises = types.map(async (t: string) => await ContentEntity.findFirst(ctx.prisma, t))
+      const res = await Promise.all(promises)
+      return res
     } catch (error) {
       console.error('Error fetching content:', error)
       throw error
     }
   }
 
-  static async getContent(ctx: Context, { type, prompt, cached = false }: IPromptParams) {
-    const now = new Date()
-    // const time = new Date(now.getTime() - 10 * 60 * 1000)
-    const time = new Date(now.getDate() - 1)
-    
-    if (cached) {
-      const foundCached = await ContentEntity.findCached(prisma, type)
-      console.log('using cached content:', foundCached?.id)
-      return foundCached || { type, prompt, html: '' }
+  static async requestConent(_root: any, args: any, ctx: Context) {
+    try {
+      const { prompts } = args
+      const sorted: Record<string, IPromptParams[]> = {}
+
+      const fetchedContent = await OpenAI.processPrompts(prompts)
+
+      for (const p of fetchedContent) {
+        const { type } = p
+        if (!sorted[type]) sorted[type] = []
+        sorted[type].push(p)
+      }
+
+      const createPromises = Object.entries(sorted).map(async ([key, value]) => {
+        const p = await ContentEntity.createMany(ctx.prisma, value)
+        return p
+      })
+      await Promise.all(createPromises)
+
+      const now = new Date()
+      const time = new Date(now.getTime() - 2000)
+      const returnPromises = Object.entries(sorted).map(async ([key, value]) => {
+        const query = await ContentEntity.findLatestByDate(ctx.prisma, key, time)
+        return query
+      })
+
+      const newRecords = await Promise.all(returnPromises)
+      const res = newRecords.flat()
+      return res
+    } catch (error) {
+      console.error('Error fetching content:', error)
+      throw error
     }
-
-    // const found = await ContentEntity.findLatestByDate(ctx.prisma, type, time)
-    // if (found) {
-    //   console.log('using cached content:', found.id)
-    //   return found
-    // }
-    const text = await _fetchOpenaiContent(prompt)
-    const html = await _processMarkdown(text)
-    return { type, prompt, html }
   }
-
-  static update(_root: any, args: any, ctx: Context) {
-    const { data } = args
-    return ContentEntity.update(ctx.prisma, data)
-  }
-}
-
-async function _processMarkdown(text: string) {
-  return (await remark().use(html).process(text)).toString()
 }

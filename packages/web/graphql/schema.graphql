@@ -3,24 +3,23 @@
 
 
 type Content {
+  cached: Boolean
   createdAt: String
   html: String
   id: String
-  isDefault: Boolean
-  propmt: String
-  text: String
+  prompt: String
+  title: String
   type: String
   updatedAt: String
 }
 
 type Mutation {
   createUser(address: String = "", email: String!): User!
-  requestContent(prompts: [PromptInputType]): Content!
+  requestContent(prompts: [PromptInputType]!): [Content]!
   updateUser(data: UserInputType): User
 }
 
 input PromptInputType {
-  cached: Boolean
   prompt: String
   title: String
   type: String
@@ -28,8 +27,8 @@ input PromptInputType {
 
 type Query {
   allUsers: [User]!
+  findContent(types: [String]!): [Content]
   findUser(address: String!): User
-  requestContent(type: String!): Content
 }
 
 type User {

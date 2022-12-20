@@ -1,40 +1,67 @@
-import { gql, useLazyQuery } from '@apollo/client'
-import { ApolloError } from 'apollo-server-micro'
+import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import { createContext, ReactNode, useContext } from 'react'
 
 interface IContentContext {
   contentData: any[]
   contentError: string
   contentLoading: boolean
-  handleContentRequest: (types: IContentPromptRequest[]) => Promise<void>
+  handleContentRequest: (types: PromptInputType[]) => Promise<void>
+  handleFindByType: (types: string[]) => Promise<void>
 }
 
 const ContentContext = createContext<IContentContext>({
   contentData: [],
   contentError: '',
   contentLoading: false,
-  handleContentRequest: async (_types: IContentPromptRequest[]) => {},
+  handleContentRequest: async (_types: PromptInputType[]) => {},
+  handleFindByType: async (_types: string[]) => {},
 })
 
-const REQUEST_CONTENT = gql`
-  query RequestContent($prompts: [String]) {
-    requestContent(prompts: $prompts) {
+const FIND_CONTENT = gql`
+  query Query($types: [String]!) {
+    findContent(types: $types) {
+      title
       html
       type
     }
   }
 `
+const REQUEST_CONTENT = gql`
+  mutation RequestContent($prompts: [PromptInputType]!) {
+    requestContent(prompts: $prompts) {
+      title
+      html
+      type
+      id
+    }
+  }
+`
 
-interface IContentPromptRequest {
+interface PromptInputType {
   prompt: string
   type: string
-  cached: boolean
+  title: string
 }
 
 export function ContentProvider({ children }: { children: ReactNode }) {
-  const [requestContent, { loading, error, data }] = useLazyQuery(REQUEST_CONTENT)
+  const [requestContent, { loading, error, data }] = useMutation(REQUEST_CONTENT)
 
-  const handleContentRequest = async (prompts: IContentPromptRequest[]) => {
+  const [findByType, { loading: findByTypeLoading, error: findByTypeError, data: findByTypeData }] =
+    useLazyQuery(FIND_CONTENT)
+
+  const handleFindByType = async (types: string[]) => {
+    try {
+      await findByType({
+        variables: {
+          types,
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleContentRequest = async (prompts: PromptInputType[]) => {
     try {
       await requestContent({
         variables: {
@@ -49,10 +76,11 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   return (
     <ContentContext.Provider
       value={{
-        contentData: data?.requestContent || [],
-        contentError: error?.message || '',
-        contentLoading: loading,
+        contentData: data?.requestContent || findByTypeData?.findContent || [],
+        contentError: error?.message || findByTypeError?.message || '',
+        contentLoading: loading || findByTypeLoading,
         handleContentRequest,
+        handleFindByType,
       }}
     >
       {children}

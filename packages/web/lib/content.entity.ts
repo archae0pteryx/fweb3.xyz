@@ -2,13 +2,9 @@ import { Prisma, PrismaClient } from '@prisma/client'
 import { handlePrismaError } from './errors'
 
 export class ContentEntity {
-  static async all(prisma: PrismaClient) {
-    return await prisma.content.findMany()
-  }
-
-  static async create(prisma: PrismaClient, data: Prisma.ContentCreateInput) {
+  static async createMany(prisma: PrismaClient, data: Prisma.ContentCreateInput[]) {
     try {
-      return await prisma.content.create({ data })
+      return await prisma.content.createMany({ data })
     } catch (err: any) {
       console.error('Error creating content:', err.message)
       handlePrismaError(err)
@@ -31,7 +27,7 @@ export class ContentEntity {
 
   static async findLatestByDate(prisma: PrismaClient, type: string, time: Date) {
     try {
-      return await prisma.content.findFirst({
+      return await prisma.content.findMany({
         where: {
           type,
           createdAt: {
@@ -45,11 +41,11 @@ export class ContentEntity {
     }
   }
 
-  static async find(prisma: PrismaClient, id: string) {
+  static async findMany(prisma: PrismaClient, type: string) {
     try {
-      return await prisma.content.findUnique({
+      return await prisma.content.findMany({
         where: {
-          id,
+          type,
         },
       })
     } catch (err: any) {
@@ -58,7 +54,7 @@ export class ContentEntity {
     }
   }
 
-  static async findCached(prisma: PrismaClient, type: string) {
+  static async findFirst(prisma: PrismaClient, type: string) {
     try {
       return await prisma.content.findFirst({
         where: {

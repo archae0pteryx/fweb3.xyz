@@ -1,9 +1,19 @@
-import { ButtonBase, Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, Typography, Skeleton } from '@mui/material';
+import {
+  ButtonBase,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Card,
+  Typography,
+  Skeleton,
+} from '@mui/material'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useContent } from '../providers/content'
 
-const InfoListItem = (props: any) => {
+const InfoListItem = ({ title, html }: any) => {
   return (
     <Accordion
       disableGutters
@@ -31,14 +41,13 @@ const InfoListItem = (props: any) => {
           }}
         >
           <Typography variant="body1" color="aliceblue">
-            {props.title}
+            {title}
           </Typography>
         </Card>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography variant="caption" paddingLeft={3}>
-          {props.description}
-        </Typography>
+        {' '}
+        <div dangerouslySetInnerHTML={{ __html: html }} />
       </AccordionDetails>
     </Accordion>
   )
@@ -70,16 +79,38 @@ const PROMPTS = [
     title: 'What is a wallet?',
     prompt: 'Explain what a web3 wallet is.',
     type: 'ONBOARD_QUESTION_1',
-    cached: false,
+  },
+  {
+    title: 'Wallet install info',
+    prompt: 'How do i install a metamask wallet in my browser?',
+    type: 'ONBOARD_QUESTION_2',
+  },
+  {
+    title: 'Security best practices',
+    prompt: 'What are the best ways for me to secure my crypo wallet and assets?',
+    type: 'ONBOARD_QUESTION_3',
   },
 ]
 
 export default function OnboardingPage() {
-  const [expandedInfoList, setExpandedInfoList] = useState<boolean>(true)
-  const { handleContentRequest, contentData, contentError, contentLoading } = useContent()
+  const [expandedInfoList, setExpandedInfoList] = useState<boolean>(false)
+  const { handleContentRequest, handleFindByType, contentData, contentError, contentLoading } = useContent()
   const router = useRouter()
 
-  handleContentRequest(PROMPTS)
+  const handleContentRequestCallback = async () => {
+    const types = PROMPTS.map((prompt) => prompt.type)
+    await handleFindByType(types)
+    // await handleContentRequest(PROMPTS)
+    setExpandedInfoList(!expandedInfoList)
+  }
+
+  if (contentLoading) {
+    return <Skeleton />
+  }
+
+  if (contentError) {
+    return <Typography color="error">{contentError}</Typography>
+  }
 
   return (
     <Box marginX={3} marginY={5}>
@@ -87,35 +118,24 @@ export default function OnboardingPage() {
         <Typography variant="h6" color="primary">
           Looks like you don&apos;t have a wallet.
         </Typography>
-        {JSON.stringify(contentData)}
         <Typography color="primary">You need to have one in order to play.</Typography>
       </Box>
       <Box display="flex" justifyContent="space-around" marginY={7}>
-        <Button variant="contained" color="info" onClick={() => setExpandedInfoList(!expandedInfoList)}>
+        <Button variant="contained" color="info" onClick={() => handleContentRequestCallback()}>
           {expandedInfoList ? 'X' : 'Learn about wallets'}
         </Button>
         <Button variant="contained" color="error" onClick={() => router.push('https://metamask.io/download/')}>
           Take me to install
         </Button>
       </Box>
-      {contentLoading && <Skeleton />}
-      {expandedInfoList && (
+      {contentData ? (
         <Box>
-          <InfoListItem title="What is a wallet?" description="bar" handleLink={() => console.log('clicked')} />
-          <InfoListItem title="How to install" description="bar" handleLink={() => console.log('clicked')} />
-          <InfoListItem title="Security best practices" description="bar" handleLink={() => console.log('clicked')} />
-          {/* <Button
-            fullWidth
-            variant="outlined"
-            color="info"
-            onClick={() => router.push('https://metamask.io/download/')}
-            sx={{
-              marginTop: 7,
-            }}
-          >
-            Got it! Lets install
-          </Button> */}
+          {contentData.map((item: any, i) => {
+            return <InfoListItem key={i} {...item} />
+          })}
         </Box>
+      ) : (
+        ''
       )}
     </Box>
   )
