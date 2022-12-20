@@ -50,7 +50,7 @@ export const UserMutation = extendType({
     t.nonNull.field('createUser', {
       type: 'User',
       args: {
-        address: stringArg(),
+        address: stringArg({ default: '' }),
         email: nonNull(stringArg()),
       },
       resolve: UsersService.create,

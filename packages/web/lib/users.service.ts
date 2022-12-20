@@ -17,12 +17,12 @@ export class UsersService {
 
   static async create(_parent: any, args: Prisma.UserCreateInput, ctx: Context) {
     try {
-      const { address, email } = args
+      const { email } = args
       if (!email) {
         throw new Error('MISSING_INFO')
       }
       const createRes = await UsersEntity.create(ctx.prisma, args)
-      const sesMailResponse = await sendVerificationEmail(address || '', email)
+      const sesMailResponse = await sendVerificationEmail(email)
       console.log('email sent: ', { sesMailResponse })
       return createRes
     } catch (err: any) {

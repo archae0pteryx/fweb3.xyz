@@ -9,6 +9,7 @@ import { Press_Start_2P } from '@next/font/google'
 
 const player2 = Press_Start_2P({
   weight: '400',
+  subsets: ['latin'],
 })
 
 const PINK = '#FC0BD4'
