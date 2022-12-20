@@ -13,18 +13,16 @@ type Content {
   updatedAt: String
 }
 
-input ContentInputType {
-  html: String
-  id: String!
-  isDefault: Boolean
-  text: String
-  type: String
-}
-
 type Mutation {
   createUser(address: String, email: String!): User!
-  updateContent(data: ContentInputType): User!
+  requestContent(prompts: [PromptInputType]): Content!
   updateUser(data: UserInputType): User
+}
+
+input PromptInputType {
+  cached: Boolean
+  prompt: String
+  type: String
 }
 
 type Query {

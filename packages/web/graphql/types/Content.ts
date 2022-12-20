@@ -15,6 +15,7 @@ export const Content = objectType({
   },
 })
 
+
 export const ContentQuery = extendType({
   type: 'Query',
   definition(t) {
@@ -28,26 +29,24 @@ export const ContentQuery = extendType({
   },
 })
 
-export const ContentInputType = inputObjectType({
-  name: 'ContentInputType',
+export const PromptInputType = inputObjectType({
+  name: 'PromptInputType',
   definition(t) {
-    t.nonNull.string('id')
-    t.string('text')
-    t.string('html')
+    t.string('prompt')
     t.string('type')
-    t.boolean('isDefault')
-  },
+    t.boolean('cached')
+  }
 })
 
 export const ContentMutation = extendType({
   type: 'Mutation',
   definition(t) {
-    t.nonNull.field('updateContent', {
-      type: 'User',
+    t.nonNull.field('requestContent', {
+      type: 'Content',
       args: {
-        data: ContentInputType,
+        prompts: list(PromptInputType),
       },
-      resolve: ContentService.update,
+      resolve: ContentService.requestConent,
     })
-  },
+  }
 })

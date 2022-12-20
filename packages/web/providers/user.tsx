@@ -90,6 +90,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       if (onboarding) {
         router.push('/onboard')
+        return
       }
       connect()
       await fetchUser({ variables: { address } })

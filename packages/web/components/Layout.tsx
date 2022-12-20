@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { AlertBar } from './AlertBar';
 import { DebugButton } from './Footer/DebugButton';
 import { FooterBar } from './Footer/FooterBar';
+import { Navigation } from './Navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {mounted && (
         <>
           <AlertBar />
+          <Navigation />
           <Container>{children}</Container>
           <DebugButton />
           <FooterBar />

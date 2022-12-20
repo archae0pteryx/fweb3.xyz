@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { handlePrismaError } from './errors'
 
 export class ContentEntity {
   static async all(prisma: PrismaClient) {
@@ -8,9 +9,9 @@ export class ContentEntity {
   static async create(prisma: PrismaClient, data: Prisma.ContentCreateInput) {
     try {
       return await prisma.content.create({ data })
-    } catch (error: any) {
-      console.error('Error creating content:', error.message)
-      return null
+    } catch (err: any) {
+      console.error('Error creating content:', err.message)
+      handlePrismaError(err)
     }
   }
 
@@ -22,9 +23,9 @@ export class ContentEntity {
         },
         data,
       })
-    } catch (error: any) {
-      console.error('Error updating content:', error.message)
-      return null
+    } catch (err: any) {
+      console.error('Error updating content:', err.message)
+      handlePrismaError(err)
     }
   }
 
@@ -38,9 +39,9 @@ export class ContentEntity {
           },
         },
       })
-    } catch (error: any) {
-      console.error('Error finding latest content:', time, error.message)
-      return null
+    } catch (err: any) {
+      console.error('Error finding latest content:', time, err.message)
+      handlePrismaError(err)
     }
   }
 
@@ -51,23 +52,22 @@ export class ContentEntity {
           id,
         },
       })
-    } catch (error: any) {
-      console.error('Error finding content:', error.message)
-      return null
+    } catch (err: any) {
+      console.error('Error finding content:', err.message)
+      handlePrismaError(err)
     }
   }
 
-  static async findDefault(prisma: PrismaClient, type: string) {
+  static async findCached(prisma: PrismaClient, type: string) {
     try {
       return await prisma.content.findFirst({
         where: {
           type,
-          isDefault: true,
         },
       })
-    } catch (error: any) {
-      console.error('Error finding default content:', error.message)
-      return null
+    } catch (err: any) {
+      console.error('Error finding default content:', err.message)
+      handlePrismaError(err)
     }
   }
 }
