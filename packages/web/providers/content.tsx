@@ -1,39 +1,40 @@
 import { gql, useLazyQuery } from '@apollo/client'
-import { createContext, ReactNode, useMemo, useContext, useState } from 'react'
+import { ApolloError } from 'apollo-server-micro'
+import { createContext, ReactNode, useContext } from 'react'
 
 interface IContentContext {
-  content: {
-    about: string
-    onboarding: string
-  }
-  contentLoading: boolean
+  contentData: any[]
   contentError: string
-  handleContentRequest: (types: string[]) => Promise<void>
+  contentLoading: boolean
+  handleContentRequest: (types: IContentPromptRequest[]) => Promise<void>
 }
 
 const ContentContext = createContext<IContentContext>({
-  content: {
-    about: '',
-    onboarding: '',
-  },
-  contentLoading: false,
+  contentData: [],
   contentError: '',
-  handleContentRequest: async (_types: string[]) => {}
+  contentLoading: false,
+  handleContentRequest: async (_types: IContentPromptRequest[]) => {},
 })
 
 const REQUEST_CONTENT = gql`
   query RequestContent($prompts: [String]) {
     requestContent(prompts: $prompts) {
-      about
-      onboard
+      html
+      type
     }
   }
 `
 
+interface IContentPromptRequest {
+  prompt: string
+  type: string
+  cached: boolean
+}
+
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [requestContent, { loading, error, data }] = useLazyQuery(REQUEST_CONTENT)
 
-  const handleContentRequest = async (prompts: string[]) => {
+  const handleContentRequest = async (prompts: IContentPromptRequest[]) => {
     try {
       await requestContent({
         variables: {
@@ -45,23 +46,10 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  // useMemo(() => {
-  //   if (!called) {
-  //     requestContent({
-  //       variables: {
-  //         types: ['onboard', 'about'],
-  //       },
-  //     })
-  //   }
-  // }, [])
-
   return (
     <ContentContext.Provider
       value={{
-        content: {
-          about: data?.requestContent?.about?.html,
-          onboarding: data?.requestContent?.onboarding?.html,
-        },
+        contentData: data?.requestContent || [],
         contentError: error?.message || '',
         contentLoading: loading,
         handleContentRequest,

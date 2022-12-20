@@ -32,6 +32,7 @@ export const ContentQuery = extendType({
 export const PromptInputType = inputObjectType({
   name: 'PromptInputType',
   definition(t) {
+    t.string('title')
     t.string('prompt')
     t.string('type')
     t.boolean('cached')
@@ -44,7 +45,7 @@ export const ContentMutation = extendType({
     t.nonNull.field('requestContent', {
       type: 'Content',
       args: {
-        prompts: list(PromptInputType),
+        data: list(PromptInputType),
       },
       resolve: ContentService.requestConent,
     })

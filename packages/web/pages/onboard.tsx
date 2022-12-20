@@ -1,16 +1,7 @@
-import {
-  ButtonBase,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Card,
-  Typography,
-} from '@mui/material'
+import { ButtonBase, Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, Typography, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
-import { useContent } from '../providers/content';
+import { useContent } from '../providers/content'
 
 const InfoListItem = (props: any) => {
   return (
@@ -78,25 +69,25 @@ const PROMPTS = [
   {
     title: 'What is a wallet?',
     prompt: 'Explain what a web3 wallet is.',
-    type: 'ONBOARD_QUESTION_1'
-  }
+    type: 'ONBOARD_QUESTION_1',
+    cached: false,
+  },
 ]
 
 export default function OnboardingPage() {
   const [expandedInfoList, setExpandedInfoList] = useState<boolean>(true)
-  const { handleContentRequest } = useContent()
+  const { handleContentRequest, contentData, contentError, contentLoading } = useContent()
   const router = useRouter()
 
-  useMemo(() => {
-    handleContentRequest(['onboarding'])
-  }, [])
+  handleContentRequest(PROMPTS)
 
   return (
     <Box marginX={3} marginY={5}>
       <Box>
         <Typography variant="h6" color="primary">
-          Looks like you don't have a wallet.
+          Looks like you don&apos;t have a wallet.
         </Typography>
+        {JSON.stringify(contentData)}
         <Typography color="primary">You need to have one in order to play.</Typography>
       </Box>
       <Box display="flex" justifyContent="space-around" marginY={7}>
@@ -107,6 +98,7 @@ export default function OnboardingPage() {
           Take me to install
         </Button>
       </Box>
+      {contentLoading && <Skeleton />}
       {expandedInfoList && (
         <Box>
           <InfoListItem title="What is a wallet?" description="bar" handleLink={() => console.log('clicked')} />
