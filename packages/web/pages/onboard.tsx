@@ -100,6 +100,8 @@ export default function OnboardingPage({ content }: any) {
     setExpandedInfoList(!expandedInfoList)
   }
 
+  const hasContent = content.filter(Boolean).length > 0
+
   return (
     <Box>
       <Card
@@ -126,9 +128,9 @@ export default function OnboardingPage({ content }: any) {
           </Button>
         </Box>
       </Card>
-      {expandedInfoList ? (
+      {hasContent && expandedInfoList ? (
         <Card>
-          {content.map((item: any) => (
+          {content.filter(Boolean).map((item: any) => (
             <InfoListItem key={item.id} {...item} />
           ))}
         </Card>
@@ -140,7 +142,7 @@ export default function OnboardingPage({ content }: any) {
 }
 
 export async function getStaticProps() {
-  const { data } = await apolloClient.query({
+  const { data, error } = await apolloClient.query({
     query: FIND_CONTENT,
     variables: {
       types: PROMPTS.map((prompt) => prompt.type),
