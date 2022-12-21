@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useContent } from '../providers/content'
+import { apolloClient, FIND_CONTENT } from '../lib/apolloClient'
 
 const InfoListItem = ({ title, html }: any) => {
   return (
@@ -92,51 +92,64 @@ const PROMPTS = [
   },
 ]
 
-export default function OnboardingPage() {
+export default function OnboardingPage({ content }: any) {
   const [expandedInfoList, setExpandedInfoList] = useState<boolean>(false)
-  const { handleContentRequest, handleFindByType, contentData, contentError, contentLoading } = useContent()
   const router = useRouter()
 
   const handleContentRequestCallback = async () => {
-    const types = PROMPTS.map((prompt) => prompt.type)
-    await handleFindByType(types)
-    // await handleContentRequest(PROMPTS)
     setExpandedInfoList(!expandedInfoList)
   }
 
-  if (contentLoading) {
-    return <Skeleton />
-  }
-
-  if (contentError) {
-    return <Typography color="error">{contentError}</Typography>
-  }
-
   return (
-    <Box marginX={3} marginY={5}>
-      <Box>
-        <Typography variant="h6" color="primary">
-          Looks like you don&apos;t have a wallet.
-        </Typography>
-        <Typography color="primary">You need to have one in order to play.</Typography>
-      </Box>
-      <Box display="flex" justifyContent="space-around" marginY={7}>
-        <Button variant="contained" color="info" onClick={() => handleContentRequestCallback()}>
-          {expandedInfoList ? 'X' : 'Learn about wallets'}
-        </Button>
-        <Button variant="contained" color="error" onClick={() => router.push('https://metamask.io/download/')}>
-          Take me to install
-        </Button>
-      </Box>
-      {contentData ? (
+    <Box>
+      <Card
+        sx={{
+          marginBottom: 5,
+        }}
+      >
         <Box>
-          {contentData.map((item: any, i) => {
-            return <InfoListItem key={i} {...item} />
-          })}
+          <Typography variant="h6" color="primary" marginBottom={3} align="center">
+            Looks like you don&apos;t have a wallet.
+          </Typography>
+          <Typography color="primary" align="center" marginBottom={5}>
+            You need one in order to play.
+          </Typography>
         </Box>
+        <Box display="flex" justifyContent="space-around">
+          {!expandedInfoList && (
+            <Button variant="contained" color="info" onClick={() => handleContentRequestCallback()}>
+              Learn about wallets
+            </Button>
+          )}
+          <Button variant="contained" color="error" onClick={() => router.push('https://metamask.io/download/')}>
+            Take me to install
+          </Button>
+        </Box>
+      </Card>
+      {expandedInfoList ? (
+        <Card>
+          {content.map((item: any) => (
+            <InfoListItem key={item.id} {...item} />
+          ))}
+        </Card>
       ) : (
         ''
       )}
     </Box>
   )
+}
+
+export async function getStaticProps() {
+  const { data } = await apolloClient.query({
+    query: FIND_CONTENT,
+    variables: {
+      types: PROMPTS.map((prompt) => prompt.type),
+    },
+  })
+
+  return {
+    props: {
+      content: data.findContent,
+    },
+  }
 }

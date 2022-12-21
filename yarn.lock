@@ -2751,6 +2751,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.14.191":
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
+  languageName: node
+  linkType: hard
+
 "@types/long@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/long@npm:4.0.2"
@@ -6793,6 +6800,13 @@ __metadata:
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
   checksum: edb65dd0d7d1b9c40b2f50219aef30e116cedd6fc79290e740972c132c09106d2e80aa0bc8826673dd5a00222d4179c84b36a790eef63a4c4bca75a37ef90804
+  languageName: node
+  linkType: hard
+
+"deepmerge@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "deepmerge@npm:4.2.2"
+  checksum: a8c43a1ed8d6d1ed2b5bf569fa4c8eb9f0924034baf75d5d406e47e157a451075c4db353efea7b6bcc56ec48116a8ce72fccf867b6e078e7c561904b5897530b
   languageName: node
   linkType: hard
 
@@ -18180,6 +18194,7 @@ __metadata:
     "@prisma/client": ^4.7.1
     "@types/eslint": ^8.4.10
     "@types/jsonwebtoken": ^8.5.9
+    "@types/lodash": ^4.14.191
     "@types/micro-cors": ^0.1.2
     "@types/node": 18.11.16
     "@types/prettier": ^2.7.1
@@ -18188,12 +18203,14 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.46.1
     apollo-server-micro: ^3.11.1
     aws-sdk: ^2.1277.0
+    deepmerge: ^4.2.2
     eslint: 8.30.0
     eslint-config-next: ^13.0.7
     eslint-config-standard: ^17.0.0
     ethers: ^5.7.2
     graphql: ^16.6.0
     jsonwebtoken: ^8.5.1
+    lodash: ^4.17.21
     micro: ^10.0.1
     micro-cors: ^0.1.1
     next: ^13.0.7

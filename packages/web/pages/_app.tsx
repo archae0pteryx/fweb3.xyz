@@ -1,3 +1,4 @@
+import { ApolloProvider } from '@apollo/client'
 import { AppProviders } from '../providers'
 import { Backdrop, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -6,6 +7,7 @@ import Router from 'next/router'
 import type { AppProps } from 'next/app'
 
 import '../styles/globals.css'
+import { apolloClient } from '../lib/apolloClient'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false)
@@ -26,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [])
   return (
-    <>
+    <ApolloProvider client={apolloClient}>
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
         <CircularProgress color="secondary" />
       </Backdrop>
@@ -35,6 +37,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Layout>
       </AppProviders>
-    </>
+    </ApolloProvider>
   )
 }
