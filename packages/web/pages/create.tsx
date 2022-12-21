@@ -36,8 +36,10 @@ export default function CreateUserPage() {
         Welcome!
       </Typography>
       <Typography variant="body2">Looks like your brand new.</Typography>
-      <Typography variant="body2">We're gonna need to verify you. Cause... well..</Typography>
-      <Typography variant="h6" color="error.main" marginTop={2}>Bots.</Typography>
+      <Typography variant="body2">We&apos;re gonna need to verify you. Cause... well..</Typography>
+      <Typography variant="h6" color="error.main" marginTop={2}>
+        Bots.
+      </Typography>
       <Box display="flex" alignItems="center" flexDirection="column">
         <TextField
           fullWidth
@@ -51,9 +53,8 @@ export default function CreateUserPage() {
             startAdornment: <MailIcon />,
             sx: {
               color: 'info.main',
-            }
+            },
           }}
-
           sx={{
             marginTop: 4,
           }}
@@ -72,7 +73,7 @@ export default function CreateUserPage() {
       </Box>
       <Box display="flex" justifyContent="center" marginTop={5}>
         <Typography variant="caption" color="warning.main">
-          We'll send you a verification email. You click. We good.
+          We&apos;ll send you a verification email. You click. We good.
         </Typography>
       </Box>
     </Box>

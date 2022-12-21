@@ -3,7 +3,7 @@ import LinkIcon from '@mui/icons-material/Link'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
 import Typography from '@mui/material/Typography'
 import { useState, useMemo } from 'react'
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'
 
 const ALLOWED_CHAINS: { [key: number]: string } = {
   80001: 'Mumbai [testnet]',
@@ -11,7 +11,6 @@ const ALLOWED_CHAINS: { [key: number]: string } = {
   5: 'Goerli [testnet]',
   1: 'Ethereum',
 }
-
 
 export function NetworkInfo() {
   const { isConnected } = useAccount()
@@ -27,7 +26,7 @@ export function NetworkInfo() {
     } else {
       setDisplayText(connectedText)
     }
-  }, [netName])
+  }, [netName, isConnected, allowedInfo, connectedText])
 
   return (
     <Box
