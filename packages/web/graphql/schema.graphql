@@ -13,10 +13,19 @@ type Content {
   updatedAt: String
 }
 
+type Feature {
+  createdAt: String
+  flag: String
+  id: String
+  updatedAt: String
+  value: String
+}
+
 type Mutation {
   createUser(address: String = "", email: String!): User!
   requestContent(prompts: [PromptInputType]!): [Content]!
   updateUser(data: UserInputType): User
+  upsertFeature(flag: String!, value: String!): Feature!
 }
 
 input PromptInputType {
@@ -26,6 +35,7 @@ input PromptInputType {
 }
 
 type Query {
+  allFeatures: [[Feature]]!
   allUsers: [User]!
   findContent(types: [String]!): [Content]
   findUser(address: String!): User

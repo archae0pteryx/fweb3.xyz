@@ -1,24 +1,32 @@
 import { PrismaClient } from '@prisma/client'
+import { handlePrismaError } from './errors'
 
 export class FeatureEntity {
   static async all(prisma: PrismaClient) {
-    return await prisma.featureFlag.findMany()
+    try {
+      return await prisma.feature.findMany()
+    } catch (err) {
+      handlePrismaError(err)
+    }
   }
 
-  static async upsert(prisma: PrismaClient, args: { flag: string; value: string }) {
-    const { flag, value } = args
-    return await prisma.featureFlag.upsert({
-      where: {
-        flag,
-      },
-      create: {
-        flag,
-        value,
-      },
-      update: {
-        flag,
-        value,
-      },
-    })
+  static async upsert(prisma: PrismaClient, { flag, value }: { flag: string; value: string }) {
+    try {
+      return await prisma.feature.upsert({
+        where: {
+          flag,
+        },
+        create: {
+          flag,
+          value,
+        },
+        update: {
+          flag,
+          value,
+        },
+      })
+    } catch (err) {
+      handlePrismaError(err)
+    }
   }
 }

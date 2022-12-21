@@ -1,6 +1,5 @@
 import { extendType, objectType, list, stringArg, nonNull } from 'nexus'
-import { FeatureEntity } from '../../lib/feature.entity'
-import { FeatureService } from '../../lib/featureService'
+import { FeatureService } from '../../lib/feature.service'
 
 export const Feature = objectType({
   name: 'Feature',
@@ -16,9 +15,9 @@ export const Feature = objectType({
 export const FeatureQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.nonNull.list.field('allUsers', {
+    t.nonNull.list.field('allFeatures', {
       type: list('Feature'),
-      resolve: FeatureEntity.all,
+      resolve: FeatureService.all,
     })
   },
 })

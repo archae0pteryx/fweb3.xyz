@@ -18,10 +18,16 @@ const USER_MESSAGE: { [key: string]: string } = {
 }
 
 export function handlePrismaError(err: any) {
-  console.log('handler', err)
   const { code } = err
+  if (err.message.includes('Expected Iterable')) {
+    throw new GraphQLError('Expected Iterable', {
+      extensions: {
+        code: 'POTENTIALLY_NO_RECORDS'
+      },
+    })
+  }
   const reason = PRISMA_ERROR_CODES[code] || ''
-  const message = USER_MESSAGE[reason]
+  const message = USER_MESSAGE[reason] || err.message || USER_MESSAGE.UNKNOWN
   console.error('Prisma error:', JSON.stringify(err))
   if (!message) {
     throw err
