@@ -4,12 +4,18 @@ import { TransitionGroup } from 'react-transition-group'
 import Fade from '@mui/material/Fade'
 import { useUser } from '../providers/user'
 
+const renderInProdMessage = () => (
+  <Typography variant="body2" color="warning.main">
+    Disabled for maintenance
+  </Typography>
+)
+
 export default function HomeView() {
   const { connectUser, initialized, loading } = useUser()
   const router = useRouter()
 
   const ready = initialized && !loading
-
+  const inProd = process.env.NODE_ENV === 'production'
   return (
     <Box display="flex" alignItems="center" justifyContent="center" height="100vh">
       {!ready ? (
@@ -29,12 +35,18 @@ export default function HomeView() {
               <Typography variant="h4">fweb3</Typography>
               <Fade in={true} timeout={2000}>
                 <Box display="flex" justifyContent="space-around" width="100%">
-                  <Button color="info" onClick={connectUser}>
-                    play
-                  </Button>
-                  <Button color="info" onClick={() => router.push('/info')}>
-                    about
-                  </Button>
+                  {inProd ? (
+                    renderInProdMessage()
+                  ) : (
+                    <>
+                      <Button color="info" onClick={connectUser}>
+                        play
+                      </Button>
+                      <Button color="info" onClick={() => router.push('/info')}>
+                        about
+                      </Button>
+                    </>
+                  )}
                 </Box>
               </Fade>
             </Card>
