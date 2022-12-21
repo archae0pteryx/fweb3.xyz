@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postinstall": "yarn generate",
     "start": "next start",
     "lint": "next lint",
     "generate": "npx prisma generate",
