@@ -1,8 +1,10 @@
+import { Role } from "@prisma/client"
+
 export const ADMIN_USER = {
   email: 'admin@email.com',
   address: '0x427b534A1678b1d21bd65cbeFd06aD51533418Be',
   verified: true,
-  role: 'ADMIN',
+  role: 'ADMIN' as Role,
 }
 
 export const PLAYER_USER = {

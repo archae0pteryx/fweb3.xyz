@@ -31,9 +31,9 @@ model Content {
   updatedAt DateTime @updatedAt
 }
 
-model FeatureFlag {
+model Feature {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  flag      String?
+  flag      String   @unique
   value     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
