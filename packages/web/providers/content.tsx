@@ -1,6 +1,5 @@
 import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import { createContext, ReactNode, useContext } from 'react'
-import { FIND_CONTENT, REQUEST_CONTENT } from '../lib/apolloClient'
 
 interface IContentContext {
   contentData: any[]
@@ -23,6 +22,28 @@ interface PromptInputType {
   type: string
   title: string
 }
+
+
+export const FIND_CONTENT = gql`
+  query Query($types: [String]!) {
+    findContent(types: $types) {
+      id
+      title
+      html
+      type
+    }
+  }
+`
+export const REQUEST_CONTENT = gql`
+  mutation RequestContent($prompts: [PromptInputType]!) {
+    requestContent(prompts: $prompts) {
+      title
+      html
+      type
+      id
+    }
+  }
+`
 
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [requestContent, { loading, error, data }] = useMutation(REQUEST_CONTENT)

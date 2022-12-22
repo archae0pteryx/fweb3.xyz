@@ -35,7 +35,7 @@ input PromptInputType {
 }
 
 type Query {
-  allFeatures: [[Feature]]!
+  allFeatures: [Feature]!
   allUsers: [User]!
   findContent(types: [String]!): [Content]
   findUser(address: String!): User

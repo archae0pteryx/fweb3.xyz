@@ -16,7 +16,7 @@ export const FeatureQuery = extendType({
   type: 'Query',
   definition(t) {
     t.nonNull.list.field('allFeatures', {
-      type: list('Feature'),
+      type: 'Feature',
       resolve: FeatureService.all,
     })
   },

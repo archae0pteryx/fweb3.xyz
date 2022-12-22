@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import { apolloClient, FIND_CONTENT, REQUEST_CONTENT } from '../lib/apolloClient'
+import { apolloClient } from '../lib/apolloClient'
+import { FIND_CONTENT, REQUEST_CONTENT } from '../providers'
 
 export default function InfoPage(props: any) {
   const content = props.content?.[0] || { html: '<p>There was an error loading content</p>' }
@@ -12,7 +13,9 @@ export default function InfoPage(props: any) {
         margin: 5,
       }}
     >
-      <Typography variant="h6" color='primary'>Fweb3? What is this about?</Typography>
+      <Typography variant="h6" color="primary">
+        Fweb3? What is this about?
+      </Typography>
       <div dangerouslySetInnerHTML={{ __html: content.html }} />
     </Box>
   )
@@ -43,7 +46,7 @@ export async function getStaticProps() {
   const { data } = await apolloClient.query({
     query: FIND_CONTENT,
     variables: {
-      types: ["INFO"],
+      types: ['INFO'],
     },
   })
 

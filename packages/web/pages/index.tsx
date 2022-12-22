@@ -3,6 +3,7 @@ import { Box, Typography, Button, Card } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
 import Fade from '@mui/material/Fade'
 import { useUser } from '../providers/user'
+import { useFeature } from '../providers/feature'
 
 const renderInProdMessage = () => (
   <Typography variant="body2" color="warning.main">
@@ -11,11 +12,11 @@ const renderInProdMessage = () => (
 )
 
 export default function HomeView() {
+  const isMaintenance = useFeature('maintenance')
   const { connectUser, initialized, loading } = useUser()
   const router = useRouter()
 
   const ready = initialized && !loading
-  const inProd = process.env.NODE_ENV === 'production'
   return (
     <Box display="flex" alignItems="center" justifyContent="center" height="100vh">
       {!ready ? (
@@ -35,7 +36,7 @@ export default function HomeView() {
               <Typography variant="h4">fweb3</Typography>
               <Fade in={true} timeout={2000}>
                 <Box display="flex" justifyContent="space-around" width="100%">
-                  {inProd ? (
+                  {isMaintenance ? (
                     renderInProdMessage()
                   ) : (
                     <>
