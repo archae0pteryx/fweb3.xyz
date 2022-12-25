@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { apolloClient } from '../lib/apolloClient'
 import { FIND_CONTENT, REQUEST_CONTENT } from '../providers'
 
-export default function InfoPage(props: any) {
+export default function AboutPage(props: any) {
   const content = props.content?.[0] || { html: '<p>There was an error loading content</p>' }
   return (
     <Box

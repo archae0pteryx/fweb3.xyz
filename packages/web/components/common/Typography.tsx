@@ -1,30 +1,51 @@
-import { useTheme, Typography, TypographyProps } from '@mui/material';
+import { useTheme, Typography, TypographyProps } from '@mui/material'
 import React from 'react'
 
 function HeadingComponent(
-  {
-    children,
-    ...rest
-  }: {
-    children: React.ReactNode
-  },
+  props: TypographyProps & { children: React.ReactNode },
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const theme = useTheme()
   return (
-    <Typography ref={ref} variant="h2" align="center" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...rest}>
-      {children}
+    <Typography ref={ref} variant="h2" align="center" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
+      {props.children}
     </Typography>
   )
 }
 
-function SubHeadingComponent(
-  props: TypographyProps,
-  ref: React.ForwardedRef<HTMLDivElement>
-) {
+function SubHeadingComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const theme = useTheme()
   return (
-    <Typography ref={ref} variant="h6" align="center" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
+    <Typography ref={ref} variant="h4" color="warning.main" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
+      {props.children}
+    </Typography>
+  )
+}
+
+function BodyTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
+  const theme = useTheme()
+  return (
+    <Typography
+      ref={ref}
+      variant="body1"
+      marginX={theme.spacing(1)}
+      marginY={theme.spacing(2)}
+      {...props}
+    >
+      {props.children}
+    </Typography>
+  )
+}
+function SmallTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
+  const theme = useTheme()
+  return (
+    <Typography
+      ref={ref}
+      variant="body2"
+      marginX={theme.spacing(1)}
+      marginY={theme.spacing(2)}
+      {...props}
+    >
       {props.children}
     </Typography>
   )
@@ -32,3 +53,5 @@ function SubHeadingComponent(
 
 export const Heading = React.forwardRef(HeadingComponent)
 export const SubHeading = React.forwardRef(SubHeadingComponent)
+export const BodyText = React.forwardRef(BodyTextComponent)
+export const SmallText = React.forwardRef(SmallTextComponent)

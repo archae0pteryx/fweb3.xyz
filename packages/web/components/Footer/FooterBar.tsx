@@ -1,10 +1,6 @@
-import { AddressDisplay } from './AddressDisplay'
-import { FaDiscord } from 'react-icons/fa'
-import { FaGithubAlt } from 'react-icons/fa'
-import { IconButton } from '@mui/material'
-import { NetworkInfo } from './NetworkInfo'
-import { useRouter } from 'next/router'
+import { NetworkDisplay } from './NetworkDisplay'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material';
 
 const mainContainerStyle = {
   position: 'fixed',
@@ -16,11 +12,11 @@ const mainContainerStyle = {
   background: 'rgba(0,0,0,0.5)',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
+  justifyContent: 'center',
 }
 
 export function FooterBar() {
-  const router = useRouter()
+  const theme = useTheme()
   return (
     <>
       <Box sx={mainContainerStyle}>
@@ -28,11 +24,10 @@ export function FooterBar() {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            padding: '0 1em',
+            justifyContent: 'center',
           }}
         >
-          <AddressDisplay />
-          <NetworkInfo />
+          <NetworkDisplay />
         </Box>
       </Box>
     </>

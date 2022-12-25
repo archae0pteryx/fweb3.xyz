@@ -1,7 +1,7 @@
 import { AppProviders } from '../providers'
 import { Backdrop, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
-import Layout from '../components/Layout'
+import Layout from '../components/common/Layout'
 import Router from 'next/router'
 import type { AppProps } from 'next/app'
 

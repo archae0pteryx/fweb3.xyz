@@ -1,9 +1,6 @@
 import { useAccount, useNetwork } from '../../providers'
-import LinkIcon from '@mui/icons-material/Link'
-import LinkOffIcon from '@mui/icons-material/LinkOff'
-import Typography from '@mui/material/Typography'
+import { Typography, Box } from '@mui/material'
 import { useState, useMemo } from 'react'
-import Box from '@mui/material/Box'
 
 const ALLOWED_CHAINS: { [key: number]: string } = {
   80001: 'Mumbai [testnet]',
@@ -12,7 +9,7 @@ const ALLOWED_CHAINS: { [key: number]: string } = {
   1: 'Ethereum',
 }
 
-export function NetworkInfo() {
+export function NetworkDisplay() {
   const { isConnected } = useAccount()
   const [displayText, setDisplayText] = useState<string>('')
   const { chain } = useNetwork()
@@ -29,27 +26,7 @@ export function NetworkInfo() {
   }, [netName, isConnected, allowedInfo, connectedText])
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      {isConnected ? (
-        <LinkIcon
-          color="success"
-          sx={{
-            padding: '0 0.2em',
-          }}
-        />
-      ) : (
-        <LinkOffIcon
-          color="error"
-          sx={{
-            marginRight: '0.2em',
-          }}
-        />
-      )}
+    <Box>
       <Typography variant="caption">{displayText}</Typography>
     </Box>
   )

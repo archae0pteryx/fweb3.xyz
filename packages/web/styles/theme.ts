@@ -19,14 +19,12 @@ export const theme = responsiveFontSizes(
     typography: {
       fontFamily: player2.style.fontFamily,
       fontSize: 10,
-      // body1: {
-      //   color: '#FFE0FE',
-      //   fontSize: 12,
-      // },
-      // body2: {
-      //   color: '#FFE0FE',
-      //   fontSize: 10,
-      // },
+      body1: {
+        fontSize: 16,
+      },
+      body2: {
+        fontSize: 12,
+      },
       // subtitle1: {
       //   color: '#8D8CE5',
       //   fontSize: 10,

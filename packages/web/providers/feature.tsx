@@ -46,7 +46,10 @@ export function FeatureProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const useFeature = (feature: string) => {
+export const useFeature = (feature?: string) => {
   const { features: allFeatures } = useContext(FeatureContext)
+  if (!feature) {
+    return allFeatures
+  }
   return allFeatures.filter((f) => f.flag === feature && f.value === 'true').length > 0
 }

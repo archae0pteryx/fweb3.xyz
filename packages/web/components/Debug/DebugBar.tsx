@@ -8,7 +8,7 @@ import Collapse from '@mui/material/Collapse'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 
-export function DebugButton() {
+export function DebugBar() {
   const [open, setOpen] = useState(false)
   const { address } = useUser()
 

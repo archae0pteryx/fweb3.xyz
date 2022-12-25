@@ -16,7 +16,7 @@ const DEFAULT_OPTS: IAlertOpts = {
   severity: 'success' as AlertColor,
 }
 
-export function AlertProvider({ children }: { children: ReactNode }) {
+export function ToastProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState<string>('')
   const [opts, setOpts] = useState(DEFAULT_OPTS)

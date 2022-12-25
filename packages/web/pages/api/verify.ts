@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(400).json({ status: 'fail' })
       return
     }
-    await UsersService.verifyEmail({ prisma }, { address: address?.toString(), token: token?.toString() })
+    await UsersService.verifyEmail({ prisma }, { address: address?.toString() || '', token: token?.toString() })
     res.redirect('/?verified=true')
   } catch (err: any) {
     console.error(err)

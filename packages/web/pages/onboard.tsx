@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { apolloClient } from '../lib/apolloClient'
 import { REQUEST_CONTENT } from '../providers'
+import { useUser } from '../providers/user';
 
 const InfoListItem = ({ title, html }: any) => {
   return (
@@ -94,6 +95,7 @@ const PROMPTS = [
 ]
 
 export default function OnboardingPage({ content, error }: any) {
+  const { onboarding} = useUser()
   const [expandedInfoList, setExpandedInfoList] = useState<boolean>(false)
   const router = useRouter()
 
@@ -102,6 +104,11 @@ export default function OnboardingPage({ content, error }: any) {
   }
 
   const hasContent = content.filter(Boolean).length > 0
+
+  if (!onboarding) {
+    router.push('/')
+    return <></>
+  }
 
   return (
     <Box>

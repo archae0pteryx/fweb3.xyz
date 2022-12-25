@@ -2,9 +2,9 @@ import AWS from 'aws-sdk'
 import jwt from 'jsonwebtoken'
 import { createVerifyHtml } from './template'
 
-export async function sendVerificationEmail(email: string) {
+export async function sendVerificationEmail(address: string, email: string) {
   const token = createJwtVerify(email)
-  const res = await sendEmail(email, token)
+  const res = await sendEmail(address, email, token)
   return res
 }
 
@@ -26,8 +26,8 @@ function _createSES() {
   return new AWS.SES({ apiVersion: '2010-12-01' })
 }
 
-function buildVerifyEmailTemplate(token: string) {
-  const verifyUrl = `${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}`
+function buildVerifyEmailTemplate(address: string, token: string) {
+  const verifyUrl = `${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}&address=${address}`
   const html = createVerifyHtml(verifyUrl)
   return {
     subject: `Fweb3.xyz: Verify your email`,
@@ -36,8 +36,8 @@ function buildVerifyEmailTemplate(token: string) {
   }
 }
 
-export async function sendEmail(email: string, token: string) {
-  const { subject, text, html } = buildVerifyEmailTemplate(token)
+export async function sendEmail(address: string, email: string, token: string) {
+  const { subject, text, html } = buildVerifyEmailTemplate(address, token)
   const params = {
     Destination: {
       ToAddresses: [email],

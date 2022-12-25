@@ -8,7 +8,6 @@ export const FIND_USER = gql`
   query Query($address: String!) {
     findUser(address: $address) {
       role
-      email
       disabled
       address
       verified
@@ -39,6 +38,8 @@ const UserContext = createContext({
   connectUser: async () => {},
   disconnectUser: async () => {},
   updateUser: async (_data: any) => {},
+  emailSent: false,
+  setEmailSent: (_sent: boolean) => {},
   isConnected: false,
   loading: false,
   error: '',
@@ -56,11 +57,11 @@ const UserContext = createContext({
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const { address, isConnected, isConnecting } = useAccount()
+  const [emailSent, setEmailSent] = useState(false)
   const [initialized, setInitialized] = useState(false)
   const [onboarding, setOnboarding] = useState(false)
   const [error, setError] = useState('')
   const { disconnect } = useDisconnect()
-  const router = useRouter()
 
   const { connect, isLoading: wagmiLoading } = useConnect({
     connector: new InjectedConnector(),
@@ -78,8 +79,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [fetchCreateuser, { loading: createUserLoading, error: createUserError }] = useMutation(CREATE_USER)
 
   const createUser = async (email: string) => {
-    await fetchCreateuser({ variables: { address, email } })
-    await refetchFindUser({ variables: { address } })
+    try {
+      setError('')
+      await fetchCreateuser({ variables: { address, email } })
+      await refetchFindUser({ variables: { address } })
+    } catch (err: any) {
+      setError(err.message)
+    }
   }
 
   const findUser = useCallback(async () => {
@@ -94,10 +100,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const connectUser = async () => {
     try {
       setError('')
-      if (onboarding) {
-        router.push('/onboard')
-        return
-      }
       connect()
     } catch (err: any) {
       console.log('CONNECT ERROR', err)
@@ -106,11 +108,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   const disconnectUser = async () => {
-    setError('')
     console.log('disconnecting')
+    setError('')
+    await client.resetStore()
     disconnect()
-    client.resetStore()
-    router.push('/')
   }
 
   const updateUser = async (data: any) => {
@@ -143,10 +144,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const loading =
     userLoading || mutationLoading || wagmiLoading || isConnecting || createUserLoading || !initialized || false
   const isValidUser = (initialized && isConnected && foundUser?.address === address && foundUser.verified) || false
+
   return (
     <UserContext.Provider
       value={{
         ...foundUser,
+        emailSent,
+        setEmailSent,
         connectUser,
         disconnectUser,
         updateUser,

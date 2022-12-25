@@ -6,7 +6,8 @@ export const User = objectType({
   definition(t) {
     t.string('id')
     t.string('address')
-    t.string('email')
+    t.string('token')
+    t.string('salt')
     t.boolean('verified')
     t.boolean('disabled')
     t.string('role')
@@ -37,6 +38,8 @@ export const UserInputType = inputObjectType({
   definition(t) {
     t.string('address')
     t.string('email')
+    t.string('token')
+    t.string('salt')
     t.string('discord')
     t.string('role')
     t.boolean('verified')

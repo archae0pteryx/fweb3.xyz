@@ -5,6 +5,7 @@ import { sendVerificationEmail } from './mailer'
 import jwt from 'jsonwebtoken'
 import { handlePrismaError, USER_MESSAGE } from './errors'
 import { FeatureEntity } from './feature.entity'
+import { createUserToken } from './crypto'
 
 export class UsersService {
   static async all(_parent: any, _args: any, ctx: Context) {
@@ -13,13 +14,11 @@ export class UsersService {
 
   static async find(_parent: any, args: { address: string }, ctx: Context) {
     const { address } = args
-    console.log('finding user', address)
     const found = await UsersEntity.find(ctx.prisma, { address })
-    console.log('found', found)
     return found
   }
 
-  static async create(_parent: any, args: Prisma.UserCreateInput, ctx: Context) {
+  static async create(_parent: any, args: any, ctx: Context) {
     try {
       const { email, address } = args
 
@@ -27,18 +26,17 @@ export class UsersService {
         throw new Error(USER_MESSAGE.MISSING_CREATE_INFO)
       }
 
-      const foundUser = await UsersEntity.find(ctx.prisma, { address })
-      if (foundUser) {
-        throw new Error('USER_EXISTS')
-      }
+      const [token, salt] = createUserToken(address)
+
       const feature = await FeatureEntity.find(ctx.prisma, { flag: 'send_email' })
       if (feature?.value === 'false') {
-        console.log('Emailing disabled. Verifying user...')
-        const createRes = await UsersEntity.create(ctx.prisma, { ...args, verified: true, role: 'PLAYER' })
+        console.log('Emailing disabled. creating verified user...')
+        const createRes = await UsersEntity.create(ctx.prisma, { ...args, verified: true, role: 'PLAYER', token, salt })
         return createRes
       }
-      const createRes = await UsersEntity.create(ctx.prisma, args)
-      await sendVerificationEmail(email)
+
+      const createRes = await UsersEntity.create(ctx.prisma, { address, token, salt, role: 'PLAYER' })
+      await sendVerificationEmail(address, email)
       console.log('email sent')
       return createRes
     } catch (err: any) {
@@ -51,8 +49,8 @@ export class UsersService {
   }
 
   static async verifyEmail({ prisma }: Context, { address, token }: { address: string; token: string }) {
-    console.log('herer', process.env.EMAIL_ENABLED)
-    if (process.env.EMAIL_ENABLED !== 'true') {
+    const feature = await FeatureEntity.find(prisma, { flag: 'send_email' })
+    if (feature?.value !== 'true') {
       console.log('Emailing disabled! Skipping email verification...')
       return await UsersEntity.update(prisma, { address, verified: true, role: 'PLAYER' })
     }

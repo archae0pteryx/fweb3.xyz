@@ -46,9 +46,10 @@ type User {
   address: String
   createdAt: String
   disabled: Boolean
-  email: String
   id: String
   role: String
+  salt: String
+  token: String
   updatedAt: String
   verified: Boolean
 }
@@ -59,5 +60,7 @@ input UserInputType {
   discord: String
   email: String
   role: String
+  salt: String
+  token: String
   verified: Boolean
 }

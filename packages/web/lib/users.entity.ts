@@ -29,7 +29,7 @@ export class UsersEntity {
     try {
       return await prisma.user.upsert({
         where: {
-          email: data.email || '',
+          address: data.address || '',
         },
         update: {
           ...data,

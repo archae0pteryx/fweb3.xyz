@@ -1,10 +1,10 @@
 import { useUser, useNetwork, useToast } from '../../providers'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import { FormGroup, Skeleton, ToggleButton } from '@mui/material'
+import { FormGroup, Skeleton, ToggleButton, Typography } from '@mui/material'
 import { useState } from 'react'
-import { LoadingButton } from '../common/LoadingButton'
-import { FlexBox } from '../common/Boxes'
+import { LoadingButton } from '../common/Buttons'
+import { useFeature } from '../../providers/feature'
 
 function DebugInput(props: any) {
   return <TextField size="small" margin="dense" {...props} />
@@ -16,7 +16,9 @@ function Toggle(props: any) {
 
 export function DebugInfo() {
   const net = useNetwork()
-  const { address, displayName, role, email, verified, disabled, updateUser, loading } = useUser()
+  const { isConnected, address, displayName, role, email, verified, disabled, updateUser, loading, onboarding } =
+    useUser()
+  const features = useFeature('')
   const [updateRole, setRole] = useState(role || '')
   const [updateEmail, setEmail] = useState(email || '')
   const [updateVerified, setVerified] = useState<boolean>(verified)
@@ -44,14 +46,18 @@ export function DebugInfo() {
         borderRadius: '1em',
       }}
     >
-      {email && address ? (
+      <Box display="flex" flexDirection="column">
+        <Typography variant="caption">Onboarding: {JSON.stringify(onboarding)}</Typography>
+        <Typography variant="caption">Features: {JSON.stringify(features)}</Typography>
+      </Box>
+      {isConnected ? (
         <FormGroup>
           <DebugInput label="displayName" value={displayName} disabled />
           <DebugInput label="email" value={updateEmail} onChange={(e: any) => setEmail(e.target.value)} />
           <DebugInput label="foundUser" value={address} disabled />
           <DebugInput label="role" value={updateRole} onChange={(e: any) => setRole(e.target.value)} />
           <DebugInput label="net" value={net.chain?.name} disabled />
-          <FlexBox sx={{ justifyContent: 'space-between', margin: '0.5rem 0', padding: 0 }}>
+          <Box sx={{ justifyContent: 'space-between', margin: '0.5rem 0', padding: 0 }}>
             <Toggle
               color="info"
               value="verified"
@@ -67,11 +73,11 @@ export function DebugInfo() {
               selected={updateDisabled}
               onChange={() => setDisabled(!updateDisabled)}
             />
-          </FlexBox>
-          <LoadingButton loading={loading} text="Update" color="warning" variant="outlined" onClick={handleUpdate} />
+          </Box>
+          <LoadingButton loading={loading} color="warning" variant="outlined" onClick={handleUpdate}>Update</LoadingButton>
         </FormGroup>
       ) : (
-        <Skeleton variant="rectangular" width={300} height={200}>No user</Skeleton>
+        ''
       )}
     </Box>
   )
