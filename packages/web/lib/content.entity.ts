@@ -41,18 +41,18 @@ export class ContentEntity {
     }
   }
 
-  static async findMany(prisma: PrismaClient, type: string) {
-    try {
-      return await prisma.content.findMany({
-        where: {
-          type,
-        },
-      })
-    } catch (err: any) {
-      console.error('Error finding content:', err.message)
-      handlePrismaError(err)
-    }
-  }
+  // static async findMany(prisma: PrismaClient, type: string) {
+  //   try {
+  //     return await prisma.content.findMany({
+  //       where: {
+  //         type,
+  //       },
+  //     })
+  //   } catch (err: any) {
+  //     console.error('Error finding content:', err.message)
+  //     handlePrismaError(err)
+  //   }
+  // }
 
   static async findFirst(prisma: PrismaClient, type: string) {
     try {

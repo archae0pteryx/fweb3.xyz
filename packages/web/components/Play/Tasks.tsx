@@ -1,40 +1,48 @@
-import * as React from 'react'
-import Accordion from '@mui/material/Accordion'
-import AccordionSummary from '@mui/material/AccordionSummary'
-import AccordionDetails from '@mui/material/AccordionDetails'
-import Typography from '@mui/material/Typography'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Box, Typography, Grid, Card } from '@mui/material'
+import { useUser } from '../providers'
+import { ConnectedLayout } from './ConnectedLayout'
+import { FaCheck } from 'react-icons/fa'
 
-export function Tasks() {
+interface IGameTaskItem {
+  heading: string
+  subheading: string
+  description: string
+  subtasks: IGameTaskItem[]
+}
+
+const GAME_TASKS: IGameTaskItem[] = [
+  {
+    heading: 'Task 1',
+    subheading: 'Connect wallet and verify account',
+    description: 'Learn and understand what a wallet is and how to connect it to the app',
+    subtasks: [],
+  },
+]
+      // <Card>
+      //   <Box paddingY={1} display="flex" justifyContent="space-between" alignItems="center">
+      //     <FaCheck size={30} color="#00FF19" />
+      //     <Typography color="primary">Level 1</Typography>
+      //   </Box>
+      // </Card>
+function TaskListItem({ task }: { task: IGameTaskItem }) {
   return (
-    <div>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Typography>Accordion 1</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit
-            leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
-          <Typography>Accordion 2</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit
-            leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion disabled>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3a-content" id="panel3a-header">
-          <Typography>Disabled Accordion</Typography>
-        </AccordionSummary>
-      </Accordion>
-    </div>
+    <Grid>
+      <Typography variant="h6">{task.heading}</Typography>
+      <Typography variant="subtitle1">{task.subheading}</Typography>
+      <Typography variant="body1">{task.description}</Typography>
+      <Box>
+        {task.subtasks.map((subtask, i) => (
+          <TaskListItem key={i} task={subtask} />
+        ))}
+      </Box>
+    </Grid>
+  )
+}
+
+export function TaskList() {
+  return (
+    <Box>
+
+    </Box>
   )
 }

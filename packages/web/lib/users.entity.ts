@@ -7,18 +7,21 @@ export class UsersEntity {
       return await prisma.user.findMany()
     } catch (err: any) {
       handlePrismaError(err)
+      return null
     }
   }
 
-  static async find(prisma: PrismaClient, data: Prisma.UserWhereUniqueInput) {
+  static async find(prisma: PrismaClient, { address }: Prisma.UserWhereUniqueInput) {
     try {
       return await prisma.user.findUnique({
         where: {
-          address: data.address,
+          address: address || '',
         },
       })
     } catch (err) {
+      console.log('HERE')
       handlePrismaError(err)
+      return null
     }
   }
 
@@ -53,6 +56,7 @@ export class UsersEntity {
       })
     } catch (err) {
       handlePrismaError(err)
+      return null
     }
   }
 }

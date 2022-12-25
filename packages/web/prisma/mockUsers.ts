@@ -13,6 +13,12 @@ export const PLAYER_USER = {
   verified: true,
 }
 
+export const XENU_USER = {
+  email: 'aarchaeopteryxx@gmail.com',
+  address: '0xe247a54a7968bE1dCbB65413CdCe18948e6bC19D',
+  verified: true
+}
+
 export const MOD_USER = {
   email: 'mod@email.com',
   address: 'foobar',

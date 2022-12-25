@@ -1,16 +1,17 @@
-import { createContext, ReactNode, useContext, useState, useEffect, useMemo } from 'react'
+import { createContext, ReactNode, useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import { useAccount, useConnect, useDisconnect } from './wagmi'
 import { useRouter } from 'next/router'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
 export const FIND_USER = gql`
-  query FindUser($address: String!) {
+  query Query($address: String!) {
     findUser(address: $address) {
-      email
-      verified
-      disabled
       role
+      email
+      disabled
+      address
+      verified
     }
   }
 `
@@ -37,7 +38,6 @@ const UserContext = createContext({
   role: '',
   connectUser: async () => {},
   disconnectUser: async () => {},
-  refetchUser: async () => {},
   updateUser: async (_data: any) => {},
   isConnected: false,
   loading: false,
@@ -51,7 +51,7 @@ const UserContext = createContext({
   userLoading: '',
   initialized: false,
   isConnecting: false,
-  handleNewUser: (_email: string) => {},
+  createUser: (_email: string) => {},
 })
 
 export function UserProvider({ children }: { children: ReactNode }) {
@@ -66,36 +66,47 @@ export function UserProvider({ children }: { children: ReactNode }) {
     connector: new InjectedConnector(),
   })
 
-  const [fetchUser, { data, loading: userLoading, error: userError, refetch, client }] = useLazyQuery(FIND_USER)
+  const [
+    fetchFindUser,
+    { data: userData, called: userCalled, loading: userLoading, error: userError, refetch: refetchFindUser, client },
+  ] = useLazyQuery(FIND_USER)
 
   const [fetchUpdateUser, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_USER, {
     refetchQueries: ['FindUser'],
   })
 
-  const [createuser, { loading: createUserLoading, error: createUserError }] = useMutation(CREATE_USER)
+  const [fetchCreateuser, { loading: createUserLoading, error: createUserError }] = useMutation(CREATE_USER)
 
-  const handleNewUser = async (email: string) => {
-    try {
-      await createuser({ variables: { address, email } })
-    } catch (err) {
-      console.log({ err })
-    }
+  const createUser = async (email: string) => {
+    await fetchCreateuser({ variables: { address, email } })
+    await refetchFindUser({ variables: { address } })
   }
+
+  const findUser = useCallback(async () => {
+    if (!address) {
+      console.log('no address to find user with')
+      return
+    }
+    console.log('finding user')
+    await fetchFindUser({ variables: { address } })
+  }, [address, fetchFindUser])
 
   const connectUser = async () => {
     try {
+      setError('')
       if (onboarding) {
         router.push('/onboard')
         return
       }
       connect()
-      await fetchUser({ variables: { address } })
-    } catch (err) {
-      console.log({ err })
+    } catch (err: any) {
+      console.log('CONNECT ERROR', err)
+      setError(err.message)
     }
   }
 
   const disconnectUser = async () => {
+    setError('')
     console.log('disconnecting')
     disconnect()
     client.resetStore()
@@ -103,15 +114,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   const updateUser = async (data: any) => {
+    setError('')
     await fetchUpdateUser({ variables: { data } })
   }
-
-  useMemo(() => {
-    if (address) {
-      console.log('fetching user')
-      fetchUser({ variables: { address } })
-    }
-  }, [address, fetchUser])
 
   useMemo(() => {
     const error = userError?.message || mutationError?.message || createUserError?.message || ''
@@ -126,17 +131,24 @@ export function UserProvider({ children }: { children: ReactNode }) {
     console.log('initialized')
   }, [])
 
-  const displayName = address ? address?.slice(0, 6) + '...' + address?.slice(-4) : ''
-  const loading = userLoading || mutationLoading || wagmiLoading || isConnecting || createUserLoading || !initialized
-  const isValidUser = initialized && isConnected && data?.findUser?.address === address || false
+  const foundUser = userData?.findUser
 
+  // Initial user fetch
+  if (address && isConnected && initialized && !foundUser && !userCalled && !userLoading) {
+    console.log('initial user fetch')
+    findUser()
+  }
+
+  const displayName = address ? address?.slice(0, 6) + '...' + address?.slice(-4) : ''
+  const loading =
+    userLoading || mutationLoading || wagmiLoading || isConnecting || createUserLoading || !initialized || false
+  const isValidUser = (initialized && isConnected && foundUser?.address === address && foundUser.verified) || false
   return (
     <UserContext.Provider
       value={{
-        ...data?.findUser,
+        ...foundUser,
         connectUser,
         disconnectUser,
-        refetchUser: refetch,
         updateUser,
         isConnected,
         loading,
@@ -149,7 +161,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         isValidUser,
         userLoading: loading,
         initialized,
-        handleNewUser,
+        createUser,
       }}
     >
       {children}

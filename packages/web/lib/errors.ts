@@ -8,7 +8,7 @@ const PRISMA_ERROR_CODES: { [key: string]: string } = {
   MISSING_CREATE_INFO: 'MISSING_CREATE_INFO',
 }
 
-const USER_MESSAGE: { [key: string]: string } = {
+export const USER_MESSAGE: { [key: string]: string } = {
   UNIQUE_CONSTRAINT: 'User already exists!',
   TIMEOUT: 'Database timeout',
   AUTHENTICATION: 'Database authentication error',

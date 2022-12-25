@@ -11,7 +11,8 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { apolloClient, FIND_CONTENT } from '../lib/apolloClient'
+import { apolloClient } from '../lib/apolloClient'
+import { REQUEST_CONTENT } from '../providers'
 
 const InfoListItem = ({ title, html }: any) => {
   return (
@@ -92,7 +93,7 @@ const PROMPTS = [
   },
 ]
 
-export default function OnboardingPage({ content }: any) {
+export default function OnboardingPage({ content, error }: any) {
   const [expandedInfoList, setExpandedInfoList] = useState<boolean>(false)
   const router = useRouter()
 
@@ -127,6 +128,13 @@ export default function OnboardingPage({ content }: any) {
             Take me to install
           </Button>
         </Box>
+        {error && (
+          <Box>
+            <Typography color="error" align="center" marginBottom={5}>
+              {error}
+            </Typography>
+          </Box>
+        )}
       </Card>
       {hasContent && expandedInfoList ? (
         <Card>
@@ -142,16 +150,16 @@ export default function OnboardingPage({ content }: any) {
 }
 
 export async function getStaticProps() {
-  const { data, error } = await apolloClient.query({
-    query: FIND_CONTENT,
+  const { data } = await apolloClient.mutate({
+    mutation: REQUEST_CONTENT,
     variables: {
-      types: PROMPTS.map((prompt) => prompt.type),
+      prompts: PROMPTS,
     },
   })
 
   return {
     props: {
-      content: data.findContent,
+      content: data?.requestContent || [],
     },
   }
 }

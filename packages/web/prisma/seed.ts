@@ -1,49 +1,51 @@
 import prisma from './client'
-import { ADMIN_USER, PLAYER_USER } from './mockUsers'
+import { ADMIN_USER, PLAYER_USER, XENU_USER, MOD_USER } from './mockUsers'
 ;(async () => {
   try {
-    await prisma.user.upsert({
-      where: { address: ADMIN_USER.address },
-      update: {
-        ...ADMIN_USER,
-      },
-      create: {
-        ...ADMIN_USER,
-      },
+    await prisma.user.deleteMany()
+    await prisma.user.createMany({
+      data: [{ ...PLAYER_USER }, { ...ADMIN_USER }, { ...XENU_USER }, { ...MOD_USER }],
     })
-    await prisma.user.upsert({
-      where: { address: PLAYER_USER.address },
-      update: {
-        ...PLAYER_USER,
-      },
-      create: {
-        ...PLAYER_USER,
-      },
-    })
-    await prisma.content.upsert({
-      where: { id: '63a34e1940034accf68d19b1' },
-      update: {
-        title: 'Test Content',
-        html: '<h1>Test Content</h1>',
-        type: 'TEST_CONTENT',
-      },
-      create: {
-        title: 'Test Content',
-        html: '<h1>Test Content</h1>',
-        type: 'TEST_CONTENT',
-      },
-    })
-    await prisma.feature.upsert({
-      where: { flag: 'MAINTENANCE' },
-      update: {
-        flag: 'MAINTENANCE',
-        value: 'true',
-      },
-      create: {
-        flag: 'MAINTENANCE',
-        value: 'true',
-      },
-    })
+    // await prisma.content.createMany({
+    //   data: [
+    //     {
+    //       title: 'What is a wallet?',
+    //       prompt: 'Explain what a web3 wallet is.',
+    //       html: '<h1>Seeded html</h1>',
+    //       type: 'ONBOARD_QUESTION_1',
+    //     },
+    //     {
+    //       title: 'Wallet install info',
+    //       prompt: 'How do i install a metamask wallet in my browser?',
+    //       html: '<h1>Seeded install html</h1>',
+
+    //       type: 'ONBOARD_QUESTION_2',
+    //     },
+    //     {
+    //       title: 'Security best practices',
+    //       prompt: 'What are the best ways for me to secure my crypo wallet and assets?',
+    //       html: '<h1>Seeded security html</h1>',
+    //       type: 'ONBOARD_QUESTION_3',
+    //     },
+    //   ],
+    // })
+
+    // await prisma.feature.createMany({
+    //   data: [
+    //     {
+    //       flag: 'use_maintenance',
+    //       value: 'false',
+    //     },
+    //     {
+    //       flag: 'use_openai',
+    //       value: 'false',
+    //     },
+    //     {
+    //       flag: 'use_email',
+    //       value: 'false',
+    //     },
+    //   ],
+    // })
   } catch (err) {
     console.error(err)
   }

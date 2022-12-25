@@ -10,6 +10,18 @@ export class FeatureEntity {
     }
   }
 
+  static async find(prisma: PrismaClient, { flag }: { flag: string }) {
+    try {
+      return await prisma.feature.findUnique({
+        where: {
+          flag,
+        },
+      })
+    } catch (err) {
+      handlePrismaError(err)
+    }
+  }
+
   static async upsert(prisma: PrismaClient, { flag, value }: { flag: string; value: string }) {
     try {
       return await prisma.feature.upsert({

@@ -44,13 +44,13 @@ export function DebugInfo() {
         borderRadius: '1em',
       }}
     >
-      {address ? (
+      {email && address ? (
         <FormGroup>
-          <DebugInput label="displayName" value={displayName || ''} disabled />
-          <DebugInput label="email" value={updateEmail || ''} onChange={(e: any) => setEmail(e.target.value)} />
+          <DebugInput label="displayName" value={displayName} disabled />
+          <DebugInput label="email" value={updateEmail} onChange={(e: any) => setEmail(e.target.value)} />
           <DebugInput label="foundUser" value={address} disabled />
           <DebugInput label="role" value={updateRole} onChange={(e: any) => setRole(e.target.value)} />
-          <DebugInput label="net" value={net.chain?.name || ''} disabled />
+          <DebugInput label="net" value={net.chain?.name} disabled />
           <FlexBox sx={{ justifyContent: 'space-between', margin: '0.5rem 0', padding: 0 }}>
             <Toggle
               color="info"

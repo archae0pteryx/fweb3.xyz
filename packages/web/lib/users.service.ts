@@ -3,7 +3,8 @@ import { UsersEntity } from './users.entity'
 import { Prisma } from '@prisma/client'
 import { sendVerificationEmail } from './mailer'
 import jwt from 'jsonwebtoken'
-import { handlePrismaError } from './errors'
+import { handlePrismaError, USER_MESSAGE } from './errors'
+import { FeatureEntity } from './feature.entity'
 
 export class UsersService {
   static async all(_parent: any, _args: any, ctx: Context) {
@@ -12,18 +13,33 @@ export class UsersService {
 
   static async find(_parent: any, args: { address: string }, ctx: Context) {
     const { address } = args
-    return await UsersEntity.find(ctx.prisma, { address })
+    console.log('finding user', address)
+    const found = await UsersEntity.find(ctx.prisma, { address })
+    console.log('found', found)
+    return found
   }
 
   static async create(_parent: any, args: Prisma.UserCreateInput, ctx: Context) {
     try {
-      const { email } = args
-      if (!email) {
-        throw new Error('MISSING_INFO')
+      const { email, address } = args
+
+      if (!email || !address) {
+        throw new Error(USER_MESSAGE.MISSING_CREATE_INFO)
+      }
+
+      const foundUser = await UsersEntity.find(ctx.prisma, { address })
+      if (foundUser) {
+        throw new Error('USER_EXISTS')
+      }
+      const feature = await FeatureEntity.find(ctx.prisma, { flag: 'send_email' })
+      if (feature?.value === 'false') {
+        console.log('Emailing disabled. Verifying user...')
+        const createRes = await UsersEntity.create(ctx.prisma, { ...args, verified: true, role: 'PLAYER' })
+        return createRes
       }
       const createRes = await UsersEntity.create(ctx.prisma, args)
-      const sesMailResponse = await sendVerificationEmail(email)
-      console.log('email sent: ', { sesMailResponse })
+      await sendVerificationEmail(email)
+      console.log('email sent')
       return createRes
     } catch (err: any) {
       handlePrismaError(err)

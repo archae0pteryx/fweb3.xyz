@@ -6,6 +6,12 @@ interface IFeature {
   value: string
 }
 
+export const FEATURE_FLAGS = {
+  USE_EMAIL: 'use_email',
+  USE_OPENAI: 'use_openai',
+  USE_MAINTENANCE: 'use_maintenance',
+}
+
 const FeatureContext = createContext<{
   features: IFeature[]
   featuresError: string

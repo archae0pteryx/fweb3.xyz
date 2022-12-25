@@ -22,7 +22,7 @@ type Feature {
 }
 
 type Mutation {
-  createUser(address: String = "", email: String!): User!
+  createUser(address: String!, email: String!): User!
   requestContent(prompts: [PromptInputType]!): [Content]!
   updateUser(data: UserInputType): User
   upsertFeature(flag: String!, value: String!): Feature!
@@ -38,6 +38,7 @@ type Query {
   allFeatures: [Feature]!
   allUsers: [User]!
   findContent(types: [String]!): [Content]
+  findFeature: [Feature]!
   findUser(address: String!): User
 }
 

@@ -36,7 +36,7 @@ function renderMaintenance() {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
-  const isMaintenance = useFeature('maintenance')
+  const isMaintenance = useFeature('use_maintenance')
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -49,7 +49,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {mounted && (
         <>
           <AlertBar />
-          <Navigation />
           <Container>{children}</Container>
           <DebugButton />
           <FooterBar />

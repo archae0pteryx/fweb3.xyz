@@ -19,24 +19,20 @@ function ErrorAlert() {
   return (
     <Box sx={{ width: '100%' }}>
       <Collapse in={!!error}>
-        <Alert
-          severity="error">
-          {error}
-        </Alert>
+        <Alert severity="error">{error}</Alert>
       </Collapse>
     </Box>
   )
 }
 
 function VerifyEmailAlert() {
-  const { verified, onboarding, address } = useUser()
-  const { isConnected } = useAccount()
+  const { verified, onboarding, address, isConnected, email } = useUser()
 
   const handleResend = () => {
     console.log('resending')
   }
 
-  const shouldAlert = isConnected && !verified && !onboarding
+  const shouldAlert = isConnected && !verified && !onboarding && email
 
   if (!shouldAlert || !address) {
     return null
