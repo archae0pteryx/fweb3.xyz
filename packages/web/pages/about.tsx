@@ -4,6 +4,13 @@ import { FIND_CONTENT, REQUEST_CONTENT } from '../providers'
 
 export default function AboutPage(props: any) {
   const content = props.content?.[0] || { html: '<p>There was an error loading content</p>' }
+  if (!content) {
+    return (
+      <Typography variant="h6" color="primary">
+        There was a problem loading content.
+      </Typography>
+    )
+  }
   return (
     <Box
       sx={{
@@ -43,16 +50,25 @@ export default function AboutPage(props: any) {
 // }
 
 export async function getStaticProps() {
-  const { data } = await apolloClient.query({
-    query: FIND_CONTENT,
-    variables: {
-      types: ['INFO'],
-    },
-  })
+  try {
+    const { data } = await apolloClient.query({
+      query: FIND_CONTENT,
+      variables: {
+        types: ['INFO'],
+      },
+    })
 
-  return {
-    props: {
-      content: data.findContent,
-    },
+    return {
+      props: {
+        content: data?.findContent,
+      },
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      props: {
+        content: [],
+      },
+    }
   }
 }

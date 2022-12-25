@@ -1,19 +1,9 @@
-import {
-  ButtonBase,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Card,
-  Typography,
-  Skeleton,
-} from '@mui/material'
+import { ButtonBase, Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { apolloClient } from '../lib/apolloClient'
 import { REQUEST_CONTENT } from '../providers'
-import { useUser } from '../providers/user';
+import { useUser } from '../providers/user'
 
 const InfoListItem = ({ title, html }: any) => {
   return (
@@ -95,7 +85,7 @@ const PROMPTS = [
 ]
 
 export default function OnboardingPage({ content, error }: any) {
-  const { onboarding} = useUser()
+  const { onboarding } = useUser()
   const [expandedInfoList, setExpandedInfoList] = useState<boolean>(false)
   const router = useRouter()
 
@@ -157,16 +147,25 @@ export default function OnboardingPage({ content, error }: any) {
 }
 
 export async function getStaticProps() {
-  const { data } = await apolloClient.mutate({
-    mutation: REQUEST_CONTENT,
-    variables: {
-      prompts: PROMPTS,
-    },
-  })
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: REQUEST_CONTENT,
+      variables: {
+        prompts: PROMPTS,
+      },
+    })
 
-  return {
-    props: {
-      content: data?.requestContent || [],
-    },
+    return {
+      props: {
+        content: data?.requestContent || [],
+      },
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      props: {
+        content: [],
+      },
+    }
   }
 }
