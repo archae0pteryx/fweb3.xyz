@@ -1,16 +1,20 @@
 import { createContext, ReactNode, useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import { useAccount, useConnect, useDisconnect } from './wagmi'
-import { useRouter } from 'next/router'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
 export const FIND_USER = gql`
   query Query($address: String!) {
     findUser(address: $address) {
+      id
       role
       disabled
+      token
+      salt
       address
       verified
+      createdAt
+      updatedAt
     }
   }
 `
@@ -31,6 +35,7 @@ export const UPDATE_USER = gql`
   }
 `
 const UserContext = createContext({
+  id: '',
   email: '',
   verified: false,
   disabled: false,
@@ -53,10 +58,12 @@ const UserContext = createContext({
   initialized: false,
   isConnecting: false,
   createUser: (_email: string) => {},
+  isAdmin: false,
 })
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const { address, isConnected, isConnecting } = useAccount()
+  const [isAdmin, setIsAdmin] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
   const [initialized, setInitialized] = useState(false)
   const [onboarding, setOnboarding] = useState(false)
@@ -132,14 +139,21 @@ export function UserProvider({ children }: { children: ReactNode }) {
     console.log('initialized')
   }, [])
 
-  const foundUser = userData?.findUser
+  useEffect(() => {
+    if (address === process.env.NEXT_PUBLIC_ADMIN) {
+      setIsAdmin(true)
+    }
+    if (address) {
+      findUser()
+    }
+    // eslint-disable-next-line
+  }, [address])
 
-  // Initial user fetch
-  if (address && isConnected && initialized && !foundUser && !userCalled && !userLoading) {
-    console.log('initial user fetch')
+  if (initialized && !userCalled && address) {
     findUser()
   }
 
+  const foundUser = userData?.findUser
   const displayName = address ? address?.slice(0, 6) + '...' + address?.slice(-4) : ''
   const loading =
     userLoading || mutationLoading || wagmiLoading || isConnecting || createUserLoading || !initialized || false
@@ -166,6 +180,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         userLoading: loading,
         initialized,
         createUser,
+        isAdmin,
       }}
     >
       {children}

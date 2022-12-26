@@ -1,14 +1,16 @@
+import { PrismaClient } from '@prisma/client'
 import AWS from 'aws-sdk'
 import jwt from 'jsonwebtoken'
 import { createVerifyHtml } from './template'
 
-export async function sendVerificationEmail(address: string, email: string) {
+export async function sendVerificationEmail(prisma: PrismaClient, address: string, email: string) {
   const token = createJwtVerify(email)
   const res = await sendEmail(address, email, token)
+  console.log({ res })
   return res
 }
 
-export function createJwtVerify(email: string) {
+function createJwtVerify(email: string) {
   const secret = process.env.JWT_SECRET || ''
   if (!secret) {
     throw new Error('Error finding root jwt secret')

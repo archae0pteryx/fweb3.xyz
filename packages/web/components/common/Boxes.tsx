@@ -26,4 +26,24 @@ function PinkBoxComponent(
   )
 }
 
+function FlexComponent({ children, ...rest }: any, ref: React.ForwardedRef<HTMLDivElement>) {
+  const theme = useTheme()
+  const { sx, ...restProps } = rest
+  return (
+    <Box
+      ref={ref}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: theme.spacing(1),
+        ...sx,
+      }}
+      {...restProps}
+    >
+      {children}
+    </Box>
+  )
+}
+
 export const PinkBox = React.forwardRef(PinkBoxComponent)
+export const Flex = React.forwardRef(FlexComponent)

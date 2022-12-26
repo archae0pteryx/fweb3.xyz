@@ -1,11 +1,11 @@
 import { Context } from '../graphql/context'
-import { UsersEntity } from './users.entity'
-import { Prisma } from '@prisma/client'
-import { sendVerificationEmail } from './mailer'
-import jwt from 'jsonwebtoken'
-import { handlePrismaError, USER_MESSAGE } from './errors'
-import { FeatureEntity } from './feature.entity'
 import { createUserToken } from './crypto'
+import { FeatureEntity } from './feature.entity'
+import { Prisma } from '@prisma/client'
+import { sendVerificationEmail } from './mail.service'
+import { USER_MESSAGE } from './errors'
+import { UsersEntity } from './users.entity'
+import jwt from 'jsonwebtoken'
 
 export class UsersService {
   static async all(_parent: any, _args: any, ctx: Context) {
@@ -19,29 +19,25 @@ export class UsersService {
   }
 
   static async create(_parent: any, args: any, ctx: Context) {
-    try {
-      const { email, address } = args
+    const { email, address } = args
 
-      if (!email || !address) {
-        throw new Error(USER_MESSAGE.MISSING_CREATE_INFO)
-      }
-
-      const [token, salt] = createUserToken(address)
-
-      const feature = await FeatureEntity.find(ctx.prisma, { flag: 'send_email' })
-      if (feature?.value === 'false') {
-        console.log('Emailing disabled. creating verified user...')
-        const createRes = await UsersEntity.create(ctx.prisma, { ...args, verified: true, role: 'PLAYER', token, salt })
-        return createRes
-      }
-
-      const createRes = await UsersEntity.create(ctx.prisma, { address, token, salt, role: 'PLAYER' })
-      await sendVerificationEmail(address, email)
-      console.log('email sent')
-      return createRes
-    } catch (err: any) {
-      handlePrismaError(err)
+    if (!email || !address) {
+      throw new Error(USER_MESSAGE.MISSING_CREATE_INFO)
     }
+
+    const [token, salt] = createUserToken(address)
+
+    const feature = await FeatureEntity.find(ctx.prisma, { flag: 'send_email' })
+    if (feature?.value === 'false') {
+      console.debug('Emailing disabled. creating verified user...')
+      const createRes = await UsersEntity.create(ctx.prisma, { ...args, verified: true, role: 'PLAYER', token, salt })
+      return createRes
+    }
+
+    const createRes = await UsersEntity.create(ctx.prisma, { address, token, salt, role: 'PLAYER' })
+    const emailRes = await sendVerificationEmail(ctx.prisma, address, email)
+    console.debug({ emailRes })
+    return createRes
   }
 
   static async update(_parent: any, args: { data: Prisma.UserCreateInput }, ctx: Context) {
@@ -51,11 +47,11 @@ export class UsersService {
   static async verifyEmail({ prisma }: Context, { address, token }: { address: string; token: string }) {
     const feature = await FeatureEntity.find(prisma, { flag: 'send_email' })
     if (feature?.value !== 'true') {
-      console.log('Emailing disabled! Skipping email verification...')
+      console.debug('Emailing disabled! Skipping email verification...')
       return await UsersEntity.update(prisma, { address, verified: true, role: 'PLAYER' })
     }
 
-    console.log('Emailing enabled! Verifying email...')
+    console.debug('Emailing enabled! Verifying email...')
     const user = await UsersEntity.find(prisma, { address })
     if (!user) {
       throw new Error('User mismatch')

@@ -1,12 +1,12 @@
 import { Box, LinearProgress } from '@mui/material'
-import { useRouter } from 'next/router'
-import { useUser } from '../../providers'
 import { FooterBar } from '../Footer/FooterBar'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useUser } from '../../providers'
 
 export function ConnectedLayout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
-  const { isConnected, onboarding, loading, isValidUser } = useUser()
+  const { isConnected, onboarding, loading } = useUser()
   const router = useRouter()
 
   useEffect(() => {

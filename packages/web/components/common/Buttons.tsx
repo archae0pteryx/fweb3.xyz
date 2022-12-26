@@ -1,6 +1,7 @@
 import { Button as MuiButton, useTheme } from '@mui/material'
-import MuiLoadingButton from '@mui/lab/LoadingButton'
+import { useRouter } from 'next/router'
 import { useUser } from '../../providers'
+import MuiLoadingButton from '@mui/lab/LoadingButton'
 
 export function Button(props: React.ComponentProps<typeof MuiButton>) {
   const theme = useTheme()
@@ -42,6 +43,15 @@ export function DisconnectButton(props: any) {
   return (
     <MuiButton variant="contained" color="warning" size="small" onClick={handleDisconnect} {...props}>
       Disconnect
+    </MuiButton>
+  )
+}
+
+export function LinkButton(props: any) {
+  const router = useRouter()
+  return (
+    <MuiButton variant="contained" color="info" size="small" onClick={() => router.push(props.to)} {...props}>
+      {props.children}
     </MuiButton>
   )
 }

@@ -18,7 +18,7 @@ const { chains, webSocketProvider, provider } = configureChains(
 )
 
 const client = createClient({
-  autoConnect: false,
+  autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
     new CoinbaseWalletConnector({
@@ -44,8 +44,6 @@ const client = createClient({
   provider,
   webSocketProvider,
 })
-
-
 
 export function WagmiProvider({ children }: { children: React.ReactNode }) {
   return <WagmiConfig client={client}>{children}</WagmiConfig>

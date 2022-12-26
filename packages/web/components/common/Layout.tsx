@@ -1,12 +1,11 @@
+import { AlertBar } from '../AlertBar'
+import { FooterBar } from '../Footer/FooterBar'
+import { MaintenanceView } from '../MaintenanceView'
+import { Navbar } from '../Navbar/Navbar'
 import { useEffect, useState } from 'react'
+import { useFeature } from '../../providers/feature'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
-import { DebugBar } from '../Debug/DebugBar'
-import { FooterBar } from '../Footer/FooterBar'
-import { useFeature } from '../../providers/feature'
-import { StatusBar } from '../StatusBar/StatusBar'
-import { AlertBar } from '../AlertBar'
-import { MaintenanceView } from '../MaintenanceView'
 
 const HeadBlock = () => (
   <Head>
@@ -33,10 +32,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <HeadBlock />
       {mounted && (
         <>
-          <StatusBar />
+          <Navbar />
           <AlertBar />
           <Container>{children}</Container>
-          <DebugBar />
           <FooterBar />
         </>
       )}

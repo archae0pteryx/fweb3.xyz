@@ -1,6 +1,7 @@
+import { Box } from '@mui/material'
+import { LinkButton } from '../common/Buttons'
 import { NetworkDisplay } from './NetworkDisplay'
-import Box from '@mui/material/Box'
-import { useTheme } from '@mui/material';
+import { useUser } from '../../providers/user'
 
 const mainContainerStyle = {
   position: 'fixed',
@@ -12,23 +13,16 @@ const mainContainerStyle = {
   background: 'rgba(0,0,0,0.5)',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'space-around',
 }
 
 export function FooterBar() {
-  const theme = useTheme()
+  const { isAdmin } = useUser()
   return (
     <>
       <Box sx={mainContainerStyle}>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <NetworkDisplay />
-        </Box>
+        <NetworkDisplay />
+        {isAdmin && <LinkButton to="/admin">admin</LinkButton>}
       </Box>
     </>
   )

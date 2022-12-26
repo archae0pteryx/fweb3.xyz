@@ -1,12 +1,28 @@
-import { Box, useTheme } from '@mui/material'
-import { useUser } from '../../providers'
 import { AddressDisplay } from './AddressDisplay'
-import { DisconnectButton } from '../common/Buttons'
+import { Box, useTheme } from '@mui/material'
+import { DisconnectButton, LinkButton } from '../common/Buttons'
+import { Flex } from '../common/Boxes'
+import { useRouter } from 'next/router'
+import { useUser } from '../../providers'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
 
 const ICON_SIZE = 50
 
-export function StatusBar() {
+function ConnectedButtons() {
+  const router = useRouter()
+  const onHome = router.pathname === '/'
+  const onAbout = router.pathname === '/about'
+  const showAboutButton = !onHome && !onAbout
+  return (
+    <Flex>
+      {!onHome && <LinkButton to="/">Home</LinkButton>}
+      {showAboutButton && <LinkButton to="/about">About</LinkButton>}
+      <DisconnectButton />
+    </Flex>
+  )
+}
+
+export function Navbar() {
   const { isConnected, connectUser } = useUser()
   const theme = useTheme()
   return (
@@ -21,7 +37,7 @@ export function StatusBar() {
     >
       <AddressDisplay />
       {isConnected ? (
-        <DisconnectButton />
+        <ConnectedButtons />
       ) : (
         <Box onClick={() => connectUser()}>
           <LinkOffIcon

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 
 interface IFeature {
   flag: string
@@ -16,10 +16,18 @@ const FeatureContext = createContext<{
   features: IFeature[]
   featuresError: string
   featuresLoading: boolean
+  updateFeature: (f: IFeature) => void
+  featuresUpdateError: string
+  featuresUpdateLoading: boolean
+  featuresUpdateData: any
 }>({
   features: [],
   featuresError: '',
   featuresLoading: false,
+  updateFeature: (_feat: IFeature) => {},
+  featuresUpdateError: '',
+  featuresUpdateLoading: false,
+  featuresUpdateData: {},
 })
 
 export const ALL_FEATURES = gql`
@@ -31,14 +39,39 @@ export const ALL_FEATURES = gql`
   }
 `
 
+export const UPDATE_FEATURE = gql`
+  mutation Mutation($flag: String!, $value: String!) {
+    upsertFeature(flag: $flag, value: $value) {
+      value
+      flag
+    }
+  }
+`
+
 export function FeatureProvider({ children }: { children: React.ReactNode }) {
   const { loading, error, data } = useQuery(ALL_FEATURES)
+  const [fetchUpsertFeature, { loading: featureUpdateLoading, error: featureUpdateError, data: featureUpdateData }] =
+    useMutation(UPDATE_FEATURE)
+
+  const updatefeature = ({ flag, value }: IFeature) => {
+    fetchUpsertFeature({
+      variables: {
+        flag,
+        value,
+      },
+    })
+  }
+
   return (
     <FeatureContext.Provider
       value={{
         features: data?.allFeatures || [],
         featuresError: error?.message || '',
         featuresLoading: loading,
+        updateFeature: updatefeature,
+        featuresUpdateError: featureUpdateError?.message || '',
+        featuresUpdateLoading: featureUpdateLoading,
+        featuresUpdateData: featureUpdateData?.upsertFeature || {},
       }}
     >
       {children}
@@ -46,10 +79,7 @@ export function FeatureProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const useFeature = (feature?: string) => {
+export const useFeature = (feature: string) => {
   const { features: allFeatures } = useContext(FeatureContext)
-  if (!feature) {
-    return allFeatures
-  }
   return allFeatures.filter((f) => f.flag === feature && f.value === 'true').length > 0
 }

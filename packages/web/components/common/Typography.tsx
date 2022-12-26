@@ -16,7 +16,14 @@ function HeadingComponent(
 function SubHeadingComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const theme = useTheme()
   return (
-    <Typography ref={ref} variant="h4" color="warning.main" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
+    <Typography
+      ref={ref}
+      variant="h4"
+      color="warning.main"
+      marginRight={theme.spacing(1)}
+      marginY={theme.spacing(2)}
+      {...props}
+    >
       {props.children}
     </Typography>
   )
@@ -25,13 +32,7 @@ function SubHeadingComponent(props: TypographyProps, ref: React.ForwardedRef<HTM
 function BodyTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const theme = useTheme()
   return (
-    <Typography
-      ref={ref}
-      variant="body1"
-      marginX={theme.spacing(1)}
-      marginY={theme.spacing(2)}
-      {...props}
-    >
+    <Typography ref={ref} variant="body1" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
       {props.children}
     </Typography>
   )
@@ -39,13 +40,7 @@ function BodyTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLD
 function SmallTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const theme = useTheme()
   return (
-    <Typography
-      ref={ref}
-      variant="body2"
-      marginX={theme.spacing(1)}
-      marginY={theme.spacing(2)}
-      {...props}
-    >
+    <Typography ref={ref} variant="body2" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
       {props.children}
     </Typography>
   )

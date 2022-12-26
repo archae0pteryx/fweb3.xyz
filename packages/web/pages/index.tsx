@@ -3,22 +3,14 @@ import { Box, Typography } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
 import Fade from '@mui/material/Fade'
 import { useUser } from '../providers/user'
-import { useFeature } from '../providers/feature'
-import { PinkBox } from '../components/common/PinkBox'
+import { PinkBox } from '../components/common/Boxes'
 import { Heading, SubHeading } from '../components/common/Typography'
 import { Button } from '../components/common/Buttons'
-import { useToast } from '../providers/alert';
-
-const renderMaintenanceMessage = () => (
-  <Typography variant="body2" color="warning.main">
-    Disabled for maintenance
-  </Typography>
-)
+import { useToast } from '../providers/alert'
 
 export default function HomeView() {
-  const isMaintenance = useFeature('maintenance')
   const { triggerToast } = useToast()
-  const { isConnected, initialized, loading, onboarding } = useUser()
+  const { isConnected, initialized, loading, onboarding, isValidUser } = useUser()
   const router = useRouter()
 
   if (router.query.verified === 'true') {
@@ -43,22 +35,25 @@ export default function HomeView() {
       ) : (
         <TransitionGroup>
           <Fade in={true} timeout={1000}>
-            <PinkBox>
-              <SubHeading>Learn web3. Win sh*t</SubHeading>
-              <Heading sx={{ margin: 5 }}>fweb3</Heading>
-              <Fade in={true} timeout={2000}>
-                <Box display="flex" justifyContent="space-around" width="100%">
-                  {isMaintenance ? (
-                    renderMaintenanceMessage()
-                  ) : (
-                    <>
-                      <Button onClick={handleSubmit}>{isConnected ? 'game' : 'start'}</Button>
-                      <Button onClick={() => router.push('/about')}>about</Button>
-                    </>
-                  )}
+            <Box>
+              <PinkBox>
+                <SubHeading>Learn web3. Win sh*t</SubHeading>
+                <Heading sx={{ margin: 5 }}>fweb3</Heading>
+                <Fade in={true} timeout={2000}>
+                  <Box display="flex" justifyContent="space-around" width="100%">
+                    <Button onClick={handleSubmit}>start</Button>
+                    <Button onClick={() => router.push('/about')}>about</Button>
+                  </Box>
+                </Fade>
+              </PinkBox>
+              {isValidUser && (
+                <Box marginTop={5}>
+                  <Button variant="outlined" color="info" fullWidth onClick={() => router.push('/game')}>
+                    continue
+                  </Button>
                 </Box>
-              </Fade>
-            </PinkBox>
+              )}
+            </Box>
           </Fade>
         </TransitionGroup>
       )}
