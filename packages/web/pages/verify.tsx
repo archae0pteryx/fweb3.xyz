@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
 export default function VerifyPage() {
-  const { loading, createUser, emailSent, setEmailSent } = useUser()
+  const { loading, createUser, emailSent, setEmailSent, isValidUser } = useUser()
   const { triggerToast } = useToast()
   const [emailError, setEmailError] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -32,6 +32,11 @@ export default function VerifyPage() {
     if (e.key === 'Enter') {
       handleSubmit()
     }
+  }
+
+  if (isValidUser) {
+    router.push('/game')
+    return null
   }
 
   return (
