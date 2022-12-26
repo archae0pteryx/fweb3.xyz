@@ -9,6 +9,8 @@ export const FIND_USER = gql`
       id
       role
       disabled
+      emailMessageId
+      emailSentAt
       token
       salt
       address
@@ -34,22 +36,51 @@ export const UPDATE_USER = gql`
     }
   }
 `
+
+interface IUserContext {
+  createUser: (email: string) => void
+  connectUser: () => Promise<void>
+  disconnectUser: () => Promise<void>
+  updateUser: (data: any) => Promise<void>
+  emailSentAt: string
+  id?: string
+  foundAddress: string
+  emailMessageId?: string
+  verified?: boolean
+  disabled?: boolean
+  role?: string
+  isAdmin: boolean
+  isConnected: boolean
+  loading: boolean
+  error: string
+  setError: (msg: string) => void
+  address: string
+  displayName: string
+  onboarding: boolean
+  setOnboarding: (onboarding: boolean) => void
+  isValidUser: boolean
+  userLoading: string
+  initialized: boolean
+  isConnecting: boolean
+  resendVerifyEmail: () => Promise<void>
+}
+
 const UserContext = createContext({
   id: '',
-  email: '',
   verified: false,
   disabled: false,
   role: '',
+  emailMessageId: '',
+  emailSentAt: '',
   connectUser: async () => {},
   disconnectUser: async () => {},
   updateUser: async (_data: any) => {},
-  emailSent: false,
-  setEmailSent: (_sent: boolean) => {},
   isConnected: false,
   loading: false,
   error: '',
   setError: (_msg: string) => {},
   address: '',
+  foundAddress: '',
   displayName: '',
   onboarding: false,
   setOnboarding: async () => {},
@@ -59,12 +90,12 @@ const UserContext = createContext({
   isConnecting: false,
   createUser: (_email: string) => {},
   isAdmin: false,
+  resendVerifyEmail: async () => {},
 })
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const { address, isConnected, isConnecting } = useAccount()
   const [isAdmin, setIsAdmin] = useState(false)
-  const [emailSent, setEmailSent] = useState(false)
   const [initialized, setInitialized] = useState(false)
   const [onboarding, setOnboarding] = useState(false)
   const [error, setError] = useState('')
@@ -96,12 +127,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   const findUser = useCallback(async () => {
-    if (!address) {
-      console.log('no address to find user with')
-      return
+    try {
+      if (!address) {
+        console.log('no address to find user with')
+        return
+      }
+      console.log('finding user')
+      await fetchFindUser({ variables: { address } })
+    } catch (err: any) {
+      console.error(err)
+      setError(err.message)
     }
-    console.log('finding user')
-    await fetchFindUser({ variables: { address } })
   }, [address, fetchFindUser])
 
   const connectUser = async () => {
@@ -109,7 +145,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
       setError('')
       connect()
     } catch (err: any) {
-      console.log('CONNECT ERROR', err)
       setError(err.message)
     }
   }
@@ -117,13 +152,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const disconnectUser = async () => {
     console.log('disconnecting')
     setError('')
-    await client.resetStore()
     disconnect()
   }
 
   const updateUser = async (data: any) => {
     setError('')
     await fetchUpdateUser({ variables: { data } })
+  }
+
+  const resendVerifyEmail = async () => {
+    ///
   }
 
   useMemo(() => {
@@ -145,15 +183,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
     if (address) {
       findUser()
+    } else {
+      console.debug('resetting gql store')
+      client.resetStore()
     }
     // eslint-disable-next-line
   }, [address])
 
-  if (initialized && !userCalled && address) {
-    findUser()
-  }
-
   const foundUser = userData?.findUser
+
+  // if (foundUser?.address !== address) {
+  //   setError('User mismatch! Please refresh the page.')
+  // }
   const displayName = address ? address?.slice(0, 6) + '...' + address?.slice(-4) : ''
   const loading =
     userLoading || mutationLoading || wagmiLoading || isConnecting || createUserLoading || !initialized || false
@@ -163,11 +204,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     <UserContext.Provider
       value={{
         ...foundUser,
-        emailSent,
-        setEmailSent,
         connectUser,
         disconnectUser,
         updateUser,
+        resendVerifyEmail,
+        foundAddress: '',
         isConnected,
         loading,
         error,

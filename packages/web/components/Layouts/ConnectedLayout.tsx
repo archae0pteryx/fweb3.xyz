@@ -25,13 +25,14 @@ export function ConnectedLayout({ children }: { children: React.ReactNode }) {
     )
   }
 
-  if (onboarding) {
-    router.push('/onboard')
-    return <></>
-  }
 
   if (!isConnected) {
     router.push('/')
+    return <></>
+  }
+
+  if (onboarding) {
+    router.push('/onboard')
     return <></>
   }
 

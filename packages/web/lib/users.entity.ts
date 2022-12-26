@@ -25,7 +25,7 @@ export class UsersEntity {
     }
   }
 
-  static async create(prisma: PrismaClient, data: Prisma.UserCreateInput) {
+  static async upsert(prisma: PrismaClient, data: Prisma.UserCreateInput) {
     try {
       return await prisma.user.upsert({
         where: {

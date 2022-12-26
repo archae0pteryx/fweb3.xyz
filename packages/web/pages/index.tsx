@@ -3,31 +3,26 @@ import { Box, Typography } from '@mui/material'
 import { TransitionGroup } from 'react-transition-group'
 import Fade from '@mui/material/Fade'
 import { useUser } from '../providers/user'
-import { PinkBox } from '../components/common/Boxes'
-import { Heading, SubHeading } from '../components/common/Typography'
-import { Button } from '../components/common/Buttons'
-import { useToast } from '../providers/alert'
+import { PinkBox } from '../components/shared/Boxes'
+import { Heading, SubHeading } from '../components/shared/Typography'
+import { Button } from '../components/shared/Buttons'
+import { useToast } from '../providers/toast'
 
 export default function HomeView() {
   const { triggerToast } = useToast()
-  const { isConnected, initialized, loading, onboarding, isValidUser } = useUser()
+  const { isValidUser, initialized, loading, onboarding } = useUser()
   const router = useRouter()
-
-  if (router.query.verified === 'true') {
-    triggerToast('Email verified')
-  }
+  const ready = initialized && !loading
 
   const handleSubmit = () => {
     if (onboarding) {
       router.push('/onboard')
-    } else if (isConnected) {
+    } else if (isValidUser) {
       router.push('/game')
     } else {
       router.push('/start')
     }
   }
-
-  const ready = initialized && !loading
   return (
     <Box display="flex" alignItems="center" justifyContent="center" marginTop={20}>
       {!ready ? (

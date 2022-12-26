@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { Flex } from './common/Boxes'
+import { Flex } from './shared/Boxes'
 import { type Task, useGame } from '../providers'
 
 function ProgressListItem({ name, completed, validators = [] }: Task) {

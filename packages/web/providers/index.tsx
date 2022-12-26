@@ -5,13 +5,13 @@ import { FeatureProvider } from './feature'
 import { MaterialProvider } from './material'
 import { UserProvider } from './user'
 import { WagmiProvider } from './wagmi'
-import { ToastProvider } from './alert'
+import { ToastProvider } from './toast'
 import { GameProvider } from './game'
 
 export { useAccount, useDisconnect, useConnect, useNetwork } from './wagmi'
 export { useContent, REQUEST_CONTENT, FIND_CONTENT } from './content'
 export { useTheme } from './material'
-export { useToast } from './alert'
+export { useToast } from './toast'
 export { useUser, CREATE_USER, FIND_USER, UPDATE_USER } from './user'
 export { useFeature, ALL_FEATURES } from './feature'
 export { useGame, type Task, TASK_ITEMS } from './game'
@@ -23,11 +23,11 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
         <ToastProvider>
           <MaterialProvider>
             <WagmiProvider>
-              <ContentProvider>
-                <UserProvider>
+              <UserProvider>
+                <ContentProvider>
                   <GameProvider>{children}</GameProvider>
-                </UserProvider>
-              </ContentProvider>
+                </ContentProvider>
+              </UserProvider>
             </WagmiProvider>
           </MaterialProvider>
         </ToastProvider>

@@ -6,6 +6,8 @@ export const User = objectType({
   definition(t) {
     t.string('id')
     t.string('address')
+    t.string('emailMessageId')
+    t.string('emailSentAt')
     t.string('token')
     t.string('salt')
     t.boolean('verified')
@@ -37,7 +39,8 @@ export const UserInputType = inputObjectType({
   name: 'UserInputType',
   definition(t) {
     t.string('address')
-    t.string('email')
+    t.string('emailMessageId')
+    t.string('emailSentAt')
     t.string('token')
     t.string('salt')
     t.string('discord')

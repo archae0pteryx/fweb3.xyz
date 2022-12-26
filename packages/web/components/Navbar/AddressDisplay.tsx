@@ -2,9 +2,9 @@ import { Typography } from '@mui/material'
 import { useUser } from '../../providers'
 
 export function AddressDisplay() {
-  const { displayName, id } = useUser()
+  const { displayName, isValidUser } = useUser()
   return (
-    <Typography color={id ? 'green' : 'red'} variant="caption">
+    <Typography color={isValidUser ? 'green' : 'red'} variant="caption">
       {displayName}
     </Typography>
   )

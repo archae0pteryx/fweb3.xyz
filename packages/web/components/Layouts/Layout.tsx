@@ -1,4 +1,3 @@
-import { AlertBar } from '../AlertBar'
 import { FooterBar } from '../Footer/FooterBar'
 import { MaintenanceView } from '../MaintenanceView'
 import { Navbar } from '../Navbar/Navbar'
@@ -6,6 +5,9 @@ import { useEffect, useState } from 'react'
 import { useFeature } from '../../providers/feature'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
+import { useRouter } from 'next/router';
+import { useToast } from '../../providers'
+import { VerifyEmailAlert } from '../shared/Alerts'
 
 const HeadBlock = () => (
   <Head>
@@ -16,8 +18,10 @@ const HeadBlock = () => (
 )
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const { triggerToast } = useToast()
   const isMaintenance = useFeature('use_maintenance')
   const [mounted, setMounted] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
@@ -27,13 +31,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return <MaintenanceView />
   }
 
+  if (mounted && router.query.verified === 'true') {
+    setTimeout(() => {
+      triggerToast('Email verified')
+      router.replace('/')
+    }, 1000)
+  }
+
+
   return (
     <>
       <HeadBlock />
       {mounted && (
         <>
           <Navbar />
-          <AlertBar />
+          <VerifyEmailAlert />
           <Container>{children}</Container>
           <FooterBar />
         </>

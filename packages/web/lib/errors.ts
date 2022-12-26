@@ -18,6 +18,7 @@ export const USER_MESSAGE: { [key: string]: string } = {
 }
 
 export function handlePrismaError(err: any) {
+  console.error('Prisma error:', JSON.stringify(err))
   const { code } = err
   if (err.message.includes('Expected Iterable')) {
     throw new GraphQLError('Expected Iterable', {

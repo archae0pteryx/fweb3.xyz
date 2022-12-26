@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { LinkButton } from '../common/Buttons'
+import { LinkButton } from '../shared/Buttons'
 import { NetworkDisplay } from './NetworkDisplay'
 import { useUser } from '../../providers/user'
 

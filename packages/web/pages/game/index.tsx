@@ -1,15 +1,18 @@
-import { SubHeading } from '../../components/common/Typography'
-import { ConnectedLayout } from '../../components/common/ConnectedLayout'
+import { SubHeading } from '../../components/shared/Typography'
+import { ConnectedLayout } from '../../components/Layouts/ConnectedLayout'
 import { ProgressList } from '../../components/ProgressList'
-import { PinkBox } from '../../components/common/Boxes'
+import { PinkBox } from '../../components/shared/Boxes'
+import { ValidUserLayout } from '../../components/Layouts/ValidUserLayout'
 
 export default function GamePage() {
   return (
     <ConnectedLayout>
-      <PinkBox>
-        <SubHeading align='center'>Current Progress</SubHeading>
-        <ProgressList />
-      </PinkBox>
+      <ValidUserLayout>
+        <PinkBox>
+          <SubHeading align="center">Current Progress</SubHeading>
+          <ProgressList />
+        </PinkBox>
+      </ValidUserLayout>
     </ConnectedLayout>
   )
 }

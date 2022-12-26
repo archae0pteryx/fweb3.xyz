@@ -2,20 +2,40 @@ import { PrismaClient } from '@prisma/client'
 import AWS from 'aws-sdk'
 import jwt from 'jsonwebtoken'
 import { createVerifyHtml } from './template'
+import { GraphQLError } from 'graphql'
 
 export async function sendVerificationEmail(prisma: PrismaClient, address: string, email: string) {
-  const token = createJwtVerify(email)
-  const res = await sendEmail(address, email, token)
-  console.log({ res })
-  return res
+  try {
+    const HOUR = 1000 * 60 * 60
+    const anHourAgo = new Date(Date.now() - HOUR)
+
+    const {
+      token: userToken,
+      disabled,
+      emailSentAt = Date.now(),
+    } = (await prisma.user.findUnique({ where: { address } })) || {}
+    const allowed = !disabled && (emailSentAt === null || emailSentAt < anHourAgo)
+    if (allowed && userToken) {
+      const jwtToken = createJwtVerify(userToken as string)
+      const res = await sendEmail(address, email, jwtToken)
+      return {
+        emailMessageId: res.MessageId,
+        emailSentAt: new Date(),
+      }
+    }
+    throw new GraphQLError('Email verification is disabled or has been sent recently')
+  } catch (err) {
+    console.error(err)
+    throw new GraphQLError('Error sending verification email')
+  }
 }
 
-function createJwtVerify(email: string) {
+function createJwtVerify(incoming: string) {
   const secret = process.env.JWT_SECRET || ''
   if (!secret) {
     throw new Error('Error finding root jwt secret')
   }
-  const token = jwt.sign({ email }, secret, { expiresIn: '10m' })
+  const token = jwt.sign({ secret: incoming }, secret, { expiresIn: '10m' })
   return token
 }
 
