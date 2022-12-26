@@ -12,7 +12,7 @@ export type Task = {
   idx: number
   name: string
   completed: boolean
-  path?: string
+  path: string
   validators?: Task[]
 }
 
@@ -22,31 +22,12 @@ export const TASK_ITEMS: Task[] = [
     name: 'Connect wallet and verify wallet',
     completed: true,
     path: '/onboarding',
-    validators: [
-      {
-        idx: 0,
-        name: 'Wallet connected',
-        completed: true,
-      },
-      {
-        idx: 1,
-        name: 'Wallet verified',
-        completed: true,
-      },
-    ],
   },
   {
     idx: 1,
     name: 'Create an insulated wallet',
     completed: false,
-    path: '/create-dev-wallet',
-    validators: [
-      {
-        idx: 0,
-        name: 'Wallet created within an hour of starting',
-        completed: false,
-      },
-    ],
+    path: '/game/create-dev-wallet',
   },
 ]
 

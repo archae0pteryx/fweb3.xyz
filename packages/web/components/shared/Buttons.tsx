@@ -9,11 +9,6 @@ export function Button(props: React.ComponentProps<typeof MuiButton>) {
     <MuiButton
       variant="contained"
       color="secondary"
-      sx={{
-        fontSize: theme.spacing(2),
-        padding: theme.spacing(1),
-        minWidth: theme.spacing(20),
-      }}
       {...props}
     />
   )
@@ -41,7 +36,7 @@ export function DisconnectButton(props: any) {
     await disconnectUser()
   }
   return (
-    <MuiButton variant="contained" color="warning" size="small" onClick={handleDisconnect} {...props}>
+    <MuiButton variant="outlined" color="warning" onClick={handleDisconnect} {...props}>
       Disconnect
     </MuiButton>
   )
@@ -50,7 +45,7 @@ export function DisconnectButton(props: any) {
 export function LinkButton(props: any) {
   const router = useRouter()
   return (
-    <MuiButton variant="contained" color="info" size="small" onClick={() => router.push(props.to)} {...props}>
+    <MuiButton variant="contained" onClick={() => router.push(props.to)} {...props}>
       {props.children}
     </MuiButton>
   )
