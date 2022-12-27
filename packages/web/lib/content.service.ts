@@ -1,7 +1,9 @@
-import { OpenAI } from './openai.service'
 import { ContentEntity } from './content.entity'
 import { Context } from '../graphql/context'
 import { FeatureEntity } from './feature.entity'
+import { GameTaskEntity } from './game.entity'
+import { GraphQLError } from 'graphql'
+import { OpenAI } from './openai.service'
 
 export interface IPromptParams {
   type: string
@@ -11,6 +13,27 @@ export interface IPromptParams {
 }
 
 export class ContentService {
+  static async all(_root: any, _args: any, ctx: Context) {
+    try {
+      const res = await ContentEntity.all(ctx.prisma)
+      return res
+    } catch (error) {
+      console.error('Error fetching content:', error)
+      throw error
+    }
+  }
+
+  static async findAllById(_root: any, args: any, ctx: Context) {
+    try {
+      const { ids } = args
+      const res = await ContentEntity.findAllById(ctx.prisma, ids)
+      return res
+    } catch (error) {
+      console.error('Error fetching content:', error)
+      throw error
+    }
+  }
+
   static async findContent(_root: any, args: any, ctx: Context) {
     try {
       const { types } = args
@@ -41,7 +64,7 @@ export class ContentService {
       console.log('OpenAI is enabled')
       const sorted: Record<string, IPromptParams[]> = {}
 
-      const fetchedContent = await OpenAI.processPrompts(prompts)
+      const fetchedContent = await OpenAI.generateMultiplePrompts(prompts)
 
       for (const p of fetchedContent) {
         const { type } = p
@@ -72,4 +95,33 @@ export class ContentService {
     }
   }
 
+  static async fillTaskContent(_root: any, _args: any, ctx: Context) {
+    try {
+      const tasks = (await GameTaskEntity.all(ctx.prisma)) || []
+      const output = []
+      if (!tasks.length) return
+
+      for (const task of tasks) {
+        for (const content of task.content) {
+          if (!content.prompt) continue
+
+          const html = await OpenAI.createCompletion(content.prompt)
+          const updated = await ctx.prisma.content.update({
+            where: {
+              id: content.id,
+            },
+            data: {
+              html,
+            },
+          })
+          output.push(updated)
+        }
+      }
+      console.log('tasks filled!')
+      return output
+    } catch (err: any) {
+      console.error('Error filling task content', err.message)
+      throw new GraphQLError(err.message)
+    }
+  }
 }

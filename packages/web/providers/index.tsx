@@ -14,7 +14,7 @@ export { useTheme } from './material'
 export { useToast } from './toast'
 export { useUser, CREATE_USER, FIND_USER, UPDATE_USER } from './user'
 export { useFeature, ALL_FEATURES } from './feature'
-export { useGame, type Task, TASK_ITEMS } from './game'
+export { useGame, type Task, ALL_TASKS } from './game'
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (

@@ -3,7 +3,6 @@
 
 
 type Content {
-  cached: Boolean
   createdAt: String
   html: String
   id: String
@@ -11,6 +10,12 @@ type Content {
   title: String
   type: String
   updatedAt: String
+}
+
+input ContentInputType {
+  prompt: String
+  title: String
+  type: String
 }
 
 type Feature {
@@ -21,25 +26,44 @@ type Feature {
   value: String
 }
 
+type GameTask {
+  content: [Content]
+  createdAt: String
+  description: String
+  id: String
+  name: String
+  title: String
+  updatedAt: String
+}
+
+input GameTaskInputType {
+  contentPrompt: String
+  contentTitle: String
+  contentType: String
+  taskDescription: String
+  taskName: String
+  taskTitle: String
+}
+
 type Mutation {
+  createTask(gameTask: GameTaskInputType!): GameTask!
   createUser(address: String!, email: String!): User!
-  requestContent(prompts: [PromptInputType]!): [Content]!
+  fillTaskContent: [Content]!
+  requestContent(prompts: [ContentInputType]!): [Content]!
   updateUser(data: UserInputType): User
+  upsertContentForTask(gameTask: GameTaskInputType!): Content!
   upsertFeature(flag: String!, value: String!): Feature!
 }
 
-input PromptInputType {
-  prompt: String
-  title: String
-  type: String
-}
-
 type Query {
+  allContent: [Content]
   allFeatures: [Feature]!
+  allGameTasks: [GameTask]!
   allUsers: [User]!
   findContent(types: [String]!): [Content]
   findFeature: [Feature]!
   findUser(address: String!): User
+  gameTask(name: String!): GameTask
 }
 
 type User {
@@ -60,6 +84,7 @@ input UserInputType {
   address: String
   disabled: Boolean
   discord: String
+  email: String
   emailMessageId: String
   emailSentAt: String
   role: String

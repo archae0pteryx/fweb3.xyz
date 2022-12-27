@@ -39,6 +39,7 @@ export const UserInputType = inputObjectType({
   name: 'UserInputType',
   definition(t) {
     t.string('address')
+    t.string('email')
     t.string('emailMessageId')
     t.string('emailSentAt')
     t.string('token')

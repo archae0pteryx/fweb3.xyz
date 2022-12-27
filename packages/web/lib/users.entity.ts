@@ -6,7 +6,7 @@ export class UsersEntity {
     try {
       return await prisma.user.findMany()
     } catch (err: any) {
-      handlePrismaError(err)
+      handlePrismaError(err, 'users.findMany')
       return null
     }
   }
@@ -19,8 +19,7 @@ export class UsersEntity {
         },
       })
     } catch (err) {
-      console.log('HERE')
-      handlePrismaError(err)
+      handlePrismaError(err, 'users.find')
       return null
     }
   }
@@ -39,7 +38,7 @@ export class UsersEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err)
+      handlePrismaError(err, 'users.upsert')
     }
   }
 
@@ -55,7 +54,7 @@ export class UsersEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err)
+      handlePrismaError(err, 'users.update')
       return null
     }
   }

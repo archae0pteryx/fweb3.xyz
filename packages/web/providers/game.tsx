@@ -1,43 +1,55 @@
-import { createContext, useContext, useState } from 'react'
+import { useQuery, gql } from '@apollo/client'
+import { createContext, useContext } from 'react'
 
 interface ITaskContext {
   tasks: Task[]
+  gameTasksLoading: boolean
+  gameTasksError: string
 }
 
 const GameContext = createContext<ITaskContext>({
   tasks: [],
+  gameTasksLoading: false,
+  gameTasksError: '',
 })
 
 export type Task = {
-  idx: number
+  id: string
+  title: string
   name: string
-  completed: boolean
-  path: string
-  validators?: Task[]
+  description: string
+  completed?: boolean
+  content: {
+    title: string
+    type: string
+    html: string
+  }[]
 }
 
-export const TASK_ITEMS: Task[] = [
-  {
-    idx: 0,
-    name: 'Connect wallet and verify wallet',
-    completed: true,
-    path: '/onboarding',
-  },
-  {
-    idx: 1,
-    name: 'Create an insulated wallet',
-    completed: false,
-    path: '/game/create-dev-wallet',
-  },
-]
+export const ALL_TASKS = gql`
+  query Query {
+    allGameTasks {
+      content {
+        title
+        type
+        html
+      }
+      id
+      name
+      description
+      title
+    }
+  }
+`
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
-  const [tasks, setTasks] = useState<Task[]>(TASK_ITEMS)
-
+  const { loading: gameTasksLoading, data, error } = useQuery(ALL_TASKS)
   return (
     <GameContext.Provider
       value={{
-        tasks,
+        tasks: data?.allGameTasks || [],
+        gameTasksLoading,
+        gameTasksError: error?.message || '',
       }}
     >
       {children}

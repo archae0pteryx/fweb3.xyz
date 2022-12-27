@@ -1,16 +1,24 @@
 import { ConnectedLayout } from '../../components/Layouts/ConnectedLayout'
-import { ValidUserLayout } from '../../components/Layouts/ValidUserLayout'
-import { SubHeading } from '../../components/shared/Typography'
+import { Typography } from '@mui/material'
 import { useRouter } from 'next/router'
-import { Typography } from '@mui/material';
+import { ValidUserLayout } from '../../components/Layouts/ValidUserLayout'
+import { useGame } from '../../providers'
+import { PinkBox } from '../../components/shared/Boxes'
 
 export default function TaskInfoPage() {
   const { slug } = useRouter().query
+  const { tasks } = useGame()
+  const found = tasks.find((task) => task.id === slug) || null
   return (
     <ConnectedLayout>
       <ValidUserLayout>
-        <SubHeading align="center">Task item</SubHeading>
-        <Typography>{slug}</Typography>
+        {/* <Typography>{slug}</Typography> */}
+        <Typography color="secondary" align="center" variant="h5">
+          {found?.title}
+        </Typography>
+        <PinkBox>
+          <div dangerouslySetInnerHTML={{ __html: found?.content[0].html || '' }} />
+        </PinkBox>
       </ValidUserLayout>
     </ConnectedLayout>
   )

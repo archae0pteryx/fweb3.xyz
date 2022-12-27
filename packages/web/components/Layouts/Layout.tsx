@@ -2,12 +2,11 @@ import { FooterBar } from '../Footer/FooterBar'
 import { MaintenanceView } from '../MaintenanceView'
 import { Navbar } from '../Navbar/Navbar'
 import { useEffect, useState } from 'react'
-import { useFeature } from '../../providers/feature'
+import { useRouter } from 'next/router'
+import { useToast, useFeature } from '../../providers'
+import { VerifyEmailAlert } from '../shared/Alerts'
 import Container from '@mui/system/Container'
 import Head from 'next/head'
-import { useRouter } from 'next/router';
-import { useToast } from '../../providers'
-import { VerifyEmailAlert } from '../shared/Alerts'
 
 const HeadBlock = () => (
   <Head>
@@ -37,7 +36,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       router.replace('/')
     }, 1000)
   }
-
 
   return (
     <>

@@ -30,11 +30,11 @@ export class UsersService {
 
     if (feature?.value === 'false') {
       console.log('Emailing disabled. creating verified user...')
-      const createRes = await UsersEntity.upsert(ctx.prisma, { ...args, verified: true, role: 'PLAYER', token, salt })
+      const createRes = await UsersEntity.upsert(ctx.prisma, { address, verified: true, role: 'PLAYER', token, salt })
       return createRes
     }
 
-    const createRes = await UsersEntity.upsert(ctx.prisma, {
+    await UsersEntity.upsert(ctx.prisma, {
       address,
       token,
       salt,
@@ -43,12 +43,12 @@ export class UsersService {
 
     const emailRes = await sendVerificationEmail(ctx.prisma, address, email)
     const updateRes = await UsersEntity.update(ctx.prisma, { address, ...emailRes })
-    console.log({ createRes, emailRes, updateRes })
     return updateRes
   }
 
-  static async update(_parent: any, args: { data: Prisma.UserCreateInput }, ctx: Context) {
-    return await UsersEntity.update(ctx.prisma, args.data)
+  static async update(_parent: any, args: any, ctx: Context) {
+    const { email, ...rest } = args.data
+    return await UsersEntity.update(ctx.prisma, rest)
   }
 
   static async verifyEmail({ prisma }: Context, { address, token }: { address: string; token: string }) {

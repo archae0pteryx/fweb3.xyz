@@ -9,14 +9,13 @@ export const Content = objectType({
     t.string('title')
     t.string('html')
     t.string('type')
-    t.boolean('cached')
     t.string('createdAt')
     t.string('updatedAt')
   },
 })
 
-export const PromptInputType = inputObjectType({
-  name: 'PromptInputType',
+export const ContentInputType = inputObjectType({
+  name: 'ContentInputType',
   definition(t) {
     t.string('title')
     t.string('prompt')
@@ -33,6 +32,10 @@ export const ContentQuery = extendType({
         types: nonNull(list(stringArg())),
       },
       resolve: ContentService.findContent,
+    }),
+    t.field('allContent', {
+      type: list('Content'),
+      resolve: ContentService.all,
     })
   },
 })
@@ -43,9 +46,13 @@ export const ContentMutation = extendType({
     t.nonNull.field('requestContent', {
       type: list('Content'),
       args: {
-        prompts: nonNull(list(PromptInputType)),
+        prompts: nonNull(list(ContentInputType)),
       },
       resolve: ContentService.requestConent,
+    })
+    t.nonNull.field('fillTaskContent', {
+      type: list('Content'),
+      resolve: ContentService.fillTaskContent,
     })
   },
 })

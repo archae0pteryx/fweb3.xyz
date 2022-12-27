@@ -18,7 +18,10 @@
     "generate": "npx prisma generate",
     "studio": "npx prisma studio",
     "push": "npx prisma db push",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "seed:content": "ts-node --transpile-only prisma/content_seed.ts",
+    "seed:task": "ts-node --transpile-only prisma/task_seed.ts",
+    "seed:feature": "ts-node --transpile-only prisma/feature_seed.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.7.2",

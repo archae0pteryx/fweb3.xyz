@@ -6,7 +6,7 @@ export class FeatureEntity {
     try {
       return await prisma.feature.findMany()
     } catch (err) {
-      handlePrismaError(err)
+      handlePrismaError(err, 'features.all')
     }
   }
 
@@ -18,7 +18,7 @@ export class FeatureEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err)
+      handlePrismaError(err, 'features.find')
     }
   }
 
@@ -38,7 +38,7 @@ export class FeatureEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err)
+      handlePrismaError(err, 'features.upsert')
     }
   }
 }

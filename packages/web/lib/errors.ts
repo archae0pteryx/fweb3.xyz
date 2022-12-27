@@ -1,4 +1,4 @@
-import { GraphQLError } from "graphql"
+import { GraphQLError } from 'graphql'
 
 const PRISMA_ERROR_CODES: { [key: string]: string } = {
   P2002: 'UNIQUE_CONSTRAINT',
@@ -17,19 +17,18 @@ export const USER_MESSAGE: { [key: string]: string } = {
   MISSING_CREATE_INFO: 'Missing info!',
 }
 
-export function handlePrismaError(err: any) {
-  console.error('Prisma error:', JSON.stringify(err))
+export function handlePrismaError(err: any, where = 'generic') {
+  console.error(`prisma error [${where}]`, err)
   const { code } = err
   if (err.message.includes('Expected Iterable')) {
     throw new GraphQLError('Expected Iterable', {
       extensions: {
-        code: 'POTENTIALLY_NO_RECORDS'
+        code: 'POTENTIALLY_NO_RECORDS',
       },
     })
   }
   const reason = PRISMA_ERROR_CODES[code] || ''
   const message = USER_MESSAGE[reason] || err.message || USER_MESSAGE.UNKNOWN
-  console.error('Prisma error:', JSON.stringify(err))
   if (!message) {
     throw err
   }

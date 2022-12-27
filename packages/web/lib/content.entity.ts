@@ -2,12 +2,33 @@ import { Prisma, PrismaClient } from '@prisma/client'
 import { handlePrismaError } from './errors'
 
 export class ContentEntity {
+  static async all(prisma: PrismaClient) {
+    try {
+      return await prisma.content.findMany()
+    } catch (err) {
+      handlePrismaError(err, 'content.all')
+    }
+  }
+
+  static async findAllById(prisma: PrismaClient, ids: string[]) {
+    try {
+      return await prisma.content.findMany({
+        where: {
+          id: {
+            in: ids,
+          },
+        },
+      })
+    } catch (err) {
+      handlePrismaError(err, 'content.findAllById')
+    }
+  }
+
   static async createMany(prisma: PrismaClient, data: Prisma.ContentCreateInput[]) {
     try {
       return await prisma.content.createMany({ data })
     } catch (err: any) {
-      console.error('Error creating content:', err.message)
-      handlePrismaError(err)
+      handlePrismaError(err, 'content.createMany')
     }
   }
 
@@ -20,8 +41,7 @@ export class ContentEntity {
         data,
       })
     } catch (err: any) {
-      console.error('Error updating content:', err.message)
-      handlePrismaError(err)
+      handlePrismaError(err, 'content.update')
     }
   }
 
@@ -36,23 +56,9 @@ export class ContentEntity {
         },
       })
     } catch (err: any) {
-      console.error('Error finding latest content:', time, err.message)
-      handlePrismaError(err)
+      handlePrismaError(err, 'content.findLatestByDate')
     }
   }
-
-  // static async findMany(prisma: PrismaClient, type: string) {
-  //   try {
-  //     return await prisma.content.findMany({
-  //       where: {
-  //         type,
-  //       },
-  //     })
-  //   } catch (err: any) {
-  //     console.error('Error finding content:', err.message)
-  //     handlePrismaError(err)
-  //   }
-  // }
 
   static async findFirst(prisma: PrismaClient, type: string) {
     try {
@@ -62,8 +68,7 @@ export class ContentEntity {
         },
       })
     } catch (err: any) {
-      console.error('Error finding default content:', err.message)
-      handlePrismaError(err)
+      handlePrismaError(err, 'content.findFirst')
     }
   }
 }
