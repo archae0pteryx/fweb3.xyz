@@ -10,7 +10,7 @@ export async function seedFeature() {
         },
         {
           flag: 'use_openai',
-          value: 'false',
+          value: 'true',
         },
         {
           flag: 'use_email',

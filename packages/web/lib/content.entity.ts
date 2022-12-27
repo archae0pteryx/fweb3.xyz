@@ -10,6 +10,25 @@ export class ContentEntity {
     }
   }
 
+  static async upsert(prisma: PrismaClient, data: any) {
+    try {
+      const { type, ...rest } = data
+      return await prisma.content.upsert({
+        where: {
+          type: data.type,
+        },
+        update: {
+          ...rest,
+        },
+        create: {
+          ...data,
+        }
+      })
+    } catch (err) {
+      handlePrismaError(err, 'content.create')
+    }
+  }
+
   static async findAllById(prisma: PrismaClient, ids: string[]) {
     try {
       return await prisma.content.findMany({

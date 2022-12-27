@@ -46,9 +46,10 @@ input GameTaskInputType {
 }
 
 type Mutation {
+  createContent(prompt: String!, title: String!, type: String!): Content!
   createTask(gameTask: GameTaskInputType!): GameTask!
   createUser(address: String!, email: String!): User!
-  fillTaskContent: [Content]!
+  fillContent: [Content]!
   requestContent(prompts: [ContentInputType]!): [Content]!
   updateUser(data: UserInputType): User
   upsertContentForTask(gameTask: GameTaskInputType!): Content!

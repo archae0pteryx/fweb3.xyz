@@ -49,10 +49,19 @@ export const ContentMutation = extendType({
         prompts: nonNull(list(ContentInputType)),
       },
       resolve: ContentService.requestConent,
-    })
-    t.nonNull.field('fillTaskContent', {
+    }),
+    t.nonNull.field('createContent', {
+      type: 'Content',
+      args: {
+        prompt: nonNull(stringArg()),
+        title: nonNull(stringArg()),
+        type: nonNull(stringArg()),
+      },
+      resolve: ContentService.create,
+    }),
+    t.nonNull.field('fillContent', {
       type: list('Content'),
-      resolve: ContentService.fillTaskContent,
+      resolve: ContentService.fillContent,
     })
   },
 })

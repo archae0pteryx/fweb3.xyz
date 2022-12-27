@@ -35,12 +35,11 @@ export const FIND_CONTENT = gql`
   }
 `
 export const REQUEST_CONTENT = gql`
-  mutation RequestContent($prompts: [PromptInputType]!) {
+  mutation Mutation($prompts: [ContentInputType]!) {
     requestContent(prompts: $prompts) {
       title
-      html
       type
-      id
+      html
     }
   }
 `

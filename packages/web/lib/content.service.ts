@@ -23,6 +23,18 @@ export class ContentService {
     }
   }
 
+  static async create(_root: any, args: any, ctx: Context) {
+    try {
+      const { type, title, prompt } = args
+      const html = await OpenAI.createCompletion(prompt)
+      const res = await ContentEntity.upsert(ctx.prisma, { type, title, prompt, html })
+      return res
+    } catch (error) {
+      console.error('Error fetching content:', error)
+      throw error
+    }
+  }
+
   static async findAllById(_root: any, args: any, ctx: Context) {
     try {
       const { ids } = args
@@ -95,27 +107,25 @@ export class ContentService {
     }
   }
 
-  static async fillTaskContent(_root: any, _args: any, ctx: Context) {
+  static async fillContent(_root: any, _args: any, ctx: Context) {
     try {
-      const tasks = (await GameTaskEntity.all(ctx.prisma)) || []
+      const contents = (await ContentEntity.all(ctx.prisma)) || []
       const output = []
-      if (!tasks.length) return
+      if (!contents.length) return
 
-      for (const task of tasks) {
-        for (const content of task.content) {
-          if (!content.prompt) continue
+      for (const content of contents) {
+        if (!content.prompt) continue
 
-          const html = await OpenAI.createCompletion(content.prompt)
-          const updated = await ctx.prisma.content.update({
-            where: {
-              id: content.id,
-            },
-            data: {
-              html,
-            },
-          })
-          output.push(updated)
-        }
+        const html = await OpenAI.createCompletion(content.prompt)
+        const updated = await ctx.prisma.content.update({
+          where: {
+            id: content.id,
+          },
+          data: {
+            html,
+          },
+        })
+        output.push(updated)
       }
       console.log('tasks filled!')
       return output
