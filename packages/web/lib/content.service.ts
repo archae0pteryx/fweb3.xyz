@@ -1,7 +1,6 @@
 import { ContentEntity } from './content.entity'
 import { Context } from '../graphql/context'
 import { FeatureEntity } from './feature.entity'
-import { GameTaskEntity } from './game.entity'
 import { GraphQLError } from 'graphql'
 import { OpenAI } from './openai.service'
 
@@ -61,7 +60,7 @@ export class ContentService {
   static async requestConent(_root: any, args: any, ctx: Context) {
     try {
       const { prompts } = args
-
+      
       const feature = await FeatureEntity.find(ctx.prisma, { flag: 'use_openai' })
 
       if (feature?.value === 'false') {

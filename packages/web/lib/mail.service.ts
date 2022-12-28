@@ -3,6 +3,7 @@ import AWS from 'aws-sdk'
 import jwt from 'jsonwebtoken'
 import { createVerifyHtml } from './template'
 import { GraphQLError } from 'graphql'
+import { API_ENDPOINT } from './constants'
 
 export async function sendVerificationEmail(prisma: PrismaClient, address: string, email: string) {
   try {
@@ -49,7 +50,7 @@ function _createSES() {
 }
 
 function buildVerifyEmailTemplate(address: string, token: string) {
-  const verifyUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/verify?token=${token}&address=${address}`
+  const verifyUrl = `${API_ENDPOINT}/verify?token=${token}&address=${address}`
   const html = createVerifyHtml(verifyUrl)
   return {
     subject: `Fweb3.xyz: Verify your email`,

@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { API_ENDPOINT } from './constants'
 
 export const apolloClient = new ApolloClient({
-  uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/graphql` || 'http://localhost:3000/api/graphql',
+  uri: `${API_ENDPOINT}/graphql`,
   cache: new InMemoryCache(),
 })
-
