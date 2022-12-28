@@ -43,6 +43,10 @@ export async function getStaticProps() {
       },
     }
   } catch (err) {
-    return []
+    return {
+      props: {
+        content: [],
+      }
+    }
   }
 }
