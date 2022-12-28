@@ -1,5 +1,6 @@
 import { extendType, objectType, stringArg, nonNull, inputObjectType } from 'nexus'
 import { GameTaskService } from '../../lib/game.service'
+import { ValidatorService } from '../../lib/validator.service'
 
 export const GameTask = objectType({
   name: 'GameTask',
@@ -8,6 +9,7 @@ export const GameTask = objectType({
     t.string('name')
     t.string('description')
     t.string('title')
+    t.boolean('completed')
     t.list.field('content', {
       type: 'Content',
     })
@@ -21,18 +23,41 @@ export const GameTaskQuery = extendType({
   definition(t) {
     t.nonNull.list.field('allGameTasks', {
       type: 'GameTask',
+      args: {
+        address: stringArg(),
+      },
       resolve: GameTaskService.all,
     }),
-    t.field('gameTask', {
-      type: 'GameTask',
-      args: {
-        name: nonNull(stringArg()),
-      },
-      resolve: GameTaskService.findByName,
-    })
+      t.field('gameTask', {
+        type: 'GameTask',
+        args: {
+          name: nonNull(stringArg()),
+        },
+        resolve: GameTaskService.findByName,
+      })
   },
 })
 
+export const CompletedTaskType = objectType({
+  name: 'CompletedTaskType',
+  definition(t) {
+    t.string('name')
+    t.boolean('completed')
+  },
+})
+
+export const GameTaskCompletedQuery = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.list.field('completedTasks', {
+      type: 'CompletedTaskType',
+      args: {
+        address: nonNull(stringArg()),
+      },
+      resolve: ValidatorService.validateTasks,
+    })
+  },
+})
 
 export const GameTaskInputType = inputObjectType({
   name: 'GameTaskInputType',
@@ -43,7 +68,7 @@ export const GameTaskInputType = inputObjectType({
     t.string('contentPrompt')
     t.string('contentTitle')
     t.string('contentType')
-  }
+  },
 })
 
 export const GameTaskMutation = extendType({

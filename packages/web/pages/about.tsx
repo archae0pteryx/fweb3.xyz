@@ -36,7 +36,6 @@ export async function getStaticProps() {
         types: ['ABOUT_PAGE'],
       },
     })
-    console.log('aboutpage.content', data.findContent)
     return {
       props: {
         content: data?.findContent || [],

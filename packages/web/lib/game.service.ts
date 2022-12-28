@@ -2,10 +2,20 @@ import { ContentEntity } from './content.entity'
 import { Context } from '../graphql/context'
 import { GameTaskEntity } from './game.entity'
 import { OpenAI } from './openai.service'
+import { ValidatorService } from './validator.service';
 
 export class GameTaskService {
-  static async all(_root: any, _args: any, ctx: Context) {
-    return await GameTaskEntity.all(ctx.prisma)
+  static async all(_root: any, args: any, ctx: Context) {
+    const allTasks = await GameTaskEntity.all(ctx.prisma) || []
+    const allCompleted = await ValidatorService.validateTasks(_root, args, ctx)
+    const combined = allTasks.map((t) => {
+      const completed = allCompleted?.find((c) => c.name === t.name)
+      return {
+        ...t,
+        completed: completed?.completed || false,
+      }
+    })
+    return combined
   }
 
   static async findByName(_root: any, args: any, ctx: Context) {

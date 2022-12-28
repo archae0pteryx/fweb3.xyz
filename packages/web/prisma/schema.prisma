@@ -50,6 +50,7 @@ model GameTask {
   title       String?
   description String?
   content     Content[]
+  completed   Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }

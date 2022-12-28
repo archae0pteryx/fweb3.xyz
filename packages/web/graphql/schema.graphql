@@ -2,6 +2,11 @@
 ### Do not make changes to this file directly
 
 
+type CompletedTaskType {
+  completed: Boolean
+  name: String
+}
+
 type Content {
   createdAt: String
   html: String
@@ -27,6 +32,7 @@ type Feature {
 }
 
 type GameTask {
+  completed: Boolean
   content: [Content]
   createdAt: String
   description: String
@@ -59,8 +65,9 @@ type Mutation {
 type Query {
   allContent: [Content]
   allFeatures: [Feature]!
-  allGameTasks: [GameTask]!
+  allGameTasks(address: String): [GameTask]!
   allUsers: [User]!
+  completedTasks(address: String!): [CompletedTaskType]!
   findContent(types: [String]!): [Content]
   findFeature: [Feature]!
   findUser(address: String!): User

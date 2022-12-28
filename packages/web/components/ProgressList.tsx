@@ -40,7 +40,7 @@ function ProgressListItem({ id, title, completed }: Task) {
 export function ProgressList() {
   const { tasks } = useGame()
   const theme = useTheme()
-  console.log('progresslist.tasks', tasks)
+
   return (
     <Box>
       <Box marginBottom={theme.spacing(2)}>

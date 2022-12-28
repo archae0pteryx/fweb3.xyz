@@ -38,6 +38,7 @@ export const ALL_TASKS = gql`
       name
       description
       title
+      completed
     }
   }
 `
