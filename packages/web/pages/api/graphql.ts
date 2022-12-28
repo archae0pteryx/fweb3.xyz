@@ -1,8 +1,6 @@
-import Cors from 'micro-cors'
 import { ApolloServer } from 'apollo-server-micro'
 import { createContext, BasicLogger, schema } from '../../graphql'
-
-const cors = Cors()
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const apolloServer = new ApolloServer({
   schema,
@@ -12,7 +10,7 @@ const apolloServer = new ApolloServer({
 
 const startServer = apolloServer.start()
 
-export default cors(async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'OPTIONS') {
       res.end()
@@ -25,7 +23,7 @@ export default cors(async function handler(req, res) {
   } catch (err) {
     console.log({ err })
   }
-})
+}
 
 // NextJS request config
 export const config = {
