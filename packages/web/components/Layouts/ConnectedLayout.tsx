@@ -1,4 +1,4 @@
-import { Box, LinearProgress } from '@mui/material'
+import { Box } from '@mui/material'
 import { FooterBar } from '../Footer/FooterBar'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -6,7 +6,7 @@ import { useUser } from '../../providers'
 
 export function ConnectedLayout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
-  const { isConnected, onboarding, loading } = useUser()
+  const { isConnected, loading } = useUser()
   const router = useRouter()
 
   useEffect(() => {
@@ -17,22 +17,10 @@ export function ConnectedLayout({ children }: { children: React.ReactNode }) {
     return <></>
   }
 
-  if (loading) {
-    return (
-      <Box height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        <LinearProgress />
-      </Box>
-    )
-  }
-
-
-  if (!isConnected) {
-    router.push('/')
-    return <></>
-  }
-
-  if (onboarding) {
-    router.push('/onboard')
+  if (!loading && !isConnected) {
+    setTimeout(() => {
+      router.push('/')
+    }, 500)
     return <></>
   }
 

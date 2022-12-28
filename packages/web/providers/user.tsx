@@ -44,7 +44,6 @@ interface IUserContext {
   updateUser: (data: any) => Promise<void>
   emailSentAt: string
   id?: string
-  foundAddress: string
   emailMessageId?: string
   verified?: boolean
   disabled?: boolean
@@ -80,7 +79,6 @@ const UserContext = createContext({
   error: '',
   setError: (_msg: string) => {},
   address: '',
-  foundAddress: '',
   displayName: '',
   onboarding: false,
   setOnboarding: async () => {},
@@ -164,7 +162,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     ///
   }
 
-  useMemo(() => {
+  useEffect(() => {
     const error = userError?.message || mutationError?.message || createUserError?.message || ''
     setError(error)
   }, [userError, mutationError, createUserError])
@@ -178,9 +176,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    if (address === process.env.NEXT_PUBLIC_ADMIN) {
-      setIsAdmin(true)
-    }
     if (address) {
       findUser()
     } else {
@@ -190,15 +185,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line
   }, [address])
 
+  useEffect(() => {
+    if (address === process.env.NEXT_PUBLIC_ADMIN) {
+      setIsAdmin(true)
+    }
+  }, [address])
+
   const foundUser = userData?.findUser
 
-  // if (foundUser?.address !== address) {
-  //   setError('User mismatch! Please refresh the page.')
-  // }
   const displayName = address ? address?.slice(0, 6) + '...' + address?.slice(-4) : ''
   const loading =
     userLoading || mutationLoading || wagmiLoading || isConnecting || createUserLoading || !initialized || false
-  const isValidUser = (initialized && isConnected && foundUser?.address === address && foundUser.verified) || false
+  const isValidUser = (!loading && initialized && isConnected && foundUser.verified) || false
 
   return (
     <UserContext.Provider
@@ -208,7 +206,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
         disconnectUser,
         updateUser,
         resendVerifyEmail,
-        foundAddress: '',
         isConnected,
         loading,
         error,

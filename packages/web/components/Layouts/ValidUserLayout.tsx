@@ -15,7 +15,7 @@ export function ValidUserLayout({ children }: { children: React.ReactNode }) {
   }
 
   if (!isValidUser) {
-    router.push('/verify')
+    router.push('/')
     return <></>
   }
 
