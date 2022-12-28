@@ -49,7 +49,7 @@ function _createSES() {
 }
 
 function buildVerifyEmailTemplate(address: string, token: string) {
-  const verifyUrl = `${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}&address=${address}`
+  const verifyUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/verify?token=${token}&address=${address}`
   const html = createVerifyHtml(verifyUrl)
   return {
     subject: `Fweb3.xyz: Verify your email`,
