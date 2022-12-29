@@ -19,6 +19,9 @@ export const theme = responsiveFontSizes(
     typography: {
       fontFamily: player2.style.fontFamily,
       fontSize: 8,
+      body1: {
+        fontSize: 12
+      }
     },
     palette: {
       mode: 'dark',

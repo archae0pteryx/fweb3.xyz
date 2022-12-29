@@ -1,11 +1,13 @@
 import { Box, Typography } from '@mui/material'
 import { useUser } from '../../providers'
 import { useRouter } from 'next/router'
+import { validateSessionCookie } from '../../lib/auth'
+import { NextPageContext } from 'next'
 
-export function ValidUserLayout({ children }: { children: React.ReactNode }) {
+export default function ValidUserLayout(props: any) {
   const { isValidUser, disabled } = useUser()
   const router = useRouter()
-
+  console.log(props)
   if (disabled) {
     return (
       <Box margin={5}>
@@ -14,10 +16,10 @@ export function ValidUserLayout({ children }: { children: React.ReactNode }) {
     )
   }
 
-  if (!isValidUser) {
-    router.push('/')
-    return <></>
-  }
+  // if (!isValidUser) {
+  //   router.push('/')
+  //   return <></>
+  // }
 
-  return <Box>{children}</Box>
+  return <Box>{props.children}</Box>
 }

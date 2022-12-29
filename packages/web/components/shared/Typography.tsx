@@ -7,7 +7,7 @@ function HeadingComponent(
 ) {
   const theme = useTheme()
   return (
-    <Typography ref={ref} variant="h2" align="center" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
+    <Typography ref={ref} variant="h2" marginBottom={theme.spacing(2)} {...props}>
       {props.children}
     </Typography>
   )
@@ -16,14 +16,16 @@ function HeadingComponent(
 function SubHeadingComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const theme = useTheme()
   return (
-    <Typography
-      ref={ref}
-      variant="h4"
-      color="warning.main"
-      marginRight={theme.spacing(1)}
-      marginY={theme.spacing(2)}
-      {...props}
-    >
+    <Typography ref={ref} variant="h4" color="warning.main" marginBottom={theme.spacing(2)} {...props}>
+      {props.children}
+    </Typography>
+  )
+}
+
+function LargeTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
+  const theme = useTheme()
+  return (
+    <Typography ref={ref} variant="h5" marginBottom={theme.spacing(2)} {...props}>
       {props.children}
     </Typography>
   )
@@ -32,7 +34,7 @@ function SubHeadingComponent(props: TypographyProps, ref: React.ForwardedRef<HTM
 function BodyTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const theme = useTheme()
   return (
-    <Typography ref={ref} variant="body1" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
+    <Typography ref={ref} variant="body1" marginBottom={theme.spacing(2)} {...props}>
       {props.children}
     </Typography>
   )
@@ -40,7 +42,7 @@ function BodyTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLD
 function SmallTextComponent(props: TypographyProps, ref: React.ForwardedRef<HTMLDivElement>) {
   const theme = useTheme()
   return (
-    <Typography ref={ref} variant="body2" marginX={theme.spacing(1)} marginY={theme.spacing(2)} {...props}>
+    <Typography ref={ref} variant="body2" marginBottom={theme.spacing(2)} {...props}>
       {props.children}
     </Typography>
   )
@@ -50,3 +52,4 @@ export const Heading = React.forwardRef(HeadingComponent)
 export const SubHeading = React.forwardRef(SubHeadingComponent)
 export const BodyText = React.forwardRef(BodyTextComponent)
 export const SmallText = React.forwardRef(SmallTextComponent)
+export const LargeText = React.forwardRef(LargeTextComponent)

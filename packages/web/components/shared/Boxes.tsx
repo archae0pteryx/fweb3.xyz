@@ -18,6 +18,7 @@ function PinkBoxComponent(
         border: `2px solid #FC0BD4`,
         padding: theme.spacing(3),
         maring: theme.spacing(1),
+        borderRadius: theme.spacing(2),
       }}
       {...rest}
     >

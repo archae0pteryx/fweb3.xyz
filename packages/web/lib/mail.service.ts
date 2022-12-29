@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 import AWS from 'aws-sdk'
-import jwt from 'jsonwebtoken'
 import { createVerifyHtml } from './template'
 import { GraphQLError } from 'graphql'
 import { API_ENDPOINT } from './constants'
+import { signJwt } from './auth'
 
 export async function sendVerificationEmail(prisma: PrismaClient, address: string, email: string) {
   try {
@@ -17,7 +17,7 @@ export async function sendVerificationEmail(prisma: PrismaClient, address: strin
     } = (await prisma.user.findUnique({ where: { address } })) || {}
     const allowed = !disabled && (emailSentAt === null || emailSentAt < anHourAgo)
     if (allowed && userToken) {
-      const jwtToken = createJwtVerify(userToken as string)
+      const jwtToken = signJwt(userToken as string)
       const res = await sendEmail(address, email, jwtToken)
       return {
         emailMessageId: res.MessageId,
@@ -29,15 +29,6 @@ export async function sendVerificationEmail(prisma: PrismaClient, address: strin
     console.error(err)
     throw new GraphQLError('Error sending verification email')
   }
-}
-
-function createJwtVerify(incoming: string) {
-  const secret = process.env.JWT_SECRET || ''
-  if (!secret) {
-    throw new Error('Error finding root jwt secret')
-  }
-  const token = jwt.sign({ secret: incoming }, secret, { expiresIn: '10m' })
-  return token
 }
 
 function _createSES() {

@@ -21,7 +21,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const isMaintenance = useFeature('use_maintenance')
   const [mounted, setMounted] = useState(false)
   const router = useRouter()
-
   useEffect(() => {
     setMounted(true)
   }, [])

@@ -2,6 +2,8 @@ import { createContext, ReactNode, useContext, useState, useEffect, useMemo, use
 import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import { useAccount, useConnect, useDisconnect } from './wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { createSessionCookie } from '../lib/auth';
+import Cookies from 'js-cookie'
 
 export const FIND_USER = gql`
   query Query($address: String!) {
@@ -62,6 +64,7 @@ interface IUserContext {
   initialized: boolean
   isConnecting: boolean
   resendVerifyEmail: () => Promise<void>
+  isValidSession: boolean
 }
 
 const UserContext = createContext({
@@ -89,10 +92,13 @@ const UserContext = createContext({
   createUser: (_email: string) => {},
   isAdmin: false,
   resendVerifyEmail: async () => {},
+  isValidSession: false,
+  setIsValidSession: () => {},
 })
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const { address, isConnected, isConnecting } = useAccount()
+  const [isValidSession, setIsValidSession] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [initialized, setInitialized] = useState(false)
   const [onboarding, setOnboarding] = useState(false)
@@ -142,6 +148,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       setError('')
       connect()
+      createSessionCookie()
     } catch (err: any) {
       setError(err.message)
     }
@@ -151,6 +158,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     console.log('disconnecting')
     setError('')
     disconnect()
+    // invalidateSession()
   }
 
   const updateUser = async (data: any) => {
@@ -178,6 +186,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (address) {
       findUser()
+      createSessionCookie()
     } else {
       console.debug('resetting gql store')
       client.resetStore()
@@ -219,6 +228,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         initialized,
         createUser,
         isAdmin,
+        isValidSession,
+        setIsValidSession
       }}
     >
       {children}

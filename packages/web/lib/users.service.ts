@@ -1,11 +1,10 @@
 import { Context } from '../graphql/context'
-import { createUserToken } from './crypto'
+import { createUserToken, validateSessionCookie } from './auth'
 import { FeatureEntity } from './feature.entity'
-import { Prisma } from '@prisma/client'
 import { sendVerificationEmail } from './mail.service'
 import { USER_MESSAGE } from './errors'
 import { UsersEntity } from './users.entity'
-import jwt from 'jsonwebtoken'
+import { verifyJwt } from './auth';
 
 export class UsersService {
   static async all(_parent: any, _args: any, ctx: Context) {
@@ -72,7 +71,7 @@ export class UsersService {
       throw new Error('User disabled')
     }
     const userToken = user.token
-    const d = jwt.verify(token, process.env.JWT_SECRET || '') as any
+    const d = verifyJwt(token) as any
 
     if (userToken !== d.secret) {
       throw new Error('Token mismatch')

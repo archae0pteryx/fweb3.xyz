@@ -1,8 +1,8 @@
 import { Box, Typography, useTheme } from '@mui/material'
-import { useUser } from '../providers'
+import { useUser } from '../../providers'
 import { useRouter } from 'next/router'
-import { BodyText, SubHeading, SmallText } from '../components/shared/Typography'
-import { Button } from '../components/shared/Buttons'
+import { BodyText, SubHeading, SmallText, LargeText } from '../shared/Typography'
+import { Button } from '../shared/Buttons'
 import { BsCheckCircle } from 'react-icons/bs'
 import { VscError } from 'react-icons/vsc'
 
@@ -36,7 +36,7 @@ function StepInfoBox({ children, checked = false }: { children: React.ReactNode;
   )
 }
 
-export default function StartPage() {
+export function GetStartedTasks() {
   const { isConnected, connectUser, isValidUser, onboarding } = useUser()
   const router = useRouter()
   const theme = useTheme()
@@ -63,25 +63,13 @@ export default function StartPage() {
     <Box>
       <Box
         sx={{
-          margin: theme.spacing(3),
-        }}
-      >
-        <SubHeading
-          sx={{
-            marginBottom: theme.spacing(5),
-          }}
-        >
-          Complete web3 tasks, earn unique NFT&apos;s
-        </SubHeading>
-        <BodyText color="info.main">No coding is required. But you will be exposed to some.</BodyText>
-      </Box>
-      <Box
-        sx={{
           marginX: theme.spacing(8),
           marginY: theme.spacing(3),
         }}
       >
-        <BodyText color="secondary" variant='h4' marginX={0} marginTop={5}>Get started</BodyText>
+        <BodyText color="secondary" variant="h4" marginX={0} marginTop={5}>
+          Get started
+        </BodyText>
         <StepInfoBox checked={isConnected}>
           <SmallText>{onboarding ? 'Install a browser wallet' : 'Connect your wallet'}</SmallText>
         </StepInfoBox>
