@@ -1,10 +1,9 @@
 import { ApolloServer } from 'apollo-server-micro'
-import { createContext, BasicLogger, schema } from '../../graphql'
+import { createContext, schema } from '../../graphql'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const apolloServer = new ApolloServer({
   schema,
-  plugins: [BasicLogger],
   context: createContext,
 })
 

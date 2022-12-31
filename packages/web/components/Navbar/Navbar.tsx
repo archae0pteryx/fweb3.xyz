@@ -3,8 +3,8 @@ import { Box, useTheme } from '@mui/material'
 import { DisconnectButton, LinkButton } from '../shared/Buttons'
 import { Flex } from '../shared/Boxes'
 import { useRouter } from 'next/router'
-import { useUser } from '../../providers'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
+import { useConnect, useAccount } from 'wagmi';
 
 const ICON_SIZE = 50
 
@@ -12,18 +12,18 @@ function ConnectedButtons() {
   const router = useRouter()
   const onHome = router.pathname === '/'
   const onAbout = router.pathname === '/about'
-  const showAboutButton = !onHome && !onAbout
   return (
     <Flex>
       {!onHome && <LinkButton to="/">Home</LinkButton>}
-      {showAboutButton && <LinkButton to="/about">About</LinkButton>}
+      {!onHome && !onAbout && <LinkButton to="/about">About</LinkButton>}
       <DisconnectButton />
     </Flex>
   )
 }
 
 export function Navbar() {
-  const { isConnected, connectUser } = useUser()
+  const { connect } = useConnect()
+  const { isConnected } = useAccount()
   const theme = useTheme()
   return (
     <Box
@@ -39,7 +39,7 @@ export function Navbar() {
       {isConnected ? (
         <ConnectedButtons />
       ) : (
-        <Box onClick={() => connectUser()}>
+        <Box onClick={() => connect()}>
           <LinkOffIcon
             color="error"
             sx={{

@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { useUser } from '../../providers'
 import { useRouter } from 'next/router'
 
-export function ValidUserLayout({ children }: { children: React.ReactNode }) {
+export function ValidUserLayout(props: any) {
   const { isValidUser, disabled } = useUser()
   const router = useRouter()
 
@@ -19,5 +19,5 @@ export function ValidUserLayout({ children }: { children: React.ReactNode }) {
     return <></>
   }
 
-  return <Box>{children}</Box>
+  return <Box>{props.children}</Box>
 }

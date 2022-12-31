@@ -1,9 +1,9 @@
 import { ButtonBase, Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { apolloClient } from '../lib/apolloClient'
+import { apolloClient } from '../graphql/apollo'
 import { REQUEST_CONTENT } from '../providers'
-import { useUser } from '../providers/user'
+import { useUser } from '../modules/user/bakuser.provider'
 
 const InfoListItem = ({ title, html }: any) => {
   return (

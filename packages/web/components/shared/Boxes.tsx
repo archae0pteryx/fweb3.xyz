@@ -1,12 +1,14 @@
-import { Box, useTheme } from '@mui/material'
+import { Box, SxProps, useTheme } from '@mui/material'
 import React from 'react'
 
 function PinkBoxComponent(
   {
     children,
+    sx,
     ...rest
   }: {
-    children: React.ReactNode
+    children: React.ReactNode,
+    sx?: SxProps
   },
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
@@ -16,8 +18,9 @@ function PinkBoxComponent(
       ref={ref}
       sx={{
         border: `2px solid #FC0BD4`,
-        padding: theme.spacing(3),
-        maring: theme.spacing(1),
+        padding: theme.spacing(2),
+        borderRadius: theme.spacing(1),
+        ...sx
       }}
       {...rest}
     >
