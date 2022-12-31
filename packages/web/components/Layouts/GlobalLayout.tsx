@@ -27,21 +27,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   //   return <MaintenanceView />
   // }
 
-  if (mounted && router.query.verified === 'true') {
-    setTimeout(() => {
-      // triggerToast('Email verified')
-      router.replace('/')
-    }, 1000)
-  }
 
   return (
     <>
       {mounted && (
         <>
-          <Navbar />
-          {/* <VerifyEmailAlert /> */}
-          <Container>{children}</Container>
-          {/* <FooterBar /> */}
+          {children}
         </>
       )}
     </>

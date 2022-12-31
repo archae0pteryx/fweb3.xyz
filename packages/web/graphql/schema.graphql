@@ -18,9 +18,10 @@ type Content {
 }
 
 input ContentInputType {
+  html: String
   prompt: String
   title: String
-  type: String
+  type: String!
 }
 
 type Feature {
@@ -52,26 +53,24 @@ input GameTaskInputType {
 }
 
 type Mutation {
-  createContent(prompt: String!, title: String!, type: String!): Content!
+  createContent(data: ContentInputType!): Content!
   createTask(gameTask: GameTaskInputType!): GameTask!
   createUser(address: String!, email: String!): User!
-  fillContent: [Content]!
-  requestContent(prompts: [ContentInputType]!): [Content]!
   updateUser(data: UserInputType): User
   upsertContentForTask(gameTask: GameTaskInputType!): Content!
   upsertFeature(flag: String!, value: String!): Feature!
 }
 
 type Query {
-  allContent: [Content]
   allFeatures: [Feature]!
   allGameTasks(address: String): [GameTask]!
   allUsers: [User]!
   completedTasks(address: String!): [CompletedTaskType]!
-  findContent(types: [String]!): [Content]
   findFeature: [Feature]!
   findUser(address: String!): User
   gameTask(name: String!): GameTask
+  latestContent: [Content]
+  requestContent(types: [String]!): [Content]!
 }
 
 type User {
