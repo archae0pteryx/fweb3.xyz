@@ -1,4 +1,8 @@
-export {}
+export default function AdminPage() {
+  return (
+    <h1>admin</h1>
+  )
+}
 // import { AdminLayout } from '../../components/Layouts/AdminLayout'
 // import { Flex } from '../../components/shared/Boxes'
 // import { FormGroup, ToggleButton, Typography } from '@mui/material'
