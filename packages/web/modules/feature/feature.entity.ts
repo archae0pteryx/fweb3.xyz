@@ -10,11 +10,20 @@ export class FeatureEntity {
     }
   }
 
-  static async find(prisma: PrismaClient, { flag }: { flag: string }) {
+  static async find(prisma: PrismaClient, flags: string | string[]) {
     try {
-      return await prisma.feature.findUnique({
+      if (Array.isArray(flags)) {
+        return await prisma.feature.findMany({
+          where: {
+            flag: {
+              in: flags
+            }
+          },
+        })
+      }
+      return await prisma.feature.findFirst({
         where: {
-          flag,
+          flag: flags,
         },
       })
     } catch (err) {

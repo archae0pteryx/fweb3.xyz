@@ -29,7 +29,7 @@ type Feature {
   flag: String
   id: String
   updatedAt: String
-  value: String
+  value: Boolean
 }
 
 type GameTask {
@@ -66,11 +66,11 @@ type Query {
   allGameTasks(address: String): [GameTask]!
   allUsers: [User]!
   completedTasks(address: String!): [CompletedTaskType]!
-  findFeature: [Feature]!
+  findFeatures(flags: [String!]): [Feature]
   findUser(address: String!): User
   gameTask(name: String!): GameTask
   latestContent: [Content]
-  requestContent(types: [String]!): [Content]!
+  requestContent(type: String, types: [String]): Content!
 }
 
 type User {

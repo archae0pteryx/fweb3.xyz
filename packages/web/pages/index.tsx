@@ -11,50 +11,68 @@ import { validateSessionCookie } from '../modules/auth'
 import { NextPageContext } from 'next'
 import Cookies from 'js-cookie'
 import { useAccount } from 'wagmi'
+import { HeadBlock } from '../components/shared/HeadBlock';
+import { useState, useMemo } from 'react';
 
-const StartOrContinueButton = () => {
+const ActionButtons = () => {
+  const [onboarding, setOnboarding] = useState(true)
   const { address } = useAccount()
   const { user } = useUser(address)
-  const router = useRouter()
 
-  if (user) {
-    return (
-      <LinkButton to="/game">continue</LinkButton>
-    )
-  } else {
-    return (
-      <LinkButton to="/onboard">start</LinkButton>
-    )
+  useMemo(() => {
+    if (window && !window.ethereum) {
+      setOnboarding(true)
+    }
+  }, [])
+
+  if (onboarding) {
+    return <Button color="error">Install metamask</Button>
   }
+
+  if (address) {
+    return <LinkButton to="/play">Play</LinkButton>
+  }
+
+  if (user.address) {
+    return <LinkButton to="/tasks">Continue</LinkButton>
+  }
+
+  return <></>
 }
 
 export default function HomeView() {
-  const { address } = useAccount()
-  const { user } = useUser(address)
-
   return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-    }}>
-      <PinkBox sx={{
-        padding: 5
-      }}>
-        <Heading align="center" marginBottom={3} color="secondary">
-          fweb3
-        </Heading>
-        <Typography align="center" variant="h5" marginBottom={3}>
-          the f@ck is web3?
-        </Typography>
-        <Fade in={true} timeout={2000}>
+    <>
+      <HeadBlock />
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <PinkBox
+          sx={{
+            padding: 5,
+          }}
+        >
+          <Heading align="center" marginBottom={3} color="secondary">
+            fweb3
+          </Heading>
+          <Typography align="center" variant="h5" marginBottom={3}>
+            the f@ck is web3?
+          </Typography>
           <Box display="flex" gap={3} justifyContent="center" width="100%">
-            <StartOrContinueButton />
+            <ActionButtons />
             <LinkButton to="/about">about</LinkButton>
           </Box>
-        </Fade>
-      </PinkBox>
-    </Box>
+        </PinkBox>
+      </Box>
+    </>
   )
 }

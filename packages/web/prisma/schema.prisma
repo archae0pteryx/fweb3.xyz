@@ -39,7 +39,7 @@ model Content {
 model Feature {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   flag      String   @unique
-  value     String?
+  value     Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

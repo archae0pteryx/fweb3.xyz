@@ -3,7 +3,7 @@
 
 import { Box, Typography } from '@mui/material'
 import { SubHeading, BodyText } from '../components/shared/Typography'
-import Layout from '../components/Layouts/Layout'
+import Layout from '../components/AppWrapper'
 
 export const meta = {
   title: 'Get Started',

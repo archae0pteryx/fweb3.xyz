@@ -42,16 +42,20 @@ import { useAccount, useConnect } from 'wagmi'
 // export const useCreateUser = () => {}
 
 export function useUser(address?: string) {
-  const {
+  const [fetchFindUser, {
     data,
     loading,
     error,
-  } = useQuery(FIND_USER, {
+  }] = useLazyQuery(FIND_USER, {
     variables: {
       address,
-      skip: !address,
     },
   })
+  useEffect(() => {
+    if (address) {
+      fetchFindUser()
+    }
+  }, [fetchFindUser, address])
   return {
     user: data?.findUser || {},
     loading,

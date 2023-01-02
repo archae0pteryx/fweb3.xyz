@@ -6,15 +6,15 @@ export async function seedFeature() {
       data: [
         {
           flag: 'use_maintenance',
-          value: 'false',
+          value: false,
         },
         {
           flag: 'use_openai',
-          value: 'true',
+          value: true,
         },
         {
           flag: 'use_email',
-          value: 'false',
+          value: false,
         },
       ],
     })

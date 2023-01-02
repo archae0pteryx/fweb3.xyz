@@ -21,7 +21,8 @@
     "seed": "npx prisma db seed",
     "seed:content": "ts-node --transpile-only prisma/content_seed.ts",
     "seed:task": "ts-node --transpile-only prisma/task_seed.ts",
-    "seed:feature": "ts-node --transpile-only prisma/feature_seed.ts"
+    "seed:feature": "ts-node --transpile-only prisma/feature_seed.ts",
+    "test:e2e": "npx playwright test"
   },
   "dependencies": {
     "@apollo/client": "^3.7.2",
@@ -48,6 +49,7 @@
     "eslint-config-next": "^13.0.7",
     "ethers": "^5.7.2",
     "graphql": "^16.6.0",
+    "js-cookie": "^3.0.1",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "markdown-to-jsx": "^7.1.8",

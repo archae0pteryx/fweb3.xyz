@@ -19,7 +19,7 @@ export interface IContent {
   prompt?: string
   title?: string
   html?: string
-  type?: string
+  type: string
   createdAt?: string
   updatedAt?: string
 }
@@ -28,9 +28,10 @@ export const ContentQuery = extendType({
   type: 'Query',
   definition(t) {
     t.nonNull.field('requestContent', {
-      type: list('Content'),
+      type: 'Content',
       args: {
-        types: nonNull(list(stringArg())),
+        type: stringArg(),
+        types: list(stringArg()),
       },
       resolve: ContentService.requestConent,
     }),

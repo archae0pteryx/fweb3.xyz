@@ -17,24 +17,31 @@ export const USER_MESSAGE: { [key: string]: string } = {
   MISSING_CREATE_INFO: 'Missing info!',
 }
 
-export function handlePrismaError(err: any, where = 'generic') {
-  console.error(`prisma error [${where}]`, err)
-  const { code } = err
-  if (err.message.includes('Expected Iterable')) {
-    throw new GraphQLError('Expected Iterable', {
-      extensions: {
-        code: 'POTENTIALLY_NO_RECORDS',
-      },
-    })
-  }
-  const reason = PRISMA_ERROR_CODES[code] || ''
-  const message = USER_MESSAGE[reason] || err.message || USER_MESSAGE.UNKNOWN
-  if (!message) {
-    throw err
-  }
-  throw new GraphQLError(message, {
-    extensions: {
-      code,
-    },
-  })
+// export function handlePrismaError(err: any, where = 'generic', ret = null) {
+//   console.error(`prisma error [${where}]`, err.message)
+//   // const { code } = err
+//   // if (err.message.includes('Expected Iterable')) {
+//   //   throw new GraphQLError('Expected Iterable', {
+//   //     extensions: {
+//   //       code: 'POTENTIALLY_NO_RECORDS',
+//   //     },
+//   //   })
+//   // }
+//   // const reason = PRISMA_ERROR_CODES[code] || ''
+//   // const message = USER_MESSAGE[reason] || err.message || USER_MESSAGE.UNKNOWN
+//   // if (!message) {
+//   //   throw err
+//   // }
+//   // throw new GraphQLError(message, {
+//   //   extensions: {
+//   //     code,
+//   //   },
+//   // })
+//   return ret
+// }
+
+export function handleError(err: any, where: string, ret: any) {
+  if (!err.message) throw err
+  console.error(`[error ${where}]`, err.message)
+  return ret
 }

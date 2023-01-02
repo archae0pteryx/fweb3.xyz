@@ -36,7 +36,7 @@ export class GameTaskService {
   static async upsertContentForTask(_root: any, args: any, ctx: Context) {
     const { gameTask } = args
     const { taskName, contentType, contentTitle, contentPrompt } = gameTask
-    const html = await OpenAI.createCompletion(contentPrompt)
+    const html = await OpenAI.fetchFormattedCompletion(contentPrompt)
     const content = {
       prompt: contentPrompt,
       html,

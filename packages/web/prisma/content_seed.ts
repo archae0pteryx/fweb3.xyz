@@ -1,5 +1,4 @@
 import prisma from './client'
-import { OpenAI } from '../modules/openai/openai.service'
 
 const CONTENT = [
   {

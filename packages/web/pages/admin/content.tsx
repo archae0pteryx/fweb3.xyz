@@ -1,15 +1,18 @@
 import { gql } from '@apollo/client'
 import { Backdrop, Box, CircularProgress, TextField, Typography } from '@mui/material'
 import { apolloClient } from '../../graphql/apollo'
-import { SmallText, BodyText } from '../../components/shared/Typography'
+import { SmallText, BodyText, Heading } from '../../components/shared/Typography'
 import { IContent } from '../../graphql/types'
 import { Button } from '../../components/shared/Buttons'
 import { useCreateContent } from '../../modules/content/useContent'
 import { useState } from 'react'
 import { PinkBox } from '../../components/shared/Boxes'
-import Layout from '../../components/Layouts/Layout'
+import Layout from '../../components/AppWrapper'
+import { useAccount } from 'wagmi'
 
 export default function AdminContentPage(props: any) {
+  const { address } = useAccount()
+
   const { createContent, loading } = useCreateContent()
   const [editing, setEditing] = useState(false)
   const [prompt, setPrompt] = useState('')
@@ -37,6 +40,14 @@ export default function AdminContentPage(props: any) {
   const handleView = (id: string) => {
     const found = props.content.find((c: IContent) => c.id === id)
     setHtml(found?.html || '')
+  }
+
+  if (address !== process.env.NEXT_PUBLIC_ADMIN_ADDRESS) {
+    return (
+      <PinkBox>
+        <Heading>Unauthorized</Heading>
+      </PinkBox>
+    )
   }
 
   return (

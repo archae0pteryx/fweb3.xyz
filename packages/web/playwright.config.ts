@@ -81,7 +81,7 @@ const config: PlaywrightTestConfig = {
   outputDir: 'playwright-results',
   webServer: {
     command: 'next dev',
-    port: 3000,
+    port: 3000
   },
 }
 

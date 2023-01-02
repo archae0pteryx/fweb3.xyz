@@ -1,5 +1,6 @@
-import { Prisma, PrismaClient } from '@prisma/client'
-import { handlePrismaError } from '../errors'
+import { PrismaClient } from '@prisma/client'
+import { handleError } from '../errors'
+import { IContent } from './content.types'
 
 export class ContentEntity {
   static async allLatest(prisma: PrismaClient) {
@@ -11,106 +12,97 @@ export class ContentEntity {
         take: 1,
       })
     } catch (err) {
-      handlePrismaError(err, 'content.all')
+      return handleError(err, 'content.all', null)
     }
   }
 
-  static async createOrUpdate(prisma: PrismaClient, data: any) {
+  static async create(prisma: PrismaClient, data: IContent) {
     try {
-      const { type, ...rest } = data
-      return await prisma.content.upsert({
-        where: {
-          type: data.type,
-        },
-        update: {
-          ...rest,
-        },
-        create: {
-          ...data,
-        },
-      })
-    } catch (err) {
-      handlePrismaError(err, 'content.create')
-    }
-  }
-
-  static async findLatest(prisma: PrismaClient, types: string[]) {
-    try {
-      return await prisma.content.findMany({
-        where: {
-          type: {
-            in: types,
-          },
-        },
-        orderBy: {
-          updatedAt: 'desc',
-        },
-        take: 1,
-      })
-    } catch (err) {
-      handlePrismaError(err, 'content.findLatest')
-    }
-  }
-
-  static async findByType(prisma: PrismaClient, types: string[]) {
-    try {
-      return await prisma.content.findMany({
-        where: {
-          type: {
-            in: types,
-          },
-        },
-      })
-    } catch (err) {
-      handlePrismaError(err, 'content.findAllByType')
-    }
-  }
-
-  static async createMany(prisma: PrismaClient, data: Prisma.ContentCreateInput[]) {
-    try {
-      return await prisma.content.createMany({ data })
-    } catch (err: any) {
-      handlePrismaError(err, 'content.createMany')
-    }
-  }
-
-  static async update(prisma: PrismaClient, data: Prisma.ContentCreateInput) {
-    try {
-      return await prisma.content.update({
-        where: {
-          id: data.id,
-        },
+      return await prisma.content.create({
         data,
       })
-    } catch (err: any) {
-      handlePrismaError(err, 'content.update')
+    } catch (err) {
+      return handleError(err, 'content.create', null)
     }
   }
 
-  static async findLatestByDate(prisma: PrismaClient, type: string, time: Date) {
-    try {
-      return await prisma.content.findMany({
-        where: {
-          type,
-          createdAt: {
-            gte: time,
-          },
-        },
-      })
-    } catch (err: any) {
-      handlePrismaError(err, 'content.findLatestByDate')
-    }
-  }
-
-  static async findFirst(prisma: PrismaClient, type: string) {
+  static async findByType(prisma: PrismaClient, type: string) {
     try {
       return await prisma.content.findFirst({
         where: {
           type,
         },
       })
-    } catch (err: any) {
-      handlePrismaError(err, 'content.findFirst')
+    } catch (err) {
+      return handleError(err, 'content.findLatest', null)
     }
   }
+
+  // static async findManyLatest(prisma: PrismaClient, types: string[]) {
+  //   try {
+  //     return await prisma.content.findMany({
+  //       where: {
+  //         type: {
+  //           in: types,
+  //         },
+  //       },
+  //       orderBy: {
+  //         updatedAt: 'desc',
+  //       },
+  //       take: 1,
+  //     })
+  //   } catch (err) {
+  //     return handleError(err, 'content.findLatest', null)
+  //   }
+  // }
+
+  static async findAllByType(prisma: PrismaClient, types: string[]) {
+    try {
+      return await prisma.content.findMany({
+        where: {
+          type: {
+            in: types,
+          },
+        },
+      })
+    } catch (err) {
+      return handleError(err, 'content.findAllByType', null)
+    }
+  }
+
+  // static async createMany(prisma: PrismaClient, data: Prisma.ContentCreateInput[]) {
+  //   try {
+  //     return await prisma.content.createMany({ data })
+  //   } catch (err: any) {
+  //     return handleError(err, 'content.createMany', null)
+  //   }
+  // }
+
+  static async update(prisma: PrismaClient, data: IContent) {
+    try {
+      return await prisma.content.update({
+        where: {
+          type: data.type,
+        },
+        data,
+      })
+    } catch (err: any) {
+      return handleError(err, 'content.update', null)
+    }
+  }
+
+  // static async findLatestByDate(prisma: PrismaClient, type: string, time: Date) {
+  //   try {
+  //     return await prisma.content.findMany({
+  //       where: {
+  //         type,
+  //         createdAt: {
+  //           gte: time,
+  //         },
+  //       },
+  //     })
+  //   } catch (err: any) {
+  //     return handleError(err, 'content.findLatestByDate', null)
+  //   }
+  // }
 }

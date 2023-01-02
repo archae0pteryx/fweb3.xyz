@@ -10,6 +10,7 @@ export class FeatureService {
     return await FeatureEntity.upsert(ctx.prisma, args)
   }
   static async find(_root: any, args: any, ctx: Context) {
-    return await FeatureEntity.find(ctx.prisma, args)
+    const { flags } = args
+    return await FeatureEntity.find(ctx.prisma, flags)
   }
 }

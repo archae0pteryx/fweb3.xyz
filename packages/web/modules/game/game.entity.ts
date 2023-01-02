@@ -1,4 +1,4 @@
-import { handlePrismaError } from '../errors'
+import { handleError } from '../errors'
 import { PrismaClient } from '@prisma/client'
 
 export class GameTaskEntity {
@@ -10,7 +10,7 @@ export class GameTaskEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err, 'game.all')
+      return handleError(err, 'game.all', null)
     }
   }
 
@@ -25,7 +25,7 @@ export class GameTaskEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err, 'game.findByName')
+      return handleError(err, 'game.findByName', null)
     }
   }
 
@@ -38,7 +38,7 @@ export class GameTaskEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err, 'game.create')
+      return handleError(err, 'game.create', null)
     }
   }
 
@@ -54,7 +54,7 @@ export class GameTaskEntity {
         },
       })
     } catch (err) {
-      handlePrismaError(err, 'game.update')
+      return handleError(err, 'game.update', null)
     }
   }
 }
