@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, Alert, AlertTitle } from '@mui/material'
+import { Alert, AlertTitle } from '@mui/material'
 import Link from 'next/link'
 
 function InstallMetamaskMessage() {

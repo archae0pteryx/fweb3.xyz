@@ -48,5 +48,3 @@ const client = createClient({
 export function WagmiProvider({ children }: { children: React.ReactNode }) {
   return <WagmiConfig client={client}>{children}</WagmiConfig>
 }
-
-export { useAccount, useDisconnect, useConnect, useNetwork } from 'wagmi'
