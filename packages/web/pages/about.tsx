@@ -17,7 +17,7 @@ export default function AboutPage({ content, error }: { content: IContent, error
         Fweb3? What is this about?
       </Typography>
       {error && <Typography color="error">{error}</Typography>}
-      <div dangerouslySetInnerHTML={{ __html: content.html || 'unknown error' }} />
+      <div dangerouslySetInnerHTML={{ __html: content?.html || 'unknown error' }} />
     </Box>
   )
 }
