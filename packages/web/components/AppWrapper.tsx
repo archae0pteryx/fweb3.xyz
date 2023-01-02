@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Alert, AlertTitle } from '@mui/material'
 import Link from 'next/link'
+import { Heading } from './shared/Typography';
 
 function InstallMetamaskMessage() {
   return (
@@ -45,6 +46,10 @@ export default function AppWrapper({ children }: { children: React.ReactNode }) 
 
   if (!mounted) {
     return <></>
+  }
+
+  if (true) {
+    return <Heading>Maintenance</Heading>
   }
 
   return (
