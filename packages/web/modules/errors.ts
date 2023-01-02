@@ -40,8 +40,7 @@ export const USER_MESSAGE: { [key: string]: string } = {
 //   return ret
 // }
 
-export function handleError(err: any, where: string, ret: any) {
-  if (!err.message) throw err
-  console.error(`[error ${where}]`, err.message)
-  return ret
+export function handleError(err: any, where?: string) {
+  console.log(`error [${where}]`, err.message)
+  throw err
 }

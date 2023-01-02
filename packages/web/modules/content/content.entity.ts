@@ -1,18 +1,13 @@
-import { PrismaClient } from '@prisma/client'
 import { handleError } from '../errors'
 import { IContent } from './content.types'
+import { PrismaClient } from '@prisma/client'
 
 export class ContentEntity {
   static async allLatest(prisma: PrismaClient) {
     try {
-      return await prisma.content.findMany({
-        orderBy: {
-          updatedAt: 'desc',
-        },
-        take: 1,
-      })
+      return await prisma.content.findMany({})
     } catch (err) {
-      return handleError(err, 'content.all', null)
+      handleError(err, 'content.all')
     }
   }
 
@@ -22,7 +17,7 @@ export class ContentEntity {
         data,
       })
     } catch (err) {
-      return handleError(err, 'content.create', null)
+      handleError(err, 'content.create')
     }
   }
 
@@ -34,29 +29,11 @@ export class ContentEntity {
         },
       })
     } catch (err) {
-      return handleError(err, 'content.findLatest', null)
+      handleError(err, 'content.findLatest')
     }
   }
 
-  // static async findManyLatest(prisma: PrismaClient, types: string[]) {
-  //   try {
-  //     return await prisma.content.findMany({
-  //       where: {
-  //         type: {
-  //           in: types,
-  //         },
-  //       },
-  //       orderBy: {
-  //         updatedAt: 'desc',
-  //       },
-  //       take: 1,
-  //     })
-  //   } catch (err) {
-  //     return handleError(err, 'content.findLatest', null)
-  //   }
-  // }
-
-  static async findAllByType(prisma: PrismaClient, types: string[]) {
+  static async findMultipleTypes(prisma: PrismaClient, types: string[]) {
     try {
       return await prisma.content.findMany({
         where: {
@@ -66,17 +43,9 @@ export class ContentEntity {
         },
       })
     } catch (err) {
-      return handleError(err, 'content.findAllByType', null)
+      handleError(err, 'content.findAllByType')
     }
   }
-
-  // static async createMany(prisma: PrismaClient, data: Prisma.ContentCreateInput[]) {
-  //   try {
-  //     return await prisma.content.createMany({ data })
-  //   } catch (err: any) {
-  //     return handleError(err, 'content.createMany', null)
-  //   }
-  // }
 
   static async update(prisma: PrismaClient, data: IContent) {
     try {
@@ -87,22 +56,7 @@ export class ContentEntity {
         data,
       })
     } catch (err: any) {
-      return handleError(err, 'content.update', null)
+      handleError(err, 'content.update')
     }
   }
-
-  // static async findLatestByDate(prisma: PrismaClient, type: string, time: Date) {
-  //   try {
-  //     return await prisma.content.findMany({
-  //       where: {
-  //         type,
-  //         createdAt: {
-  //           gte: time,
-  //         },
-  //       },
-  //     })
-  //   } catch (err: any) {
-  //     return handleError(err, 'content.findLatestByDate', null)
-  //   }
-  // }
 }

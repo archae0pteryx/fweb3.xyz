@@ -1,13 +1,12 @@
-import { Prisma, PrismaClient } from '@prisma/client'
 import { handleError } from '../errors'
+import { Prisma, PrismaClient } from '@prisma/client'
 
 export class UsersEntity {
   static async findMany(prisma: PrismaClient) {
     try {
       return await prisma.user.findMany()
     } catch (err: any) {
-      handleError(err, 'users.findMany', [])
-      return null
+      handleError(err, 'users.findMany')
     }
   }
 
@@ -19,8 +18,7 @@ export class UsersEntity {
         },
       })
     } catch (err) {
-      handleError(err, 'users.find', {})
-      return null
+      handleError(err, 'users.find')
     }
   }
 
@@ -38,7 +36,7 @@ export class UsersEntity {
         },
       })
     } catch (err) {
-      handleError(err, 'users.upsert', {})
+      handleError(err, 'users.upsert')
     }
   }
 
@@ -54,8 +52,7 @@ export class UsersEntity {
         },
       })
     } catch (err) {
-      handleError(err, 'users.update', {})
-      return null
+      handleError(err, 'users.update')
     }
   }
 }

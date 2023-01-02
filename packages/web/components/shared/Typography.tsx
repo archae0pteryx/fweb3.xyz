@@ -7,7 +7,7 @@ function HeadingComponent(
 ) {
   const theme = useTheme()
   return (
-    <Typography ref={ref} variant="h2" marginBottom={theme.spacing(2)} {...props}>
+    <Typography ref={ref} variant="h2" color="primary" marginBottom={theme.spacing(2)} {...props}>
       {props.children}
     </Typography>
   )

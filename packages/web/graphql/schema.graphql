@@ -2,27 +2,17 @@
 ### Do not make changes to this file directly
 
 
-type CompletedTaskType {
-  completed: Boolean
-  name: String
-}
-
 type Content {
-  createdAt: String
+  createdAt: Date!
   html: String
   id: String
   prompt: String
   title: String
   type: String
-  updatedAt: String
+  updatedAt: Date!
 }
 
-input ContentInputType {
-  html: String
-  prompt: String
-  title: String
-  type: String!
-}
+scalar Date
 
 type Feature {
   createdAt: String
@@ -32,44 +22,20 @@ type Feature {
   value: Boolean
 }
 
-type GameTask {
-  completed: Boolean
-  content: [Content]
-  createdAt: String
-  description: String
-  id: String
-  name: String
-  title: String
-  updatedAt: String
-}
-
-input GameTaskInputType {
-  contentPrompt: String
-  contentTitle: String
-  contentType: String
-  taskDescription: String
-  taskName: String
-  taskTitle: String
-}
-
 type Mutation {
-  createContent(data: ContentInputType!): Content!
-  createTask(gameTask: GameTaskInputType!): GameTask!
+  createContent(prompt: String!, title: String!, type: String!): Content!
   createUser(address: String!, email: String!): User!
   updateUser(data: UserInputType): User
-  upsertContentForTask(gameTask: GameTaskInputType!): Content!
-  upsertFeature(flag: String!, value: String!): Feature!
+  upsertFeature(flag: String!, value: Boolean!): Feature!
 }
 
 type Query {
+  allContent: [Content]!
   allFeatures: [Feature]!
-  allGameTasks(address: String): [GameTask]!
   allUsers: [User]!
-  completedTasks(address: String!): [CompletedTaskType]!
-  findFeatures(flags: [String!]): [Feature]
+  findContent(type: String!): Content!
+  findFeature(flag: String!): Feature
   findUser(address: String!): User
-  gameTask(name: String!): GameTask
-  latestContent: [Content]
   requestContent(type: String, types: [String]): Content!
 }
 

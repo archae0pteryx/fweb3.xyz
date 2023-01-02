@@ -4,7 +4,9 @@ import { DisconnectButton, LinkButton } from '../shared/Buttons'
 import { Flex } from '../shared/Boxes'
 import { useRouter } from 'next/router'
 import LinkOffIcon from '@mui/icons-material/LinkOff'
-import { useConnect, useAccount } from 'wagmi';
+import { useConnect, useAccount } from 'wagmi'
+import { ResponsiveModalDialog } from '../ConnectModal/Dialog'
+import { useState } from 'react'
 
 const ICON_SIZE = 50
 
@@ -22,32 +24,38 @@ function ConnectedButtons() {
 }
 
 export function Navbar() {
-  const { connect } = useConnect()
+  const [dialogOpen, setDialogOpen] = useState(false)
   const { isConnected } = useAccount()
   const theme = useTheme()
+  if (window && !window.ethereum) {
+    return <></>
+  }
   return (
-    <Box
-      margin={theme.spacing(3)}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{
-        minHeight: 50,
-      }}
-    >
-      <AddressDisplay />
-      {isConnected ? (
-        <ConnectedButtons />
-      ) : (
-        <Box onClick={() => connect()}>
-          <LinkOffIcon
-            color="error"
-            sx={{
-              fontSize: ICON_SIZE,
-            }}
-          />
-        </Box>
-      )}
-    </Box>
+    <>
+      <ResponsiveModalDialog open={dialogOpen} setOpen={setDialogOpen} />
+      <Box
+        margin={theme.spacing(3)}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          minHeight: 50,
+        }}
+      >
+        <AddressDisplay />
+        {isConnected ? (
+          <ConnectedButtons />
+        ) : (
+          <Box onClick={() => setDialogOpen(true)}>
+            <LinkOffIcon
+              color="error"
+              sx={{
+                fontSize: ICON_SIZE,
+              }}
+            />
+          </Box>
+        )}
+      </Box>
+    </>
   )
 }

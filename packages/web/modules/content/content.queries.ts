@@ -6,7 +6,6 @@ export interface IContentInputType {
   title: string
 }
 
-
 export const CREATE_CONTENT = gql`
   mutation Mutation($data: ContentInputType!) {
     createContent(data: $data) {
@@ -18,11 +17,10 @@ export const CREATE_CONTENT = gql`
 `
 
 export const FIND_CONTENT = gql`
-  query Query($types: [String]!) {
-    findContent(types: $types) {
-      title
+  query Query($type: String!) {
+    findContent(type: $type) {
       html
-      type
+      title
     }
   }
 `

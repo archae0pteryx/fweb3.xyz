@@ -1,9 +1,10 @@
-import { Box, Typography } from '@mui/material'
 import { apolloClient } from '../graphql/apollo'
-import { REQUEST_CONTENT } from '../modules/content/content.queries'
+import { Box, Typography } from '@mui/material'
 import { IContent } from '../modules/content/content.types'
+import { REQUEST_CONTENT } from '../modules/content/content.queries'
+import { Heading } from '../components/shared/Typography'
 
-export default function AboutPage({ content, error }: { content: IContent, error: string }) {
+export default function AboutPage({ content, error }: { content: IContent; error: string }) {
   return (
     <Box
       sx={{
@@ -13,28 +14,35 @@ export default function AboutPage({ content, error }: { content: IContent, error
         margin: 5,
       }}
     >
-      <Typography variant="h6" color="primary">
-        Fweb3? What is this about?
-      </Typography>
+      <Heading>What is this about?</Heading>
       {error && <Typography color="error">{error}</Typography>}
-      <div dangerouslySetInnerHTML={{ __html: content?.html || 'unknown error' }} />
+      {content && <div dangerouslySetInnerHTML={{ __html: content?.html || 'unknown error' }} />}
     </Box>
   )
 }
 
-export async function getStaticProps() {
-  const { data, error } = await apolloClient.query({
-    query: REQUEST_CONTENT,
-    variables: {
-      type: 'ABOUT_PAGE',
-      types: []
-    },
-  })
+export async function getServerSideProps() {
+  try {
+    const { data, error } = await apolloClient.query({
+      query: REQUEST_CONTENT,
+      variables: {
+        type: 'ABOUT_PAGE',
+        types: [],
+      },
+    })
 
-  return {
-    props: {
-      content: data?.requestContent || [],
-      error: error?.message || '',
-    },
+    return {
+      props: {
+        content: data?.requestContent || [],
+        error: error?.message || '',
+      },
+    }
+  } catch (err: any) {
+    return {
+      props: {
+        content: [],
+        error: err?.message || 'Unknown error!',
+      },
+    }
   }
 }

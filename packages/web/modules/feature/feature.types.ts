@@ -1,4 +1,4 @@
-import { extendType, objectType, list, stringArg, nonNull } from 'nexus'
+import { extendType, objectType, stringArg, nonNull, booleanArg } from 'nexus'
 import { FeatureService } from './feature.service'
 
 export interface IFeature {
@@ -27,10 +27,10 @@ export const FeatureQuery = extendType({
       type: 'Feature',
       resolve: FeatureService.all,
     }),
-      t.list.field('findFeatures', {
+      t.field('findFeature', {
         type: 'Feature',
         args: {
-          flags: list(nonNull(stringArg())),
+          flag: nonNull(stringArg()),
         },
         resolve: FeatureService.find,
       })
@@ -44,7 +44,7 @@ export const FeatureMutation = extendType({
       type: 'Feature',
       args: {
         flag: nonNull(stringArg()),
-        value: nonNull(stringArg()),
+        value: nonNull(booleanArg()),
       },
       resolve: FeatureService.upsert,
     })

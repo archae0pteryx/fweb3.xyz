@@ -1,9 +1,9 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { GraphQLError } from 'graphql'
+import { handleError } from '../errors'
 import { IPromptParams } from '../content/content.service'
 import { remark } from 'remark'
 import html from 'remark-html'
-import { handleError } from '../errors'
 
 const config = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -13,7 +13,7 @@ const openai = new OpenAIApi(config)
 
 export class OpenAI {
   static async generateMultiplePrompts(prompts: IPromptParams[]) {
-    const results = []
+    const results: any = []
     for (const p of prompts) {
       const processedText = await OpenAI.fetchFormattedCompletion(p.prompt)
       const record = { ...p, html: processedText }
@@ -50,10 +50,8 @@ export class OpenAI {
       console.log(`fetched: [${status}]`)
       return { status, data }
     } catch (err: any) {
-      return handleError(err, 'fetchCompletion', {
-        status: 500,
-        data: null,
-      })
+      handleError(err, 'fetchCompletion')
+      return {}
     }
   }
 }

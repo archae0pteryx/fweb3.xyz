@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material'
-import { useUser } from '../modules/user/useUser'
-import { PinkBox } from '../components/shared/Boxes'
-import { Heading } from '../components/shared/Typography'
-import { Button, LinkButton } from '../components/shared/Buttons'
-import { useAccount } from 'wagmi'
 import { HeadBlock } from '../components/shared/HeadBlock'
+import { Heading } from '../components/shared/Typography'
+import { LinkButton } from '../components/shared/Buttons'
+import { PinkBox } from '../components/shared/Boxes'
+import { useAccount } from 'wagmi'
 import { useState, useEffect } from 'react'
+import { useUser } from '../modules/user/useUser'
 
 const ActionButtons = () => {
   const [onboarding, setOnboarding] = useState(false)
@@ -19,7 +19,11 @@ const ActionButtons = () => {
   }, [])
 
   if (onboarding) {
-    return <Button color="error">Install metamask</Button>
+    return (
+      <LinkButton color="error" to="/instructions">
+        Setup instructions
+      </LinkButton>
+    )
   }
 
   if (user.address) {
@@ -43,6 +47,7 @@ export default function HomeView() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          zIndex: -1,
         }}
       >
         <PinkBox

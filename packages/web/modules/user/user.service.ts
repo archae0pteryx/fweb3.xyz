@@ -53,7 +53,7 @@ export class UsersService {
 
   static async verifyEmail({ prisma }: Context, { address, token }: { address: string; token: string }) {
     const feature = await FeatureEntity.find(prisma, 'use_email')
-    if (feature?.value !== 'true') {
+    if (feature?.value) {
       console.debug('Emailing disabled! Skipping email verification...')
       return await UsersEntity.update(prisma, { address, verified: true, role: 'PLAYER' })
     }
