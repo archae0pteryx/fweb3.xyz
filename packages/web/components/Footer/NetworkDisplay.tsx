@@ -1,6 +1,6 @@
-import { useAccount, useNetwork } from '../../providers'
 import { Typography, Box } from '@mui/material'
 import { useState, useMemo } from 'react'
+import { useAccount, useNetwork } from 'wagmi'
 
 const ALLOWED_CHAINS: { [key: number]: string } = {
   80001: 'Mumbai [testnet]',

@@ -1,13 +1,6 @@
-import { useRouter } from 'next/router'
-import { useToast } from '../providers'
-import { Box, Container, Grid, Typography, Button, styled, Card } from '@mui/material'
+import { Box, Typography, Button, Card } from '@mui/material'
 
 export default function StylePage() {
-  const { triggerToast } = useToast()
-  const router = useRouter()
-  if (router.query.verified === 'true') {
-    triggerToast('Account Verified!')
-  }
   return (
     <Box display="flex" alignItems="center" justifyContent="center" height="100vh">
       <Card>

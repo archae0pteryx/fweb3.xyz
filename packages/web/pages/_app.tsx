@@ -9,11 +9,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiProvider>
       <ApolloProvider client={apolloClient}>
-        <AppWrapper>
-          <MaterialProvider>
+        <MaterialProvider>
+          <AppWrapper>
             <Component {...pageProps} />
-          </MaterialProvider>
-        </AppWrapper>
+          </AppWrapper>
+        </MaterialProvider>
       </ApolloProvider>
     </WagmiProvider>
   )

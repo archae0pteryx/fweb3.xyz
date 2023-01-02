@@ -1,6 +1,5 @@
 import { useQuery, useMutation } from '@apollo/client'
-import { REQUEST_CONTENT } from '../../tmp/content.provider'
-import { CREATE_CONTENT } from './content.queries'
+import { CREATE_CONTENT, REQUEST_CONTENT } from './content.queries'
 import { IContent } from './content.types'
 
 export function useCreateContent() {

@@ -1,7 +1,7 @@
 import { Button as MuiButton, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
-import { useUser } from '../../modules/user/bakuser.provider'
 import MuiLoadingButton from '@mui/lab/LoadingButton'
+import { useConnect, useDisconnect, useAccount } from 'wagmi'
 
 export function Button(props: React.ComponentProps<typeof MuiButton>) {
   return <MuiButton variant="contained" color="secondary" {...props} />
@@ -24,9 +24,9 @@ export function LoadingButton(props: any) {
 }
 
 export function DisconnectButton(props: any) {
-  const { disconnectUser } = useUser()
+  const { disconnect } = useDisconnect()
   const handleDisconnect = async () => {
-    await disconnectUser()
+    await disconnect()
   }
   return (
     <MuiButton variant="outlined" color="warning" onClick={handleDisconnect} {...props}>

@@ -4,7 +4,7 @@ import { FeatureEntity } from '../modules/feature/feature.entity'
 
 export type Context = {
   prisma: PrismaClient
-  features: { [key: string]: boolean }
+  features: { [key: string]: boolean } | null
 }
 
 export async function createContext({ req, res }: any): Promise<Context> {

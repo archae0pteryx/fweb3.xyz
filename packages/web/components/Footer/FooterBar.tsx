@@ -1,7 +1,6 @@
 import { Box } from '@mui/material'
 import { LinkButton } from '../shared/Buttons'
 import { NetworkDisplay } from './NetworkDisplay'
-import { useUser } from '../../modules/user/bakuser.provider'
 
 const mainContainerStyle = {
   position: 'fixed',
@@ -17,13 +16,9 @@ const mainContainerStyle = {
 }
 
 export function FooterBar() {
-  const { isAdmin } = useUser()
   return (
     <>
-      <Box sx={mainContainerStyle}>
-        <NetworkDisplay />
-        {isAdmin && <LinkButton to="/admin">admin</LinkButton>}
-      </Box>
+     
     </>
   )
 }

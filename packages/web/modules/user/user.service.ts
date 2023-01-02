@@ -4,7 +4,7 @@ import { FeatureEntity } from '../feature/feature.entity'
 import { sendVerificationEmail } from '../mail/mail.service'
 import { USER_MESSAGE } from '../errors'
 import { UsersEntity } from './user.entity'
-import { verifyJwt } from '../auth';
+import { verifyJwt } from '../auth'
 
 export class UsersService {
   static async all(_parent: any, _args: any, ctx: Context) {
@@ -26,9 +26,9 @@ export class UsersService {
     }
 
     const [token, salt] = createUserToken(address)
-    const feature = await FeatureEntity.find(ctx.prisma, { flag: 'use_email' })
+    const feature = await FeatureEntity.find(ctx.prisma, 'use_email')
 
-    if (feature?.value === 'false') {
+    if (!feature?.value) {
       console.log('Emailing disabled. creating verified user...')
       const createRes = await UsersEntity.upsert(ctx.prisma, { address, verified: true, role: 'PLAYER', token, salt })
       return createRes
@@ -52,7 +52,7 @@ export class UsersService {
   }
 
   static async verifyEmail({ prisma }: Context, { address, token }: { address: string; token: string }) {
-    const feature = await FeatureEntity.find(prisma, { flag: 'use_email' })
+    const feature = await FeatureEntity.find(prisma, 'use_email')
     if (feature?.value !== 'true') {
       console.debug('Emailing disabled! Skipping email verification...')
       return await UsersEntity.update(prisma, { address, verified: true, role: 'PLAYER' })

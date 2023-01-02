@@ -43,7 +43,7 @@ export class ContentService {
     const foundPrompt = PROMPTS[type] || null
     if (!foundPrompt) throw new GraphQLError(`Prompt not found for type: ${type}`)
 
-    const featureEnabled = ctx.features['use_openai']
+    const featureEnabled = ctx.features?.['use_openai'] || false
 
     if (featureEnabled) {
       const html = await OpenAI.fetchFormattedCompletion(foundPrompt.prompt)
